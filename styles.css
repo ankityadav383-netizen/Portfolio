@@ -301,11 +301,15 @@ a{text-decoration:none;color:inherit;}
 
 /* STATEMENT */
 .statement{
-  max-width:900px;
-  margin:0 auto;
-  padding:80px 24px 140px;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:24px;
 }
 .statement p{
+  max-width:900px;
   font-family:'Archivo','Archivo Placeholder',sans-serif;
   font-weight:600;
   font-size:clamp(24px,4.2vw,44px);
