@@ -57,16 +57,51 @@ window.addEventListener('scroll', updateHero, { passive: true });
 window.addEventListener('resize', updateHero);
 updateHero();
 
-// About section: reveal the colour portrait as it scrolls into view
-const introImage = document.querySelector('.intro-image');
-if (introImage) {
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        introImage.classList.add('revealed');
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.35 });
-  revealObserver.observe(introImage);
+// Morph: the hero portrait flips (monochrome -> colour) and travels down
+// into the About section's image slot as one continuous scroll animation.
+const morphCard = document.getElementById('morphCard');
+const heroPortraitBox = document.querySelector('.hero-portrait');
+const introImageBox = document.querySelector('.intro-image');
+const aboutSection = document.getElementById('about');
+const introColText = document.querySelector('.intro-col-text');
+const introColBody = document.querySelector('.intro-col-body');
+
+function lerp(a, b, t) {
+  return a + (b - a) * t;
 }
+
+function updateMorph() {
+  const vh = window.innerHeight;
+  const morphStart = heroWrap.offsetTop + heroWrap.offsetHeight - vh;
+  const morphEnd = aboutSection.offsetTop;
+  let progress = (window.scrollY - morphStart) / (morphEnd - morphStart);
+  progress = Math.max(0, Math.min(1, progress));
+
+  const inMorph = progress > 0 && progress < 1;
+  heroPortraitBox.style.visibility = inMorph ? 'hidden' : 'visible';
+  introImageBox.style.visibility = inMorph ? 'hidden' : 'visible';
+  morphCard.style.opacity = inMorph ? '1' : '0';
+
+  if (inMorph) {
+    const heroRect = heroPortraitBox.getBoundingClientRect();
+    const aboutRect = introImageBox.getBoundingClientRect();
+    morphCard.style.left = `${lerp(heroRect.left, aboutRect.left, progress)}px`;
+    morphCard.style.top = `${lerp(heroRect.top, aboutRect.top, progress)}px`;
+    morphCard.style.width = `${lerp(heroRect.width, aboutRect.width, progress)}px`;
+    morphCard.style.height = `${lerp(heroRect.height, aboutRect.height, progress)}px`;
+    const heroRadius = parseFloat(getComputedStyle(heroPortraitBox).borderRadius) || 16;
+    const aboutRadius = parseFloat(getComputedStyle(introImageBox).borderRadius) || 20;
+    morphCard.style.borderRadius = `${lerp(heroRadius, aboutRadius, progress)}px`;
+    morphCard.style.transform = `perspective(1600px) rotateY(${progress * 180}deg)`;
+  }
+
+  [introColText, introColBody].forEach((el) => {
+    if (!el) return;
+    el.style.opacity = progress;
+    el.style.transform = `translateY(${(1 - progress) * 20}px)`;
+  });
+}
+
+window.addEventListener('scroll', updateMorph, { passive: true });
+window.addEventListener('resize', updateMorph);
+updateMorph();

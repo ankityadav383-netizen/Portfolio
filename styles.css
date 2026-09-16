@@ -171,6 +171,31 @@ a{text-decoration:none;color:inherit;}
   }
 }
 
+/* MORPH: shared-element flip from hero portrait to About portrait */
+.morph-card{
+  position:fixed;
+  top:0;
+  left:0;
+  width:200px;
+  height:228px;
+  transform-style:preserve-3d;
+  pointer-events:none;
+  z-index:60;
+  opacity:0;
+  border-radius:16px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.18);
+  will-change:transform, width, height, top, left;
+}
+.morph-face{
+  position:absolute;
+  inset:0;
+  backface-visibility:hidden;
+  border-radius:inherit;
+  overflow:hidden;
+}
+.morph-face img{width:100%;height:100%;object-fit:cover;display:block;}
+.morph-face-back{transform:rotateY(180deg);}
+
 /* INTRO */
 .intro{
   min-height:100vh;
@@ -212,11 +237,12 @@ a{text-decoration:none;color:inherit;}
 }
 .intro-image img{
   width:100%;height:100%;object-fit:cover;display:block;
-  filter:grayscale(100%);
-  transition:filter 1.4s ease;
 }
-.intro-image.revealed img{
-  filter:grayscale(0%);
+.intro-col-text,
+.intro-col-body{
+  opacity:0;
+  transform:translateY(20px);
+  will-change:opacity, transform;
 }
 .intro-body{
   font-size:clamp(15px,0.94vw,18px);
