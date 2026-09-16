@@ -28,11 +28,13 @@ a{text-decoration:none;color:inherit;}
 
 /* NAV */
 .navpill{
-  position:sticky;
+  position:fixed;
   top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  width:calc(100% - 40px);
   z-index:100;
   max-width:480px;
-  margin:20px auto 0;
   background:var(--near-black);
   color:var(--cream);
   border-radius:100px;
@@ -111,7 +113,7 @@ a{text-decoration:none;color:inherit;}
 /* HERO */
 .hero-wrap{
   position:relative;
-  height:230vh;
+  height:150vh;
 }
 .hero{
   position:sticky;
@@ -176,9 +178,6 @@ a{text-decoration:none;color:inherit;}
   font-weight:600;
   font-size:clamp(24px,3.6vw,68px);
   letter-spacing:-0.01em;
-  opacity:0;
-  transform:translateY(16px);
-  will-change:opacity, transform;
 }
 @media (min-width:820px){
   .hero-tag{

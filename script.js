@@ -40,26 +40,7 @@ window.addEventListener('scroll', updateStatementHighlight, { passive: true });
 window.addEventListener('resize', updateStatementHighlight);
 updateStatementHighlight();
 
-// Pinned hero: scroll-linked copyright reveal (portrait stays monochrome)
 const heroWrap = document.getElementById('heroWrap');
-const heroCopyright = document.getElementById('heroCopyright');
-
-function updateHero() {
-  const rect = heroWrap.getBoundingClientRect();
-  const vh = window.innerHeight;
-  const scrolled = -rect.top;
-  const range = rect.height - vh;
-  let progress = range > 0 ? scrolled / range : 0;
-  progress = Math.max(0, Math.min(1, progress));
-
-  const copyProgress = Math.max(0, Math.min(1, (progress - 0.25) / 0.5));
-  heroCopyright.style.opacity = copyProgress;
-  heroCopyright.style.transform = `translateY(${16 * (1 - copyProgress)}px)`;
-}
-
-window.addEventListener('scroll', updateHero, { passive: true });
-window.addEventListener('resize', updateHero);
-updateHero();
 
 // Morph: the hero portrait flips (monochrome -> colour) and travels down
 // into the About section's image slot as one continuous scroll animation.
