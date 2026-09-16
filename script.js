@@ -1,13 +1,17 @@
 // Nav dropdown toggle
+const navPill = document.getElementById('navPill');
 const navBtn = document.getElementById('navMenuBtn');
 const navDropdown = document.getElementById('navDropdown');
 navBtn.addEventListener('click', () => {
-  navDropdown.classList.toggle('open');
+  navPill.classList.toggle('open');
 });
 document.addEventListener('click', (e) => {
-  if (!navBtn.contains(e.target) && !navDropdown.contains(e.target)) {
-    navDropdown.classList.remove('open');
+  if (!navPill.contains(e.target)) {
+    navPill.classList.remove('open');
   }
+});
+navDropdown.querySelectorAll('a').forEach((link) => {
+  link.addEventListener('click', () => navPill.classList.remove('open'));
 });
 
 // Wrap words in the statement section for scroll-reveal highlight
