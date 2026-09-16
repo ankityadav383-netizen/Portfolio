@@ -403,6 +403,51 @@ a{text-decoration:none;color:inherit;}
 .project-card h3{font-size:22px;font-weight:700;margin-bottom:6px;}
 .project-card p{margin:0;color:var(--muted);font-size:15px;}
 
+/* WORK PAGE */
+.work-hero{
+  max-width:1100px;
+  margin:0 auto;
+  padding:140px 24px 40px;
+}
+.work-title{
+  font-size:clamp(40px,7vw,80px);
+  font-weight:800;
+  line-height:1.05;
+  margin:0 0 24px;
+}
+.work-subtitle{
+  font-size:18px;
+  line-height:1.6;
+  color:#2b2b2b;
+  max-width:600px;
+  margin:0;
+}
+.work-grid-section{
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 24px 120px;
+}
+.work-grid{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:20px;
+}
+.work-card{display:block;}
+.work-media{
+  aspect-ratio:580/468;
+  border-radius:20px;
+  background-size:cover;
+  background-position:center;
+  margin-bottom:18px;
+  transition:transform .35s ease;
+}
+.work-card:hover .work-media{transform:translateY(-6px);}
+.work-card h3{font-size:24px;font-weight:700;margin-bottom:6px;}
+.work-card p{margin:0;color:var(--muted);font-size:15px;}
+@media (max-width:720px){
+  .work-grid{grid-template-columns:1fr;}
+}
+
 /* THOUGHTS */
 .thoughts{
   max-width:1100px;
