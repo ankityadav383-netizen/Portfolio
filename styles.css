@@ -110,36 +110,33 @@ a{text-decoration:none;color:inherit;}
 }
 .hero-title{
   font-weight:800;
-  font-size:clamp(48px, 9vw, 108px);
-  line-height:0.95;
+  font-size:clamp(48px, 9.1vw, 178px);
+  line-height:0.9;
   display:flex;
   flex-direction:column;
 }
 .deco{
   position:absolute;
-  filter:drop-shadow(0 6px 0 var(--purple));
-  animation:float 5s ease-in-out infinite;
+  z-index:2;
 }
 .sparkle-1{
-  width:56px;height:56px;
-  left:16%;
-  top:32%;
+  width:clamp(56px, 7.3vw, 148px);
+  height:clamp(56px, 7.3vw, 148px);
+  left:10%;
+  top:26%;
 }
 .bolt-1{
-  width:44px;height:66px;
-  right:14%;
-  top:52%;
-  animation-delay:1.2s;
-}
-@keyframes float{
-  0%,100%{transform:translateY(0) rotate(0deg);}
-  50%{transform:translateY(-10px) rotate(-4deg);}
+  width:clamp(72px, 10.3vw, 208px);
+  height:clamp(72px, 10.3vw, 208px);
+  right:9%;
+  top:50%;
 }
 .hero-portrait{
   margin-top:36px;
-  width:170px;
-  height:220px;
-  border-radius:24px;
+  width:clamp(140px, 10.4vw, 210px);
+  aspect-ratio:200/228;
+  height:auto;
+  border-radius:16px;
   overflow:hidden;
   box-shadow:0 20px 40px rgba(0,0,0,0.18);
 }
@@ -150,21 +147,29 @@ a{text-decoration:none;color:inherit;}
 }
 .hero-tag{
   margin-top:24px;
-  font-size:13px;
+  font-size:clamp(11px, 0.95vw, 18px);
   letter-spacing:0.06em;
   color:var(--ink);
 }
 .hero-copyright{
   position:absolute;
-  left:32px;
-  bottom:32px;
+  left:8%;
+  bottom:6%;
   font-family:'Archivo','Archivo Placeholder',sans-serif;
-  font-weight:800;
-  font-size:clamp(28px,4vw,44px);
+  font-weight:600;
+  font-size:clamp(24px,3.6vw,68px);
   letter-spacing:-0.01em;
   opacity:0;
   transform:translateY(16px);
   will-change:opacity, transform;
+}
+@media (min-width:820px){
+  .hero-tag{
+    position:absolute;
+    right:8%;
+    bottom:6%;
+    margin-top:0;
+  }
 }
 
 /* INTRO */
