@@ -36,9 +36,8 @@ window.addEventListener('scroll', updateStatementHighlight, { passive: true });
 window.addEventListener('resize', updateStatementHighlight);
 updateStatementHighlight();
 
-// Pinned hero: scroll-linked grayscale portrait + copyright reveal
+// Pinned hero: scroll-linked copyright reveal (portrait stays monochrome)
 const heroWrap = document.getElementById('heroWrap');
-const heroPortrait = document.getElementById('heroPortrait');
 const heroCopyright = document.getElementById('heroCopyright');
 
 function updateHero() {
@@ -49,8 +48,6 @@ function updateHero() {
   let progress = range > 0 ? scrolled / range : 0;
   progress = Math.max(0, Math.min(1, progress));
 
-  heroPortrait.style.filter = `grayscale(${Math.min(1, progress * 1.6) * 100}%)`;
-
   const copyProgress = Math.max(0, Math.min(1, (progress - 0.25) / 0.5));
   heroCopyright.style.opacity = copyProgress;
   heroCopyright.style.transform = `translateY(${16 * (1 - copyProgress)}px)`;
@@ -59,3 +56,17 @@ function updateHero() {
 window.addEventListener('scroll', updateHero, { passive: true });
 window.addEventListener('resize', updateHero);
 updateHero();
+
+// About section: reveal the colour portrait as it scrolls into view
+const introImage = document.querySelector('.intro-image');
+if (introImage) {
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        introImage.classList.add('revealed');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.35 });
+  revealObserver.observe(introImage);
+}
