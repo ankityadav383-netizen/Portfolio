@@ -9,143 +9,175 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="deck-page">
 
-<nav class="navpill" id="navPill">
-  <div class="navpill-top">
-    <a href="index.html#top" class="navlogo">ANKIT</a>
-    <button class="navmenu" id="navMenuBtn" aria-label="Menu">
-      <svg class="navmenu-icon navmenu-dots" width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="3" cy="9" r="1.6" fill="#111"/><circle cx="9" cy="9" r="1.6" fill="#111"/><circle cx="15" cy="9" r="1.6" fill="#111"/></svg>
-      <svg class="navmenu-icon navmenu-close" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 14M14 2L2 14" stroke="#111" stroke-width="1.8" stroke-linecap="round"/></svg>
-    </button>
-  </div>
-  <div class="navdropdown" id="navDropdown">
-    <a href="index.html#about">About Me</a>
-    <a href="index.html#journey">My Design journey</a>
-    <a href="work.html">Work</a>
-  </div>
-</nav>
+<div class="deck-progress"><div class="deck-progress-bar"></div></div>
 
-<main>
+<div class="deck-topbar">
+  <a class="deck-back" href="work.html">&larr; All work</a>
+  <span class="deck-project-name">NABC &middot; Event Management App</span>
+</div>
 
-  <section class="case-hero">
-    <div class="case-hero-inner">
-      <a class="case-back" href="work.html">&larr; All work</a>
-      <span class="case-label">Case Study &middot; Event Management App</span>
-      <h1 class="case-title">NABC Mobile App</h1>
-      <p class="case-subtitle">A wayfinding and contactless check-in app for the North American Bengali Conference, built to move thousands of attendees through entry and meals without the queues.</p>
-      <div class="case-tags">
-        <span class="case-tag">Product / UI-UX Design</span>
-        <span class="case-tag">QR Check-in</span>
-        <span class="case-tag">Wayfinding</span>
+<div class="deck">
+
+  <section class="slide active">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Case Study &middot; Nov 2024</span>
+      <h1 class="slide-title">NABC Mobile App<br><span class="accent">North American Bengali Conference</span></h1>
+      <p class="slide-sub">A wayfinding and contactless check-in app built to move thousands of attendees through entry and meals without the queues.</p>
+      <div class="slide-tags">
+        <span class="slide-tag">Product / UI-UX Design</span>
+        <span class="slide-tag">QR Check-in</span>
+        <span class="slide-tag">Wayfinding</span>
       </div>
     </div>
   </section>
 
-  <div class="case-cover">
-    <img src="https://miro.medium.com/v2/resize:fit:2028/1*192KZDwwxLI63lyu9uAKcQ.png" alt="NABC app interactive venue map screen">
-  </div>
-
-  <div class="case-body">
-
-    <div class="case-block">
-      <h2>Overview</h2>
-      <p>NABC is an annual conference celebrating Bengali culture and connecting the diaspora community through cultural programs, food and shared events. At the scale of a multi-day conference, getting people through the door and fed without long queues is its own design problem &mdash; I led the UI/UX design of the companion app that attendees, volunteers and coordinators used to make that happen.</p>
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Project Overview</span>
+      <h2 class="slide-title">Celebrating culture, at scale</h2>
+      <p class="slide-sub" style="max-width:760px;">NABC is an annual conference celebrating Bengali culture and connecting the diaspora community through cultural programs, food and shared events. At the scale of a multi-day conference, getting people through the door and fed without long queues is its own design problem. I took on the role of Product (UI/UX) Designer to build the companion app that attendees, volunteers and coordinators used to make that happen &mdash; tailored to a very wide range of ages and comfort with technology.</p>
     </div>
+  </section>
 
-    <div class="case-block">
-      <h2>Objectives</h2>
-      <div class="case-cards">
-        <div class="case-card">
-          <h4>Guide attendees</h4>
-          <p>An easy, map-based way to find venues, stalls and checkpoints across the event space.</p>
-        </div>
-        <div class="case-card">
-          <h4>Streamline entry &amp; food</h4>
-          <p>QR codes for quick, contactless entry and food-packet collection instead of manual ticket checks.</p>
-        </div>
-        <div class="case-card">
-          <h4>Support families</h4>
-          <p>Let one person manage check-in and food collection for a whole group &mdash; kids, parents, grandparents &mdash; from a single phone.</p>
-        </div>
-        <div class="case-card">
-          <h4>Equip volunteers</h4>
-          <p>A dedicated scanning mode so volunteers could verify entries and meals quickly at peak times.</p>
-        </div>
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Objectives</span>
+      <h2 class="slide-title">What the App Had to Do</h2>
+      <div class="slide-cards-grid">
+        <div class="slide-card"><h4>Guide Attendees</h4><p>An easy, map-based way to find venues, stalls and checkpoints across the event space.</p></div>
+        <div class="slide-card"><h4>Streamline Entry &amp; Food Distribution</h4><p>QR codes for quick, contactless entry and food-packet collection instead of manual ticket checks.</p></div>
+        <div class="slide-card"><h4>Enhance Usability for Families</h4><p>Let one person manage check-in and food collection for a whole group &mdash; kids, parents, grandparents &mdash; from a single phone.</p></div>
+        <div class="slide-card"><h4>Enable Volunteer Assistance</h4><p>A dedicated scanning mode so volunteers could verify entries and meals quickly at peak times.</p></div>
       </div>
     </div>
+  </section>
 
-    <div class="case-block">
-      <h2>Key features</h2>
-      <p><strong>Interactive map &amp; wayfinding</strong> &mdash; labelled zones and directions to entry points, food stalls and seating, so first-time attendees didn't need to ask around.</p>
-      <p><strong>QR-based entry &amp; food collection</strong> &mdash; every attendee got a unique code at ticket purchase, cutting wait times at both the door and the food line.</p>
-      <p><strong>Master control for groups</strong> &mdash; a family holding multiple tickets could check in or collect food for any member from one device, without handing out separate phones.</p>
-      <p><strong>Volunteer scanning mode</strong> &mdash; a minimal, fast interface built for verifying codes in real time under queue pressure, with little to no training required.</p>
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Key Feature</span>
+      <h2 class="slide-title">User Navigation with Maps</h2>
+      <p class="slide-sub" style="max-width:700px;">An interactive map let users navigate the event venue with ease. Labelled zones and directions helped attendees locate entry points, food stalls, seating areas and other amenities &mdash; without needing to ask around, even on their first visit.</p>
+      <div class="slide-media single">
+        <img src="https://miro.medium.com/v2/resize:fit:2028/1*192KZDwwxLI63lyu9uAKcQ.png" alt="NABC app interactive venue map screen">
+      </div>
     </div>
+  </section>
 
-    <div class="case-block">
-      <h2>Challenges &amp; how I solved them</h2>
-      <p><strong>Managing a group from one phone</strong> &mdash; the risk was letting one device control several entries without weakening security. A master-control dashboard let a user toggle between attendees' codes while keeping each check-in individually verified.</p>
-      <p><strong>Keeping volunteers fast under pressure</strong> &mdash; the scanning flow was stripped down to the minimum taps needed, so a new volunteer could pick it up during the event itself.</p>
-      <p><strong>Designing across very different comfort levels with tech</strong> &mdash; attendees ranged from tech-savvy young adults to elderly relatives, so the UI leaned on large, clearly labelled icons and step-by-step prompts rather than assuming prior app experience.</p>
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Key Feature</span>
+      <h2 class="slide-title">QR Code-Based Access</h2>
+      <p class="slide-sub" style="max-width:700px;">Every attendee received a unique QR code at ticket purchase. It doubled as both an entry pass, for swift and contactless access at the venue's entry points, and a food voucher, streamlining food-packet collection and cutting wait times on both lines.</p>
+      <div class="slide-media single">
+        <img src="https://miro.medium.com/v2/resize:fit:2042/1*HgWxzsDetts4HsbtGHj8wA.png" alt="NABC app QR code screen">
+      </div>
     </div>
+  </section>
 
-    <div class="case-block">
-      <h2>Results</h2>
-      <p>The app noticeably cut entry and food-collection wait times through QR check-in, gave attendees a self-serve way to navigate the venue, let families manage multiple tickets without confusion, and made volunteer shifts easier to run at peak crowd times &mdash; the core measure of success for a conference this size.</p>
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Key Feature</span>
+      <h2 class="slide-title">Master Control for Multiple Tickets</h2>
+      <p class="slide-sub" style="max-width:700px;">This addressed the needs of families and groups, particularly those with children or elderly attendees. A single device could manage multiple entries and food collections &mdash; a user with several tickets could select individual attendees to check in or collect food on behalf of, without handing out separate phones.</p>
+      <div class="slide-media single">
+        <img src="https://miro.medium.com/v2/resize:fit:2000/1*mvWHk9uc3A0mo_pxqoXA2Q.png" alt="NABC app master control screen for managing multiple tickets">
+      </div>
     </div>
+  </section>
 
-    <div class="case-block">
-      <h2>Gallery</h2>
-      <div class="case-gallery">
-        <img src="https://miro.medium.com/v2/resize:fit:2042/1*HgWxzsDetts4HsbtGHj8wA.png" alt="NABC app screen">
-        <img src="https://miro.medium.com/v2/resize:fit:2000/1*mvWHk9uc3A0mo_pxqoXA2Q.png" alt="NABC app screen">
-        <img src="https://miro.medium.com/v2/resize:fit:2004/1*8-vCny7AGZxi8XQSCPy6tQ.png" alt="NABC app screen">
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Key Feature</span>
+      <h2 class="slide-title">Volunteer Module</h2>
+      <p class="slide-sub" style="max-width:700px;">Volunteers got a dedicated interface for scanning QR codes at entry points and food stalls, with real-time verification that a code was unique and valid for its assigned entry or meal slot &mdash; designed to be picked up during the event itself, with minimal training.</p>
+      <div class="slide-media single">
+        <img src="https://miro.medium.com/v2/resize:fit:2004/1*8-vCny7AGZxi8XQSCPy6tQ.png" alt="NABC app volunteer QR scanning screen">
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Design Approach</span>
+      <h2 class="slide-title">Designing for Every Attendee</h2>
+      <div class="slide-cards-grid">
+        <div class="slide-card"><h4>User-centric design</h4><p>Given a diverse user base spanning every age and tech comfort level, the design emphasized simplicity, readability and accessibility above all.</p></div>
+        <div class="slide-card"><h4>Seamless user flow</h4><p>From onboarding to QR presentation, every interaction needed minimal taps to reach maps, codes, or the master-control dashboard.</p></div>
+        <div class="slide-card"><h4>Volunteer interface</h4><p>Built for clarity and speed, so a new volunteer could get scanning without extensive training.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Challenges &amp; Solutions</span>
+      <h2 class="slide-title">Managing Multiple Tickets on One Device</h2>
+      <div class="slide-cards-grid" style="grid-template-columns:1fr;max-width:700px;">
+        <div class="slide-card"><h4>Challenge</h4><p>Ensuring users could efficiently control multiple entries and food collections from one device without compromising security.</p></div>
+        <div class="slide-card"><h4>Solution</h4><p>A master-control dashboard where users could toggle between different attendees' QR codes, reducing complexity while maintaining security checks per person.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Challenges &amp; Solutions</span>
+      <h2 class="slide-title">Smooth Volunteer Operations &amp; Diverse Users</h2>
+      <div class="slide-cards-grid">
+        <div class="slide-card"><h4>Challenge: Volunteer speed</h4><p>Volunteers needed a straightforward, quick-to-navigate interface, particularly during peak times.</p></div>
+        <div class="slide-card"><h4>Solution</h4><p>A minimalistic UI enabling fast access to scanning and real-time validation, cutting attendee wait times.</p></div>
+        <div class="slide-card"><h4>Challenge: Diverse demographics</h4><p>The app had to work for tech-savvy young adults and elderly attendees with limited tech experience alike.</p></div>
+        <div class="slide-card"><h4>Solution</h4><p>A simplified UI with large, clearly labelled icons and step-by-step prompts made the app accessible to everyone.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Results &amp; Impact</span>
+      <h2 class="slide-title">What Changed</h2>
+      <div class="slide-cards-grid">
+        <div class="slide-card"><h4>Faster entry &amp; food collection</h4><p>QR-based check-in noticeably cut wait times at both the entrance and the food line.</p></div>
+        <div class="slide-card"><h4>Self-serve navigation</h4><p>The interactive map gave attendees an easy way to find their way without asking staff.</p></div>
+        <div class="slide-card"><h4>Simplified group management</h4><p>Families and groups could manage multiple attendees with ease via the master-control feature.</p></div>
+        <div class="slide-card"><h4>Smoother volunteer operations</h4><p>Volunteers could assist attendees more effectively even during peak crowd times.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Gallery</span>
+      <h2 class="slide-title">Screens</h2>
+      <div class="slide-media">
         <img src="https://miro.medium.com/v2/resize:fit:2004/1*hB_RnG5nRixzoLoAVbN0rw.png" alt="NABC app screen">
+        <img src="https://miro.medium.com/v2/resize:fit:2008/1*u_c2ESFV5LPQYn0dvZoW-Q.png" alt="NABC app screen">
+        <img src="https://miro.medium.com/v2/resize:fit:2004/1*2MieP4h_Y3RRcw8rP7XzcA.png" alt="NABC app screen">
+        <img src="https://miro.medium.com/v2/resize:fit:2008/1*UWyjWgDjGz-3eb-K0keD7w.png" alt="NABC app screen">
       </div>
     </div>
+  </section>
 
-    <div class="case-cta-row">
-      <a class="case-external" href="https://medium.com/@ankityadav383/nabc-north-american-bengali-conference-mobile-application-020507dd7846" target="_blank" rel="noopener">
-        Read the full write-up on Medium
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a class="case-next" href="project-rice-smart.html">
-        Next project: RICE Smart &rarr;
-      </a>
-    </div>
-
-  </div>
-
-</main>
-
-<!-- FOOTER -->
-<footer id="contact">
-  <div class="footer-inner">
-    <div class="footer-top-row">
-      <div class="footer-top">
-        <h2>Design that<br>scales.</h2>
-      </div>
-      <div class="footer-contact">
-        <h3>/Contact</h3>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/ankit-yadav-product/" target="_blank" rel="noopener" aria-label="LinkedIn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.22 8.4h4.56V23H.22V8.4zM8.4 8.4h4.37v2h.06c.61-1.15 2.1-2.36 4.32-2.36 4.63 0 5.48 3.05 5.48 7.01V23h-4.56v-6.9c0-1.65-.03-3.77-2.3-3.77-2.3 0-2.65 1.8-2.65 3.65V23H8.4V8.4z" fill="currentColor"/></svg>
-          </a>
-          <a href="mailto:ankit.yadav383@gmail.com" aria-label="Email">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M2 4h20v16H2V4zm2 2v.01L12 12l8-5.99V6H4zm16 12V8.24l-8 6-8-6V18h16z" fill="currentColor"/></svg>
-          </a>
-        </div>
+  <section class="slide">
+    <div class="slide-inner slide-closing">
+      <h2 class="slide-title">Designing for <span class="accent">high-traffic events</span></h2>
+      <p class="slide-sub">Working on the NABC mobile application underscored how much accessible, user-centered design matters for event-based apps serving very diverse groups under real time pressure.</p>
+      <div style="margin-top:40px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+        <a class="deck-btn" style="width:auto;height:auto;padding:14px 24px;border-radius:100px;" href="https://medium.com/@ankityadav383/nabc-north-american-bengali-conference-mobile-application-020507dd7846" target="_blank" rel="noopener">Read the full write-up on Medium</a>
+        <a class="deck-btn" style="width:auto;height:auto;padding:14px 24px;border-radius:100px;" href="project-rice-smart.html">Next project: RICE Smart &rarr;</a>
       </div>
     </div>
-  </div>
-  <div class="footer-watermark-wrap">
-    <div class="footer-watermark">ANKIT</div>
-  </div>
-  <div class="footer-bottom">
-    <span>&copy; 2026 Ankit. All rights reserved.</span>
-  </div>
-</footer>
+  </section>
+
+</div>
+
+<div class="deck-nav">
+  <button class="deck-btn deck-prev" aria-label="Previous slide">&larr;</button>
+  <span class="deck-counter">01 / 13</span>
+  <button class="deck-btn deck-next" aria-label="Next slide">&rarr;</button>
+</div>
 
 <script src="script.js"></script>
 </body>

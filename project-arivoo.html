@@ -9,137 +9,206 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="deck-page">
 
-<nav class="navpill" id="navPill">
-  <div class="navpill-top">
-    <a href="index.html#top" class="navlogo">ANKIT</a>
-    <button class="navmenu" id="navMenuBtn" aria-label="Menu">
-      <svg class="navmenu-icon navmenu-dots" width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="3" cy="9" r="1.6" fill="#111"/><circle cx="9" cy="9" r="1.6" fill="#111"/><circle cx="15" cy="9" r="1.6" fill="#111"/></svg>
-      <svg class="navmenu-icon navmenu-close" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 14M14 2L2 14" stroke="#111" stroke-width="1.8" stroke-linecap="round"/></svg>
-    </button>
-  </div>
-  <div class="navdropdown" id="navDropdown">
-    <a href="index.html#about">About Me</a>
-    <a href="index.html#journey">My Design journey</a>
-    <a href="work.html">Work</a>
-  </div>
-</nav>
+<div class="deck-progress"><div class="deck-progress-bar"></div></div>
 
-<main>
+<div class="deck-topbar">
+  <a class="deck-back" href="work.html">&larr; All work</a>
+  <span class="deck-project-name">Arivoo &middot; AI Attendance Module</span>
+</div>
 
-  <section class="case-hero">
-    <div class="case-hero-inner">
-      <a class="case-back" href="work.html">&larr; All work</a>
-      <span class="case-label">Case Study &middot; EdTech / AI</span>
-      <h1 class="case-title">AI Attendance Module for Arivoo SMS</h1>
-      <p class="case-subtitle">Replacing a slow, easy-to-fake manual roll call with a one-minute, AI-powered face-recognition check-in for classrooms.</p>
-      <div class="case-tags">
-        <span class="case-tag">AI-Powered Innovation</span>
-        <span class="case-tag">Face Recognition</span>
-        <span class="case-tag">School Management</span>
+<div class="deck">
+
+  <section class="slide active">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">AI Attendance Module &middot; UX Case Study</span>
+      <h1 class="slide-title">AI Attendance Module<br><span class="accent">Arivoo SMS</span></h1>
+      <p class="slide-sub">80% faster attendance using AI-powered face recognition.</p>
+      <div class="slide-hero-stats">
+        <div class="slide-hero-stat"><div class="num">1 min</div><div class="stat-label">vs 5 min manual</div></div>
+        <div class="slide-hero-stat"><div class="num">0</div><div class="stat-label">proxy attendance</div></div>
+        <div class="slide-hero-stat"><div class="num">98%</div><div class="stat-label">accuracy rate</div></div>
       </div>
     </div>
   </section>
 
-  <div class="case-cover">
-    <img src="https://framerusercontent.com/images/3ijH7ege3iZgt0wlD0JtgJB8lk.png?width=1536&height=1536" alt="Arivoo AI attendance app showing detected student faces during a classroom scan">
-  </div>
-
-  <div class="case-body">
-
-    <div class="case-block">
-      <h2>Overview</h2>
-      <p>Arivoo SMS is a school management platform, and I designed its AI attendance module to take roll call out of teachers' hands entirely. Instead of reading names off a register, a teacher opens the app, points the camera at the class, and the system recognises each student's face and marks them present &mdash; in about the time it used to take to say ten names.</p>
-    </div>
-
-    <div class="case-block">
-      <h2>The problem</h2>
-      <p>Manual attendance was quietly costing every class real time and real accuracy.</p>
-      <div class="case-cards">
-        <div class="case-card">
-          <h4>Manual time waste</h4>
-          <p>Teachers spent 5&ndash;10 minutes per class taking attendance by hand, breaking up the flow of the lesson.</p>
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Problem Statement</span>
+      <h2 class="slide-title">The Attendance Challenge</h2>
+      <div class="slide-cards-grid">
+        <div class="slide-card">
+          <h4>Manual Time Waste</h4>
+          <p>Teachers spend 5&ndash;10 minutes per class taking attendance manually, disrupting learning flow.</p>
+          <span class="badge">5&ndash;10 min</span>
         </div>
-        <div class="case-card">
-          <h4>Proxy attendance</h4>
-          <p>Students could mark a friend present even when they were absent, quietly corrupting the record.</p>
+        <div class="slide-card">
+          <h4>Proxy Attendance</h4>
+          <p>Students mark attendance for absent friends, creating inaccurate records.</p>
+          <span class="badge">~15% fraud</span>
         </div>
-        <div class="case-card">
-          <h4>Unknown students</h4>
-          <p>In large classes, teachers couldn't reliably recognise every face, which made proxies easy to get away with.</p>
+        <div class="slide-card">
+          <h4>Unknown Students</h4>
+          <p>Large classes make it difficult for teachers to recognize all students, enabling proxies.</p>
+          <span class="badge">50+ students</span>
         </div>
-        <div class="case-card">
-          <h4>Poor data tracking</h4>
-          <p>Paper and spreadsheet logs were too messy to analyse, so nobody could spot attendance patterns worth acting on.</p>
+        <div class="slide-card">
+          <h4>Poor Data Tracking</h4>
+          <p>Manual logs are hard to analyze, making it difficult to identify attendance patterns.</p>
+          <span class="badge">No insights</span>
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="case-block">
-      <h2>The approach</h2>
-      <p>The core interaction had to feel faster than the problem it replaced. A teacher scans the room once; the app detects every face it can, shows a confidence score per match, and only asks for a manual "retake" or "review" on the handful of low-confidence detections &mdash; not the whole class. That kept the human in the loop for edge cases without giving up the speed of automation.</p>
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Origin Story</span>
+      <h2 class="slide-title">How the Idea Sparked</h2>
+      <div class="slide-steps">
+        <div class="slide-step"><div class="icon">&#128274;</div><h5>AI Team Project</h5><p>Our engineering team was experimenting with face recognition technology for security applications.</p></div>
+        <div class="slide-step-arrow">&rarr;</div>
+        <div class="slide-step"><div class="icon">&#128172;</div><h5>Town Hall Discussion</h5><p>During a school town hall, teachers shared frustrations about manual attendance taking up class time.</p></div>
+        <div class="slide-step-arrow">&rarr;</div>
+        <div class="slide-step"><div class="icon">&#128161;</div><h5>The Spark</h5><p>"What if we could use face recognition to automate attendance and give teachers their time back?"</p></div>
+      </div>
+      <p class="slide-sub" style="text-align:center;max-width:700px;margin:36px auto 0;">&ldquo;We realized we could solve a real problem for teachers while showcasing our AI capabilities. It was the perfect intersection of technology and user need.&rdquo;</p>
     </div>
+  </section>
 
-    <div class="case-block">
-      <h2>Results</h2>
-      <div class="case-stats">
-        <div class="case-stat">
-          <div class="num">1 min</div>
-          <div class="stat-label">vs. 5&ndash;10 min manual</div>
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Research Goals</span>
+      <h2 class="slide-title">What We Needed to Learn</h2>
+      <div class="slide-cards-grid">
+        <div class="slide-card"><h4>01 &middot; Understand Teacher Workflow</h4><p>Map current attendance processes and identify time-consuming steps in classroom routines.</p></div>
+        <div class="slide-card"><h4>02 &middot; Identify Attendance Pain Points</h4><p>Discover specific challenges with proxy marking, student recognition, and data accuracy.</p></div>
+        <div class="slide-card"><h4>03 &middot; Validate Photo-Based Attendance</h4><p>Test if teachers and students are comfortable with camera-based attendance systems.</p></div>
+        <div class="slide-card"><h4>04 &middot; Evaluate Accuracy &amp; Privacy</h4><p>Assess technical accuracy requirements and address privacy concerns from all stakeholders.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Research Methods</span>
+      <h2 class="slide-title">Our Research Approach</h2>
+      <p class="slide-sub">A comprehensive multi-method strategy to validate the concept.</p>
+      <div class="slide-steps">
+        <div class="slide-step"><div class="icon">&#128172;</div><h5>Teacher Interviews</h5><p>12 teachers across 3 schools</p></div>
+        <div class="slide-step-arrow">&rarr;</div>
+        <div class="slide-step"><div class="icon">&#128065;</div><h5>Classroom Shadowing</h5><p>Observed 8 live attendance sessions</p></div>
+        <div class="slide-step-arrow">&rarr;</div>
+        <div class="slide-step"><div class="icon">&#128101;</div><h5>Admin Discussions</h5><p>Met with 5 school administrators</p></div>
+        <div class="slide-step-arrow">&rarr;</div>
+        <div class="slide-step"><div class="icon">&#129514;</div><h5>Prototype Testing</h5><p>Tested with 40 students &amp; 8 teachers</p></div>
+      </div>
+      <p class="slide-sub" style="text-align:center;margin-top:32px;">4-week research sprint</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">User Personas</span>
+      <h2 class="slide-title">Key Stakeholders</h2>
+      <div class="slide-personas-grid" style="grid-template-columns:repeat(2,1fr);max-width:760px;margin:0 auto;">
+        <div class="persona-card">
+          <div class="persona-head"><div class="persona-avatar">&#128105;&#127996;&#8205;&#127979;&#65039;</div><div><h5>Ms. Anjali Mehta</h5><span>High School Teacher &middot; Age 34</span></div></div>
+          <div class="persona-section"><div class="label">Goals</div><ul><li>Minimize disruption to class time</li><li>Accurate attendance without manual effort</li><li>Quick access to historical data</li></ul></div>
+          <div class="persona-section"><div class="label">Pain points</div><ul><li>Loses 5&ndash;10 mins every class to attendance</li><li>Students respond slowly to roll call</li><li>Difficult to track patterns over time</li></ul></div>
         </div>
-        <div class="case-stat">
-          <div class="num">0</div>
-          <div class="stat-label">proxy attendance</div>
-        </div>
-        <div class="case-stat">
-          <div class="num">98%</div>
-          <div class="stat-label">recognition accuracy</div>
+        <div class="persona-card">
+          <div class="persona-head"><div class="persona-avatar">&#128104;&#127997;&#8205;&#128188;</div><div><h5>Dr. Rajesh Kumar</h5><span>School Administrator &middot; Age 48</span></div></div>
+          <div class="persona-section"><div class="label">Goals</div><ul><li>Real-time attendance visibility</li><li>Reduce proxy attendance fraud</li><li>Data-driven decision making</li></ul></div>
+          <div class="persona-section"><div class="label">Pain points</div><ul><li>No way to verify attendance accuracy</li><li>Reports are outdated and incomplete</li><li>Difficult to identify truancy patterns</li></ul></div>
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="case-cta-row">
-      <a class="case-external" href="https://www.figma.com/deck/1Q67aTX6uvNODUE1WEneGi/Arivoo-SMS_AI-Attendance_Case_study" target="_blank" rel="noopener">
-        View full case study on Figma
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a class="case-next" href="project-buzzed-sms.html">
-        Next project: BuzzEd Now &rarr;
-      </a>
-    </div>
-
-  </div>
-
-</main>
-
-<!-- FOOTER -->
-<footer id="contact">
-  <div class="footer-inner">
-    <div class="footer-top-row">
-      <div class="footer-top">
-        <h2>Design that<br>scales.</h2>
-      </div>
-      <div class="footer-contact">
-        <h3>/Contact</h3>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/ankit-yadav-product/" target="_blank" rel="noopener" aria-label="LinkedIn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.22 8.4h4.56V23H.22V8.4zM8.4 8.4h4.37v2h.06c.61-1.15 2.1-2.36 4.32-2.36 4.63 0 5.48 3.05 5.48 7.01V23h-4.56v-6.9c0-1.65-.03-3.77-2.3-3.77-2.3 0-2.65 1.8-2.65 3.65V23H8.4V8.4z" fill="currentColor"/></svg>
-          </a>
-          <a href="mailto:ankit.yadav383@gmail.com" aria-label="Email">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M2 4h20v16H2V4zm2 2v.01L12 12l8-5.99V6H4zm16 12V8.24l-8 6-8-6V18h16z" fill="currentColor"/></svg>
-          </a>
-        </div>
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Key Insights</span>
+      <h2 class="slide-title">What We Discovered</h2>
+      <p class="slide-sub">Critical patterns that shaped our AI solution.</p>
+      <div class="slide-cards-grid">
+        <div class="slide-card"><h4>Time is Precious</h4><p>Teachers value every minute of class time. Any solution saving even 3&ndash;4 minutes is considered highly valuable.</p><span class="badge">3&ndash;4 min saved</span></div>
+        <div class="slide-card"><h4>Proxy is a Real Problem</h4><p>68% of teachers reported awareness of proxy attendance, with larger classes having higher rates.</p><span class="badge">68% aware</span></div>
+        <div class="slide-card"><h4>Photo Acceptance</h4><p>85% of students and teachers were comfortable with photo-based attendance if privacy was ensured.</p><span class="badge">85% comfortable</span></div>
+        <div class="slide-card"><h4>Data Insight Need</h4><p>Admins want attendance trends, not just records. Pattern recognition is key for early intervention.</p><span class="badge">Pattern analysis</span></div>
+        <div class="slide-card"><h4>Privacy First</h4><p>Data storage location and access controls were the #1 concern across all stakeholder groups.</p><span class="badge">Top concern</span></div>
+        <div class="slide-card"><h4>Speed Matters</h4><p>Solution must complete attendance in under 60 seconds to be adopted &mdash; any longer feels "too much tech".</p><span class="badge">&lt;60 seconds</span></div>
       </div>
     </div>
-  </div>
-  <div class="footer-watermark-wrap">
-    <div class="footer-watermark">ANKIT</div>
-  </div>
-  <div class="footer-bottom">
-    <span>&copy; 2026 Ankit. All rights reserved.</span>
-  </div>
-</footer>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Solution Overview</span>
+      <h2 class="slide-title">How It Works</h2>
+      <p class="slide-sub">A simple 4-step process powered by AI face recognition.</p>
+      <div class="slide-steps">
+        <div class="slide-step"><div class="icon">&#128247;</div><h5>Capture Photo</h5><p>Teacher takes a single classroom photo</p></div>
+        <div class="slide-step-arrow">&rarr;</div>
+        <div class="slide-step"><div class="icon">&#9889;</div><h5>AI Processing</h5><p>Face recognition identifies all students</p></div>
+        <div class="slide-step-arrow">&rarr;</div>
+        <div class="slide-step"><div class="icon">&#9989;</div><h5>Mark Attendance</h5><p>System automatically marks present students</p></div>
+        <div class="slide-step-arrow">&rarr;</div>
+        <div class="slide-step"><div class="icon">&#128260;</div><h5>Instant Sync</h5><p>Data syncs to admin dashboard in real-time</p></div>
+      </div>
+      <p class="slide-sub" style="text-align:center;margin-top:32px;">&#9889; Under 60 seconds total &mdash; from photo to database</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Solution Preview</span>
+      <h2 class="slide-title">Final Attendance Interface</h2>
+      <p class="slide-sub">Designed for speed and simplicity.</p>
+      <div class="slide-media">
+        <img src="https://framerusercontent.com/images/3ijH7ege3iZgt0wlD0JtgJB8lk.png?width=1536&height=1536" alt="Arivoo AI attendance app screens">
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Impact Metrics</span>
+      <h2 class="slide-title">Measurable Results</h2>
+      <p class="slide-sub">The tangible impact of AI-powered attendance.</p>
+      <div class="slide-stats-grid">
+        <div class="slide-stat-card"><div class="num">80%</div><div class="stat-label">Time Reduction</div><div class="stat-desc">From 13 minutes to under 1 minute per class</div></div>
+        <div class="slide-stat-card"><div class="num">0</div><div class="stat-label">Proxy Attendance</div><div class="stat-desc">AI face recognition eliminates proxy marking</div></div>
+        <div class="slide-stat-card"><div class="num">98%</div><div class="stat-label">Accuracy Rate</div><div class="stat-desc">Near-perfect identification in classroom settings</div></div>
+        <div class="slide-stat-card"><div class="num">Real-time</div><div class="stat-label">Admin Insights</div><div class="stat-desc">Instant attendance data and pattern analysis</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner slide-closing">
+      <h2 class="slide-title">AI-powered attendance:<br><span class="accent">Smarter, Faster, Safer</span></h2>
+      <div class="slide-hero-stats">
+        <div class="slide-hero-stat"><div class="num">92%</div><div class="stat-label">Time Saved</div></div>
+        <div class="slide-hero-stat"><div class="num">0</div><div class="stat-label">Proxy Cases</div></div>
+        <div class="slide-hero-stat"><div class="num">98%</div><div class="stat-label">Accuracy</div></div>
+      </div>
+      <p class="slide-sub">Transforming classroom efficiency through intelligent automation and thoughtful design.</p>
+      <div style="margin-top:40px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+        <a class="deck-btn" style="width:auto;height:auto;padding:14px 24px;border-radius:100px;" href="https://www.figma.com/deck/1Q67aTX6uvNODUE1WEneGi/Arivoo-SMS_AI-Attendance_Case_study" target="_blank" rel="noopener">View original deck on Figma</a>
+        <a class="deck-btn" style="width:auto;height:auto;padding:14px 24px;border-radius:100px;" href="project-buzzed-sms.html">Next project: BuzzEd Now &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="deck-nav">
+  <button class="deck-btn deck-prev" aria-label="Previous slide">&larr;</button>
+  <span class="deck-counter">01 / 11</span>
+  <button class="deck-btn deck-next" aria-label="Next slide">&rarr;</button>
+</div>
 
 <script src="script.js"></script>
 </body>

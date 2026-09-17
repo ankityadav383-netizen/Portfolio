@@ -1,18 +1,20 @@
-// Nav dropdown toggle
+// Nav dropdown toggle (not present on slide-deck project pages)
 const navPill = document.getElementById('navPill');
 const navBtn = document.getElementById('navMenuBtn');
 const navDropdown = document.getElementById('navDropdown');
-navBtn.addEventListener('click', () => {
-  navPill.classList.toggle('open');
-});
-document.addEventListener('click', (e) => {
-  if (!navPill.contains(e.target)) {
-    navPill.classList.remove('open');
-  }
-});
-navDropdown.querySelectorAll('a').forEach((link) => {
-  link.addEventListener('click', () => navPill.classList.remove('open'));
-});
+if (navPill && navBtn && navDropdown) {
+  navBtn.addEventListener('click', () => {
+    navPill.classList.toggle('open');
+  });
+  document.addEventListener('click', (e) => {
+    if (!navPill.contains(e.target)) {
+      navPill.classList.remove('open');
+    }
+  });
+  navDropdown.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => navPill.classList.remove('open'));
+  });
+}
 
 // Wrap words in the statement section for scroll-reveal highlight (homepage only)
 const statementEl = document.getElementById('statementText');
@@ -90,4 +92,51 @@ if (heroWrap && morphCard && aboutSection) {
   window.addEventListener('scroll', updateMorph, { passive: true });
   window.addEventListener('resize', updateMorph);
   updateMorph();
+}
+
+// Slide-deck controller (project case study pages)
+const deck = document.querySelector('.deck');
+if (deck) {
+  const slides = [...deck.querySelectorAll('.slide')];
+  const prevBtn = document.querySelector('.deck-prev');
+  const nextBtn = document.querySelector('.deck-next');
+  const counterEl = document.querySelector('.deck-counter');
+  const progressBar = document.querySelector('.deck-progress-bar');
+  let current = 0;
+
+  function renderDeck() {
+    slides.forEach((s, i) => s.classList.toggle('active', i === current));
+    if (counterEl) {
+      counterEl.textContent = `${String(current + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+    }
+    if (progressBar) {
+      progressBar.style.width = `${((current + 1) / slides.length) * 100}%`;
+    }
+    if (prevBtn) prevBtn.disabled = current === 0;
+    if (nextBtn) nextBtn.disabled = current === slides.length - 1;
+  }
+
+  function goTo(i) {
+    current = Math.max(0, Math.min(slides.length - 1, i));
+    renderDeck();
+  }
+
+  if (prevBtn) prevBtn.addEventListener('click', () => goTo(current - 1));
+  if (nextBtn) nextBtn.addEventListener('click', () => goTo(current + 1));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') goTo(current + 1);
+    if (e.key === 'ArrowLeft') goTo(current - 1);
+  });
+
+  let touchStartX = null;
+  deck.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  deck.addEventListener('touchend', (e) => {
+    if (touchStartX === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) goTo(dx < 0 ? current + 1 : current - 1);
+    touchStartX = null;
+  }, { passive: true });
+
+  renderDeck();
 }

@@ -9,132 +9,127 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="deck-page">
 
-<nav class="navpill" id="navPill">
-  <div class="navpill-top">
-    <a href="index.html#top" class="navlogo">ANKIT</a>
-    <button class="navmenu" id="navMenuBtn" aria-label="Menu">
-      <svg class="navmenu-icon navmenu-dots" width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="3" cy="9" r="1.6" fill="#111"/><circle cx="9" cy="9" r="1.6" fill="#111"/><circle cx="15" cy="9" r="1.6" fill="#111"/></svg>
-      <svg class="navmenu-icon navmenu-close" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 14M14 2L2 14" stroke="#111" stroke-width="1.8" stroke-linecap="round"/></svg>
-    </button>
-  </div>
-  <div class="navdropdown" id="navDropdown">
-    <a href="index.html#about">About Me</a>
-    <a href="index.html#journey">My Design journey</a>
-    <a href="work.html">Work</a>
-  </div>
-</nav>
+<div class="deck-progress"><div class="deck-progress-bar"></div></div>
 
-<main>
+<div class="deck-topbar">
+  <a class="deck-back" href="work.html">&larr; All work</a>
+  <span class="deck-project-name">RICE Smart &middot; Study Companion Chatbot</span>
+</div>
 
-  <section class="case-hero">
-    <div class="case-hero-inner">
-      <a class="case-back" href="work.html">&larr; All work</a>
-      <span class="case-label">Case Study &middot; EdTech Chatbot</span>
-      <h1 class="case-title">RICE Smart Study Companion</h1>
-      <p class="case-subtitle">Adding a personalised in-app chatbot to a 100K+ download EdTech platform, so shy students get instant answers without ever raising a hand.</p>
-      <div class="case-tags">
-        <span class="case-tag">EdTech</span>
-        <span class="case-tag">Conversational UX</span>
-        <span class="case-tag">4.5★ on Play Store</span>
+<div class="deck">
+
+  <section class="slide active">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Case Study &middot; Mar 2024</span>
+      <h1 class="slide-title">RICE Smart<br><span class="accent">Study Companion Chatbot</span></h1>
+      <p class="slide-sub">Adding a personalised in-app chatbot to a 100K+ download EdTech platform, so shy students get instant answers without ever raising a hand.</p>
+      <div class="slide-tags">
+        <span class="slide-tag">EdTech</span>
+        <span class="slide-tag">Conversational UX</span>
+        <span class="slide-tag">4.5&#9733; on Play Store</span>
       </div>
     </div>
   </section>
 
-  <div class="case-cover">
-    <img src="https://miro.medium.com/v2/resize:fit:3444/1*mvBP6nrBUZutcg65iuczQg.png" alt="RICE Smart chatbot conversation screen">
-  </div>
-
-  <div class="case-body">
-
-    <div class="case-block">
-      <h2>Overview</h2>
-      <p>RICE Smart is an EdTech app with over 100,000 downloads and a 4.5-star rating, built around live doubt-clearing sessions. The catch: a lot of students who need help never show up to ask for it. I designed a personalised chatbot that lets any student ask a course-specific question the moment it comes up, instead of waiting for a scheduled session.</p>
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Overview</span>
+      <h2 class="slide-title">A leading EdTech app, missing a voice</h2>
+      <p class="slide-sub" style="max-width:760px;">RICE Smart is an EdTech app with over 100,000 downloads and a 4.5-star rating, built around live doubt-clearing sessions. The objective: introduce a personalised chatbot capable of answering any user query related to the courses they've purchased, offering a seamless, interactive learning experience alongside the live sessions.</p>
     </div>
+  </section>
 
-    <div class="case-block">
-      <h2>The challenge</h2>
-      <p>Doubt-clearing sessions were genuinely useful, but attendance told a different story &mdash; many students were simply too shy to ask a question in front of the class. The chatbot needed to understand questions across many courses and subjects, and open the conversation itself by asking what a student was studying, rather than expecting them to know how to phrase a request for help.</p>
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">The Challenge</span>
+      <h2 class="slide-title">Beneficial Sessions, Low Attendance</h2>
+      <p class="slide-sub" style="max-width:760px;">RICE Smart offers doubt-clearing sessions, yet some users shy away from attending &mdash; several are simply too timid to engage in front of the class. The challenge was to build a chatbot that could understand and respond to a wide range of questions across courses and subjects, and open the conversation itself by asking what a student was studying, rather than expecting them to know how to phrase a request for help.</p>
     </div>
+  </section>
 
-    <div class="case-block">
-      <h2>What students actually needed</h2>
-      <div class="case-cards">
-        <div class="case-card">
-          <h4>Post-exam clarity</h4>
-          <p>After a weekly or monthly test, students wanted to know exactly which topics to work on next.</p>
-        </div>
-        <div class="case-card">
-          <h4>A sense of standing</h4>
-          <p>Students wanted to see where they ranked in class and how they were doing subject by subject.</p>
-        </div>
-        <div class="case-card">
-          <h4>A judgement-free way to ask</h4>
-          <p>Many students are introverted about asking questions out loud, but will type the same question to a chatbot.</p>
-        </div>
-        <div class="case-card">
-          <h4>A memory of past questions</h4>
-          <p>Students wanted to revisit questions they'd already asked instead of retyping them or losing the answer.</p>
-        </div>
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Use Cases</span>
+      <h2 class="slide-title">What Students Actually Needed</h2>
+      <div class="slide-cards-grid">
+        <div class="slide-card"><h4>Post-exam clarity</h4><p>After a weekly or monthly exam, students want to know exactly which areas to work on.</p></div>
+        <div class="slide-card"><h4>A sense of standing</h4><p>Users want to know their position in class to maintain healthy competition, plus performance by individual subject.</p></div>
+        <div class="slide-card"><h4>A judgement-free way to ask</h4><p>Most users are introverted and shy &mdash; a chatbot lets them ask any question, anytime.</p></div>
+        <div class="slide-card"><h4>Repeatable, limited questions</h4><p>A user can ask the same question multiple times, though there's a limited number of questions allowed per month.</p></div>
+        <div class="slide-card"><h4>Cross-subject answers</h4><p>One question can have multiple valid answers &mdash; e.g. Physics and Chemistry both cover Thermodynamics.</p></div>
+        <div class="slide-card"><h4>A memory of past questions</h4><p>Users want to revisit what they asked earlier instead of retyping it.</p></div>
       </div>
     </div>
+  </section>
 
-    <div class="case-block">
-      <h2>The solution</h2>
-      <p><strong>My Activity</strong> &mdash; a personal dashboard tracking attendance, exams attempted, a class leaderboard, and a subject-by-subject exam summary showing exactly where to focus next.</p>
-      <p><strong>Self quiz</strong> &mdash; students can generate an AI quiz for themselves by naming a subject, topic and question count, then share it with friends, turning revision into something social.</p>
-      <p><strong>Chat memory</strong> &mdash; the bot first confirms the course and subject, then keeps a log of past questions; asking something twice re-surfaces the earlier answer instead of starting over, and repeat questions are capped per month to keep usage sustainable.</p>
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Possible Solution</span>
+      <h2 class="slide-title">My Activity</h2>
+      <p class="slide-sub" style="max-width:700px;">An activity section to help users track their performance: attendance for classes attended, exams attempted, a leaderboard to see current class standing, and an exam summary giving a brief subject- and topic-wise report of where to focus next.</p>
     </div>
+  </section>
 
-    <div class="case-block">
-      <h2>Gallery</h2>
-      <div class="case-gallery">
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Possible Solution</span>
+      <h2 class="slide-title">Self Quiz</h2>
+      <p class="slide-sub" style="max-width:700px;">To increase engagement, a self-quiz feature lets a user create a quiz for themselves with AI &mdash; just add the subject, topic name and number of questions. The quiz is generated instantly and can be shared with friends, turning revision into something social.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Possible Solution</span>
+      <h2 class="slide-title">For the Chatbot</h2>
+      <div class="slide-cards-grid" style="grid-template-columns:1fr;max-width:700px;">
+        <div class="slide-card"><h4>Repeat-question memory</h4><p>If a user asks a question they've asked before, they're redirected straight to the earlier chat instead of getting a fresh answer.</p></div>
+        <div class="slide-card"><h4>Course &amp; subject first</h4><p>The user is asked to specify the course and subject before the bot works on a solution.</p></div>
+        <div class="slide-card"><h4>A searchable log</h4><p>A log and history of past questions is maintained, so a user can come back and check earlier answers anytime.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Design Screens</span>
+      <h2 class="slide-title">The Chatbot in Action</h2>
+      <div class="slide-media single">
+        <img src="https://miro.medium.com/v2/resize:fit:3444/1*mvBP6nrBUZutcg65iuczQg.png" alt="RICE Smart chatbot conversation screen">
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Design Screens</span>
+      <h2 class="slide-title">My Activity Dashboard</h2>
+      <div class="slide-media single">
         <img src="https://miro.medium.com/v2/resize:fit:2760/1*wkd5I7YUvTyq8PjVwahWWw.png" alt="RICE Smart performance dashboard screen">
       </div>
     </div>
+  </section>
 
-    <div class="case-cta-row">
-      <a class="case-external" href="https://medium.com/@ankityadav383/rice-smart-chatbot-b31579002389" target="_blank" rel="noopener">
-        Read the full write-up on Medium
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a class="case-next" href="project-arivoo.html">
-        Next project: Arivoo &rarr;
-      </a>
-    </div>
-
-  </div>
-
-</main>
-
-<!-- FOOTER -->
-<footer id="contact">
-  <div class="footer-inner">
-    <div class="footer-top-row">
-      <div class="footer-top">
-        <h2>Design that<br>scales.</h2>
-      </div>
-      <div class="footer-contact">
-        <h3>/Contact</h3>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/ankit-yadav-product/" target="_blank" rel="noopener" aria-label="LinkedIn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.22 8.4h4.56V23H.22V8.4zM8.4 8.4h4.37v2h.06c.61-1.15 2.1-2.36 4.32-2.36 4.63 0 5.48 3.05 5.48 7.01V23h-4.56v-6.9c0-1.65-.03-3.77-2.3-3.77-2.3 0-2.65 1.8-2.65 3.65V23H8.4V8.4z" fill="currentColor"/></svg>
-          </a>
-          <a href="mailto:ankit.yadav383@gmail.com" aria-label="Email">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M2 4h20v16H2V4zm2 2v.01L12 12l8-5.99V6H4zm16 12V8.24l-8 6-8-6V18h16z" fill="currentColor"/></svg>
-          </a>
-        </div>
+  <section class="slide">
+    <div class="slide-inner slide-closing">
+      <h2 class="slide-title">A quieter way to <span class="accent">ask for help</span></h2>
+      <p class="slide-sub">Turning a live, sometimes intimidating doubt-clearing session into an always-available conversation &mdash; so getting unstuck never depends on being brave enough to raise a hand.</p>
+      <div style="margin-top:40px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+        <a class="deck-btn" style="width:auto;height:auto;padding:14px 24px;border-radius:100px;" href="https://medium.com/@ankityadav383/rice-smart-chatbot-b31579002389" target="_blank" rel="noopener">Read the full write-up on Medium</a>
+        <a class="deck-btn" style="width:auto;height:auto;padding:14px 24px;border-radius:100px;" href="project-arivoo.html">Next project: Arivoo &rarr;</a>
       </div>
     </div>
-  </div>
-  <div class="footer-watermark-wrap">
-    <div class="footer-watermark">ANKIT</div>
-  </div>
-  <div class="footer-bottom">
-    <span>&copy; 2026 Ankit. All rights reserved.</span>
-  </div>
-</footer>
+  </section>
+
+</div>
+
+<div class="deck-nav">
+  <button class="deck-btn deck-prev" aria-label="Previous slide">&larr;</button>
+  <span class="deck-counter">01 / 09</span>
+  <button class="deck-btn deck-next" aria-label="Next slide">&rarr;</button>
+</div>
 
 <script src="script.js"></script>
 </body>

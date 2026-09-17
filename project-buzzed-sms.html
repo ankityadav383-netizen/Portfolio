@@ -9,110 +9,170 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="deck-page">
 
-<nav class="navpill" id="navPill">
-  <div class="navpill-top">
-    <a href="index.html#top" class="navlogo">ANKIT</a>
-    <button class="navmenu" id="navMenuBtn" aria-label="Menu">
-      <svg class="navmenu-icon navmenu-dots" width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="3" cy="9" r="1.6" fill="#111"/><circle cx="9" cy="9" r="1.6" fill="#111"/><circle cx="15" cy="9" r="1.6" fill="#111"/></svg>
-      <svg class="navmenu-icon navmenu-close" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 14M14 2L2 14" stroke="#111" stroke-width="1.8" stroke-linecap="round"/></svg>
-    </button>
-  </div>
-  <div class="navdropdown" id="navDropdown">
-    <a href="index.html#about">About Me</a>
-    <a href="index.html#journey">My Design journey</a>
-    <a href="work.html">Work</a>
-  </div>
-</nav>
+<div class="deck-progress"><div class="deck-progress-bar"></div></div>
 
-<main>
+<div class="deck-topbar">
+  <a class="deck-back" href="work.html">&larr; All work</a>
+  <span class="deck-project-name">BuzzEd Now &middot; Arivoo SMS</span>
+</div>
 
-  <section class="case-hero">
-    <div class="case-hero-inner">
-      <a class="case-back" href="work.html">&larr; All work</a>
-      <span class="case-label">Case Study &middot; Bus Fleet Management</span>
-      <h1 class="case-title">BuzzEd Now — Arivoo SMS</h1>
-      <p class="case-subtitle">Designing a safe and smart school mobility ecosystem, so parents, drivers and school admins always know exactly where every bus is.</p>
-      <div class="case-tags">
-        <span class="case-tag">Real-Time Tracking</span>
-        <span class="case-tag">Student Safety</span>
-        <span class="case-tag">Smart Management</span>
+<div class="deck">
+
+  <section class="slide active">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Case Study</span>
+      <h1 class="slide-title">BuzzEd now &mdash; <span class="accent">Arivoo SMS</span></h1>
+      <p class="slide-sub">Designing a safe &amp; smart school mobility ecosystem.</p>
+      <div class="slide-tags">
+        <span class="slide-tag">&#128205; Real-Time Tracking</span>
+        <span class="slide-tag">&#128737;&#65039; Student Safety</span>
+        <span class="slide-tag">&#128200; Smart Management</span>
       </div>
     </div>
   </section>
 
-  <div class="case-cover">
-    <img src="https://framerusercontent.com/images/vl9V0Cr772NwqhB3qFJ8bnkCrLk.png?width=580&height=400" alt="BuzzEd Now live bus tracking map interface">
-  </div>
-
-  <div class="case-body">
-
-    <div class="case-block">
-      <h2>Overview</h2>
-      <p>BuzzEd Now is the school transport module inside Arivoo SMS. Getting kids to and from school safely is stressful when nobody outside the bus knows where it actually is &mdash; so I designed the experience around one question parents and coordinators ask constantly: "where is the bus, right now?"</p>
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Problem Statement</span>
+      <h2 class="slide-title">The Core Challenges</h2>
+      <div class="slide-cards-grid" style="grid-template-columns:1fr;max-width:640px;">
+        <div class="slide-card"><h4>Parent Anxiety</h4><p>Parents experience constant worry about their children's safety during transit, with no way to track their whereabouts.</p></div>
+        <div class="slide-card"><h4>No Real-Time Visibility</h4><p>Schools lack live tracking systems, leaving parents and administrators blind to bus locations and delays.</p></div>
+        <div class="slide-card"><h4>Manual School Processes</h4><p>Communication relies on bus attendants leaving phone calls &mdash; a slow, error-prone, and stressful way to keep everyone updated.</p></div>
+      </div>
     </div>
+  </section>
 
-    <div class="case-block">
-      <h2>Three pillars</h2>
-      <p>Every screen in BuzzEd Now was designed to serve one of these three needs, for three very different users on the same trip.</p>
-      <div class="case-cards">
-        <div class="case-card">
-          <h4>Real-time tracking</h4>
-          <p>A live map lets parents and coordinators follow a bus's exact route and get ahead of delays instead of guessing.</p>
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Research Goals</span>
+      <h2 class="slide-title">What We Set Out to Learn</h2>
+      <div class="slide-cards-grid" style="grid-template-columns:repeat(3,1fr);">
+        <div class="slide-card"><h4>01 &middot; Understand Parent Concerns</h4><p>Identify key anxieties and pain points parents face regarding student safety and communication.</p></div>
+        <div class="slide-card"><h4>02 &middot; Improve Bus Attendant Workflow</h4><p>Streamline daily tasks like attendance marking, route navigation, and parent communication.</p></div>
+        <div class="slide-card"><h4>03 &middot; Streamline School Administration</h4><p>Optimize fleet management and overall operational efficiency for schools.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Research Methods</span>
+      <h2 class="slide-title">Our Research Approach</h2>
+      <p class="slide-sub">A multi-method strategy to understand the problem space.</p>
+      <div class="slide-steps">
+        <div class="slide-step"><div class="icon">&#128203;</div><h5>Surveys</h5><p>Collected quantitative data from 100+ parents</p></div>
+        <div class="slide-step-arrow">&rarr;</div>
+        <div class="slide-step"><div class="icon">&#128172;</div><h5>Interviews</h5><p>Conducted in-depth sessions with 12 stakeholders</p></div>
+        <div class="slide-step-arrow">&rarr;</div>
+        <div class="slide-step"><div class="icon">&#128202;</div><h5>Competitive Analysis</h5><p>Evaluated 5 existing school transit solutions</p></div>
+        <div class="slide-step-arrow">&rarr;</div>
+        <div class="slide-step"><div class="icon">&#128506;&#65039;</div><h5>User Journey Mapping</h5><p>Mapped touchpoints across all user types</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">User Personas</span>
+      <h2 class="slide-title">Meet Our Users</h2>
+      <div class="slide-personas-grid">
+        <div class="persona-card">
+          <div class="persona-head"><div class="persona-avatar">&#128105;</div><div><h5>Priya Sharma</h5><span>Working Parent &middot; Age 36</span></div></div>
+          <div class="persona-section"><div class="label">Goals</div><ul><li>Real-time visibility of child's location</li><li>Peace of mind during work hours</li><li>Quick emergency communication</li></ul></div>
+          <div class="persona-section"><div class="label">Pain points</div><ul><li>Constant anxiety about safety</li><li>No tracking during transit</li><li>Delayed school communication</li></ul></div>
         </div>
-        <div class="case-card">
-          <h4>Student safety</h4>
-          <p>Pickup and drop-off events are logged per student, so a parent knows the moment their child boards or gets off.</p>
+        <div class="persona-card">
+          <div class="persona-head"><div class="persona-avatar">&#128104;&#127997;&#8205;&#9877;&#65039;</div><div><h5>Rajesh Kumar</h5><span>Bus Attendant &middot; Age 42</span></div></div>
+          <div class="persona-section"><div class="label">Goals</div><ul><li>Quick attendance marking</li><li>Clear route navigation</li><li>Efficient parent updates</li></ul></div>
+          <div class="persona-section"><div class="label">Pain points</div><ul><li>Time-consuming, stressful manual attendance</li><li>Multiple parent phone calls</li></ul></div>
         </div>
-        <div class="case-card">
-          <h4>Smart management</h4>
-          <p>Transport coordinators get one dashboard for the whole fleet &mdash; routes, drivers and vehicles &mdash; instead of juggling separate tools.</p>
+        <div class="persona-card">
+          <div class="persona-head"><div class="persona-avatar">&#128104;&#127997;&#8205;&#128188;</div><div><h5>Dr. Meera Basak</h5><span>School Administrator &middot; Age 48</span></div></div>
+          <div class="persona-section"><div class="label">Goals</div><ul><li>Fleet management oversight</li><li>Cost optimization</li><li>Data-driven decision making</li></ul></div>
+          <div class="persona-section"><div class="label">Pain points</div><ul><li>No centralized dashboard</li><li>Manual phone-call bus tracking</li><li>No route analytics</li></ul></div>
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="case-cta-row">
-      <a class="case-external" href="https://www.figma.com/deck/gvFcLyyqV3j0jeDbjzsR2T/Arivoo-SMS_Bus_Tracking_Case-Study" target="_blank" rel="noopener">
-        View full case study on Figma
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a class="case-next" href="project-nabc.html">
-        Next project: NABC &rarr;
-      </a>
-    </div>
-
-  </div>
-
-</main>
-
-<!-- FOOTER -->
-<footer id="contact">
-  <div class="footer-inner">
-    <div class="footer-top-row">
-      <div class="footer-top">
-        <h2>Design that<br>scales.</h2>
-      </div>
-      <div class="footer-contact">
-        <h3>/Contact</h3>
-        <div class="footer-links">
-          <a href="https://www.linkedin.com/in/ankit-yadav-product/" target="_blank" rel="noopener" aria-label="LinkedIn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.22 8.4h4.56V23H.22V8.4zM8.4 8.4h4.37v2h.06c.61-1.15 2.1-2.36 4.32-2.36 4.63 0 5.48 3.05 5.48 7.01V23h-4.56v-6.9c0-1.65-.03-3.77-2.3-3.77-2.3 0-2.65 1.8-2.65 3.65V23H8.4V8.4z" fill="currentColor"/></svg>
-          </a>
-          <a href="mailto:ankit.yadav383@gmail.com" aria-label="Email">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M2 4h20v16H2V4zm2 2v.01L12 12l8-5.99V6H4zm16 12V8.24l-8 6-8-6V18h16z" fill="currentColor"/></svg>
-          </a>
-        </div>
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Key Insights</span>
+      <h2 class="slide-title">What We Discovered</h2>
+      <p class="slide-sub">Important patterns that shaped design decisions.</p>
+      <div class="slide-cards-grid">
+        <div class="slide-card"><h4>Safety Over Features</h4><p>97% of parents prioritize safety features over convenience or cost savings.</p><span class="badge">97%</span></div>
+        <div class="slide-card"><h4>Real-Time Expectations</h4><p>Parents expect location updates every 30 seconds, not just milestone notifications.</p><span class="badge">30s</span></div>
+        <div class="slide-card"><h4>Trust Through Transparency</h4><p>Visible driver/attendant profiles increase parent trust by 63%.</p><span class="badge">63%</span></div>
+        <div class="slide-card"><h4>Manual Process Burden</h4><p>Attendants spend 45 minutes daily on paperwork that could be automated.</p><span class="badge">45 min</span></div>
+        <div class="slide-card"><h4>Route Anxiety</h4><p>Parents feel most anxious during the "last mile" when the bus is nearest to school.</p><span class="badge">Last mile</span></div>
+        <div class="slide-card"><h4>Admin Blind Spots</h4><p>92% of schools lack data on route efficiency and on-time performance.</p><span class="badge">92%</span></div>
       </div>
     </div>
-  </div>
-  <div class="footer-watermark-wrap">
-    <div class="footer-watermark">ANKIT</div>
-  </div>
-  <div class="footer-bottom">
-    <span>&copy; 2026 Ankit. All rights reserved.</span>
-  </div>
-</footer>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">User Journey Map</span>
+      <h2 class="slide-title">Parent Journey: Daily School Transit</h2>
+      <div class="slide-cards-grid" style="grid-template-columns:repeat(4,1fr);">
+        <div class="slide-card"><h4>1. Before Bus Comes</h4><p>Prepare child, check time, wait at stop.</p><span class="badge">Neutral</span></div>
+        <div class="slide-card"><h4>2. On the Bus</h4><p>Child boards, bus departs, transit to school.</p><span class="badge">Anxious &mdash; zero visibility during transit</span></div>
+        <div class="slide-card"><h4>3. School Arrival</h4><p>Bus arrives, child disembarks, enters school.</p><span class="badge">Relieved &mdash; no confirmation of arrival</span></div>
+        <div class="slide-card"><h4>4. Return Trip</h4><p>Child boards, transit home, drop-off.</p><span class="badge">Anxious &mdash; same uncertainty repeats</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">User Flow</span>
+      <h2 class="slide-title">User Flow for Parent App</h2>
+      <div class="slide-cards-grid" style="grid-template-columns:1fr;max-width:640px;">
+        <div class="slide-card"><h4>Select Kids</h4><p>In case of multiple kids, a parent should be able to track all of them.</p></div>
+        <div class="slide-card"><h4>Self Pickup or Drop-off</h4><p>If a parent needs to pick up early or drop off themselves, they can mark it directly in the app.</p></div>
+        <div class="slide-card"><h4>History</h4><p>Check logs of past bus drop-off and pickup times.</p></div>
+      </div>
+      <p class="slide-sub" style="text-align:center;margin-top:24px;">Login &rarr; onboarding/OTP &rarr; dashboard &rarr; history / activity / notification / select kid &rarr; tracking screen</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner">
+      <span class="slide-eyebrow">Solution Preview</span>
+      <h2 class="slide-title">Live Tracking Interface</h2>
+      <div class="slide-media single">
+        <img src="https://framerusercontent.com/images/vl9V0Cr772NwqhB3qFJ8bnkCrLk.png?width=580&height=400" alt="BuzzEd Now live bus tracking map interface">
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-inner slide-closing">
+      <h2 class="slide-title">Three pillars, one <span class="accent">mobility ecosystem</span></h2>
+      <div class="slide-hero-stats">
+        <div class="slide-hero-stat"><div class="num">Live</div><div class="stat-label">Real-time tracking</div></div>
+        <div class="slide-hero-stat"><div class="num">100%</div><div class="stat-label">Pickup/drop-off visibility</div></div>
+        <div class="slide-hero-stat"><div class="num">1</div><div class="stat-label">Dashboard for the whole fleet</div></div>
+      </div>
+      <p class="slide-sub">Real-time tracking, verified pickup/drop-off, and a single fleet dashboard &mdash; designed around what parents, attendants and admins actually asked for.</p>
+      <div style="margin-top:40px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+        <a class="deck-btn" style="width:auto;height:auto;padding:14px 24px;border-radius:100px;" href="https://www.figma.com/deck/gvFcLyyqV3j0jeDbjzsR2T/Arivoo-SMS_Bus_Tracking_Case-Study" target="_blank" rel="noopener">View original deck on Figma</a>
+        <a class="deck-btn" style="width:auto;height:auto;padding:14px 24px;border-radius:100px;" href="project-nabc.html">Next project: NABC &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="deck-nav">
+  <button class="deck-btn deck-prev" aria-label="Previous slide">&larr;</button>
+  <span class="deck-counter">01 / 09</span>
+  <button class="deck-btn deck-next" aria-label="Next slide">&rarr;</button>
+</div>
 
 <script src="script.js"></script>
 </body>
