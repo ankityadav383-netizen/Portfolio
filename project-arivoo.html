@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arivoo — Ankit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="navpill" id="navPill">
+  <div class="navpill-top">
+    <a href="index.html#top" class="navlogo">ANKIT</a>
+    <button class="navmenu" id="navMenuBtn" aria-label="Menu">
+      <svg class="navmenu-icon navmenu-dots" width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="3" cy="9" r="1.6" fill="#111"/><circle cx="9" cy="9" r="1.6" fill="#111"/><circle cx="15" cy="9" r="1.6" fill="#111"/></svg>
+      <svg class="navmenu-icon navmenu-close" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 14M14 2L2 14" stroke="#111" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="navdropdown" id="navDropdown">
+    <a href="index.html#about">About Me</a>
+    <a href="index.html#journey">My Design journey</a>
+    <a href="work.html">Work</a>
+  </div>
+</nav>
+
+<main>
+
+  <section class="case-hero">
+    <div class="case-hero-inner">
+      <a class="case-back" href="work.html">&larr; All work</a>
+      <span class="case-label">Case Study &middot; EdTech / AI</span>
+      <h1 class="case-title">AI Attendance Module for Arivoo SMS</h1>
+      <p class="case-subtitle">Replacing a slow, easy-to-fake manual roll call with a one-minute, AI-powered face-recognition check-in for classrooms.</p>
+      <div class="case-tags">
+        <span class="case-tag">AI-Powered Innovation</span>
+        <span class="case-tag">Face Recognition</span>
+        <span class="case-tag">School Management</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="case-cover">
+    <img src="https://framerusercontent.com/images/3ijH7ege3iZgt0wlD0JtgJB8lk.png?width=1536&height=1536" alt="Arivoo AI attendance app showing detected student faces during a classroom scan">
+  </div>
+
+  <div class="case-body">
+
+    <div class="case-block">
+      <h2>Overview</h2>
+      <p>Arivoo SMS is a school management platform, and I designed its AI attendance module to take roll call out of teachers' hands entirely. Instead of reading names off a register, a teacher opens the app, points the camera at the class, and the system recognises each student's face and marks them present &mdash; in about the time it used to take to say ten names.</p>
+    </div>
+
+    <div class="case-block">
+      <h2>The problem</h2>
+      <p>Manual attendance was quietly costing every class real time and real accuracy.</p>
+      <div class="case-cards">
+        <div class="case-card">
+          <h4>Manual time waste</h4>
+          <p>Teachers spent 5&ndash;10 minutes per class taking attendance by hand, breaking up the flow of the lesson.</p>
+        </div>
+        <div class="case-card">
+          <h4>Proxy attendance</h4>
+          <p>Students could mark a friend present even when they were absent, quietly corrupting the record.</p>
+        </div>
+        <div class="case-card">
+          <h4>Unknown students</h4>
+          <p>In large classes, teachers couldn't reliably recognise every face, which made proxies easy to get away with.</p>
+        </div>
+        <div class="case-card">
+          <h4>Poor data tracking</h4>
+          <p>Paper and spreadsheet logs were too messy to analyse, so nobody could spot attendance patterns worth acting on.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-block">
+      <h2>The approach</h2>
+      <p>The core interaction had to feel faster than the problem it replaced. A teacher scans the room once; the app detects every face it can, shows a confidence score per match, and only asks for a manual "retake" or "review" on the handful of low-confidence detections &mdash; not the whole class. That kept the human in the loop for edge cases without giving up the speed of automation.</p>
+    </div>
+
+    <div class="case-block">
+      <h2>Results</h2>
+      <div class="case-stats">
+        <div class="case-stat">
+          <div class="num">1 min</div>
+          <div class="stat-label">vs. 5&ndash;10 min manual</div>
+        </div>
+        <div class="case-stat">
+          <div class="num">0</div>
+          <div class="stat-label">proxy attendance</div>
+        </div>
+        <div class="case-stat">
+          <div class="num">98%</div>
+          <div class="stat-label">recognition accuracy</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-cta-row">
+      <a class="case-external" href="https://www.figma.com/deck/1Q67aTX6uvNODUE1WEneGi/Arivoo-SMS_AI-Attendance_Case_study" target="_blank" rel="noopener">
+        View full case study on Figma
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 12L12 4M12 4H5M12 4V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="case-next" href="project-buzzed-sms.html">
+        Next project: BuzzEd Now &rarr;
+      </a>
+    </div>
+
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-inner">
+    <div class="footer-top-row">
+      <div class="footer-top">
+        <h2>Design that<br>scales.</h2>
+      </div>
+      <div class="footer-contact">
+        <h3>/Contact</h3>
+        <div class="footer-links">
+          <a href="https://www.linkedin.com/in/ankit-yadav-product/" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.22 8.4h4.56V23H.22V8.4zM8.4 8.4h4.37v2h.06c.61-1.15 2.1-2.36 4.32-2.36 4.63 0 5.48 3.05 5.48 7.01V23h-4.56v-6.9c0-1.65-.03-3.77-2.3-3.77-2.3 0-2.65 1.8-2.65 3.65V23H8.4V8.4z" fill="currentColor"/></svg>
+          </a>
+          <a href="mailto:ankit.yadav383@gmail.com" aria-label="Email">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M2 4h20v16H2V4zm2 2v.01L12 12l8-5.99V6H4zm16 12V8.24l-8 6-8-6V18h16z" fill="currentColor"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-watermark-wrap">
+    <div class="footer-watermark">ANKIT</div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 Ankit. All rights reserved.</span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
