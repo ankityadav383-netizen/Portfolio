@@ -814,6 +814,33 @@ body.deck-page{background:var(--cream);overflow:hidden;}
   border-radius:100px;
   margin-bottom:22px;
 }
+
+/* Content slides: asymmetric label-column layout, like the reference's
+   CHALLENGE / SOLUTION byline rows -- label sits in a narrow left rail,
+   everything else (title, copy, cards, media) flows in the wide column.
+   Hero and closing slides stay full-width/centered, same as the
+   reference's own intro section. */
+.slide-inner:not(.slide-hero):not(.slide-closing) > .slide-eyebrow{
+  display:block;
+  border:none;
+  padding:0;
+  border-radius:0;
+  background:none;
+  font-weight:600;
+  margin-bottom:20px;
+}
+@media (min-width:900px){
+  .slide-inner:not(.slide-hero):not(.slide-closing){
+    padding-left:224px;
+  }
+  .slide-inner:not(.slide-hero):not(.slide-closing) > .slide-eyebrow{
+    position:absolute;
+    top:8px;
+    left:0;
+    width:190px;
+    margin-bottom:0;
+  }
+}
 .slide-title{
   font-size:clamp(28px,4.6vw,54px);
   font-weight:800;
