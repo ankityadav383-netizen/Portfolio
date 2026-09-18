@@ -853,6 +853,55 @@ body.deck-page{background:var(--cream);overflow:hidden;}
 .slide-hero-stat .num{font-size:22px;font-weight:800;color:var(--ink);font-family:'Archivo','Archivo Placeholder',sans-serif;}
 .slide-hero-stat .stat-label{font-size:12px;color:var(--muted);margin-top:4px;}
 
+/* Editorial meta row (label + value), inspired by case-study byline rows */
+.slide-meta-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:44px;
+  margin:40px 0 0;
+  padding-top:28px;
+  border-top:1px solid var(--line);
+}
+.slide-meta-item{display:flex;flex-direction:column;gap:7px;}
+.slide-meta-item .meta-label{
+  font-size:12px;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  color:var(--muted);
+  font-weight:600;
+}
+.slide-meta-item .meta-value{
+  font-size:18px;
+  font-weight:700;
+  color:var(--ink);
+  font-family:'Archivo','Archivo Placeholder',sans-serif;
+}
+.slide-meta-item .meta-value .meta-sub{
+  font-weight:400;
+  font-size:14px;
+  color:var(--muted);
+  font-family:'Inter','Inter Placeholder',sans-serif;
+  margin-left:6px;
+}
+
+/* Soft showcase tray for product screenshots */
+.slide-showcase{
+  margin-top:36px;
+  background:#efeee9;
+  border-radius:24px;
+  padding:clamp(20px,3vw,36px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.slide-showcase img{
+  max-height:38vh;
+  max-width:100%;
+  border-radius:14px;
+  box-shadow:0 16px 40px rgba(0,0,0,0.1);
+  display:block;
+}
+
 .slide-cards-grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
