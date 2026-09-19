@@ -1363,7 +1363,7 @@ body.deck-fs-page.deck-dark{background:var(--fs-bg-dark);}
 .fs-panel img{display:block;width:auto;height:auto;max-width:88%;max-height:90%;object-fit:contain;}
 
 /* interactive prototype slide: step list beside the live phone */
-.fs-psteps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
+.fs-psteps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:20px;}
 .fs-pstep{display:flex;gap:20px;align-items:flex-start;width:100%;box-sizing:border-box;text-align:left;font:inherit;color:var(--fs-ink);background:var(--fs-surface);border:0;border-radius:var(--fs-r-card);padding:14px 28px;cursor:pointer;transition:background .25s,color .25s,box-shadow .2s;}
 .fs-pstep:hover{box-shadow:inset 0 0 0 2px var(--fs-ink);}
 .fs-pstep:focus-visible{outline:2px solid var(--fs-ink);outline-offset:3px;}
