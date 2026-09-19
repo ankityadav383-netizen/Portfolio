@@ -100,7 +100,7 @@
       setTimeout(() => go('error'), 650);
     },
     call: () => announce('Calling is not part of the designed flow'),
-    live: () => announce('Live tracking is not part of the designed flow'),
+    live: () => go('stops'),
     school: () => announce('Calling the school is not part of the designed flow'),
   };
 
