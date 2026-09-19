@@ -104,8 +104,23 @@ if (deck) {
   const progressBar = document.querySelector('.deck-progress-bar');
   let current = 0;
 
+  // Figma-sourced decks (1920x1080 stage): scale the stage to fit the viewport
+  // and swap the chrome between dark and light slides.
+  const isFigmaDeck = deck.classList.contains('deck-fs');
+  function fitStage() {
+    const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    deck.style.setProperty('--s', s.toFixed(5));
+  }
+  if (isFigmaDeck) {
+    fitStage();
+    window.addEventListener('resize', fitStage);
+  }
+
   function renderDeck() {
     slides.forEach((s, i) => s.classList.toggle('active', i === current));
+    if (isFigmaDeck) {
+      document.body.classList.toggle('deck-dark', slides[current].dataset.theme === 'dark');
+    }
     if (counterEl) {
       counterEl.textContent = `${String(current + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
     }
@@ -137,6 +152,10 @@ if (deck) {
     if (Math.abs(dx) > 50) goTo(dx < 0 ? current + 1 : current - 1);
     touchStartX = null;
   }, { passive: true });
+
+  // Deep link: project-arivoo.html#slide-3
+  const m = /^#slide-(\d+)$/.exec(window.location.hash);
+  if (m) current = Math.max(0, Math.min(slides.length - 1, parseInt(m[1], 10) - 1));
 
   renderDeck();
 }
