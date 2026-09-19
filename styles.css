@@ -1273,7 +1273,7 @@ body.deck-fs-page.deck-dark{background:var(--fs-bg-dark);}
 /* 9 · interface */
 .fs-s9 .fs-safe{padding:205px 0 0 89px;justify-content:flex-start;gap:0;}
 .fs-s9 .fs-col{width:864px;gap:67px;}
-.fs-panel{position:absolute;top:0;bottom:0;right:0;left:calc(50% + var(--s,.5) * 101px);background:var(--fs-panel);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.fs-panel{position:absolute;z-index:2;top:0;bottom:0;right:0;left:calc(50% + var(--s,.5) * 101px);background:var(--fs-panel);display:flex;align-items:center;justify-content:center;overflow:hidden;}
 .fs-panel iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:transparent;}
 .fs-panel-link{position:absolute;right:24px;bottom:26px;z-index:2;display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:100px;background:var(--fs-bg-light);border:1px solid var(--line);color:var(--fs-ink);font:500 14px/1 var(--fs-sans);}
 .fs-panel-link:hover{background:#fff;}
