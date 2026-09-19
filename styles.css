@@ -1378,7 +1378,7 @@ body.deck-fs-page.deck-dark{background:var(--fs-bg-dark);}
   .fs-feats{grid-template-columns:1fr;row-gap:20px;min-height:0;}
   .fs-feat{width:auto;}
   .fs-panel{position:relative;left:auto;top:auto;bottom:auto;order:2;width:100%;min-height:320px;}
-  .fs-panel iframe{position:relative;inset:auto;display:block;height:780px;}
+  .fs-panel iframe{position:relative;inset:auto;display:block;height:700px;}
   .fs-panel{min-height:0;flex-direction:column;align-items:stretch;padding-bottom:96px;}
   .fs-panel-link{position:relative;right:auto;bottom:auto;margin:0 0 16px 22px;align-self:flex-start;}
   .deck-fs .slide.fs-s9 .fs-stage{order:1;}

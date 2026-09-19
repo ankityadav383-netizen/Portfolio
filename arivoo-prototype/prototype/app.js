@@ -134,7 +134,7 @@
     const embed = document.documentElement.classList.contains('embed');
     const phone = innerWidth <= 760 && !embed;
     const side = phone || embed ? 0 : 316, mv = phone ? 0 : 48, mh = phone ? 0 : 32;
-    const s = Math.min(1, (innerHeight - mv) / 844, (innerWidth - side - mh) / 390);
+    const s = Math.min(1, (innerHeight - mv) / 844, (innerWidth - side - mh) / 390) * (embed && innerWidth > 600 ? 0.78 : 1);
     stage.style.transform = `scale(${s})`;
     wrap.style.width = 390 * s + 'px'; wrap.style.height = 844 * s + 'px';
     if (phone) { stage.style.borderRadius = '0'; stage.style.boxShadow = 'none'; }

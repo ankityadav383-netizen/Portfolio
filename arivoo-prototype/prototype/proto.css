@@ -69,6 +69,6 @@ body{display:block;color:var(--c-text);font-family:var(--font-brand)}
 @media (prefers-reduced-motion:reduce){.scr,.scr.active,.sheet-layer .scrim,.sheet-layer .sheet,.sheet-layer{transition:none}.btn.pulse,.camflash.on{animation:none}}
 
 /* embed mode (used by the portfolio's slide 9): phone only, transparent background */
-html.embed,html.embed body{background:transparent}
+html.embed,html.embed body{background:transparent;overflow:hidden}
 html.embed .proto{padding:0;min-height:100%}
 html.embed .side{display:none}
