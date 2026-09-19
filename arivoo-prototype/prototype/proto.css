@@ -73,3 +73,35 @@ body{display:block;color:var(--c-text);font-family:var(--font-brand)}
 html.embed,html.embed body{background:transparent;overflow:hidden}
 html.embed .proto{padding:0;min-height:100%}
 html.embed .side{display:none}
+
+/* confirmation screen (built only from tokens.css: colours, radii, type styles) */
+.done{position:absolute;left:0;top:240px;width:390px;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 24px;box-sizing:border-box}
+.done :is(h2,p){margin:0}
+.ok{position:relative;width:136px;height:136px;display:grid;place-items:center}
+.ok .halo{position:absolute;inset:0;border-radius:50%;background:var(--c-tint);opacity:0;transform:scale(.6)}
+.ok svg{position:relative;width:96px;height:96px;display:block;overflow:visible}
+.ok .disc{fill:var(--c-primary);transform-box:fill-box;transform-origin:center;transform:scale(0)}
+.ok .tick{fill:none;stroke:var(--c-on-primary);stroke-width:6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100;stroke-dashoffset:100}
+.done-title{margin-top:28px;color:var(--c-text)}
+.done-sub{margin-top:4px;color:var(--c-text-muted)}
+.done-cd{margin-top:28px;color:var(--c-text)}
+.done-cd .num{color:var(--c-primary);display:inline-block;min-width:1ch}
+.cd{width:200px;height:4px;margin-top:14px;border-radius:var(--r-pill);background:var(--c-tint);overflow:hidden}
+.cd i{display:block;height:100%;background:var(--c-primary);border-radius:inherit;transform-origin:left center}
+.done-title,.done-sub,.done-cd,.cd{opacity:0}
+.scr.play .halo{animation:okHalo .6s .05s ease-out forwards}
+.scr.play .disc{animation:okPop .45s cubic-bezier(.2,.9,.3,1.25) forwards}
+.scr.play .tick{animation:okDraw .4s .38s ease-out forwards}
+.scr.play :is(.done-title,.done-sub){animation:okRise .4s .6s ease-out forwards}
+.scr.play :is(.done-cd,.cd){animation:okRise .4s .8s ease-out forwards}
+.scr.play .cd i{animation:okDrain var(--cd,3s) .9s linear forwards}
+@keyframes okHalo{0%{opacity:0;transform:scale(.6)}100%{opacity:1;transform:scale(1)}}
+@keyframes okPop{0%{transform:scale(0)}100%{transform:scale(1)}}
+@keyframes okDraw{to{stroke-dashoffset:0}}
+@keyframes okRise{0%{opacity:0;transform:translateY(6px)}100%{opacity:1;transform:none}}
+@keyframes okDrain{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+@media (prefers-reduced-motion:reduce){
+  .scr.play .halo,.scr.play .disc,.scr.play .tick,.scr.play :is(.done-title,.done-sub,.done-cd,.cd),.scr.play .cd i{animation:none}
+  .scr.play .halo{opacity:1;transform:none}.scr.play .disc{transform:none}.scr.play .tick{stroke-dashoffset:0}
+  .scr.play :is(.done-title,.done-sub,.done-cd,.cd){opacity:1}
+}

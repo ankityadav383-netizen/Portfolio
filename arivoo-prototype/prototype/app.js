@@ -3,7 +3,7 @@
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const app = $('#app');
   const live = $('#live');
-  const ORDER = ['list', 'camera', 'photos', 'results'];
+  const ORDER = ['list', 'camera', 'photos', 'results', 'done'];
   let current = 'list';
   const stack = [];
 
@@ -14,11 +14,13 @@
     const from = $(`.scr[data-screen="${current}"]`);
     const to = $(`.scr[data-screen="${name}"]`);
     if (!back && !replace) stack.push(current);
+    if (current === 'done') stopCountdown();
     from.classList.remove('active');
     from.classList.toggle('back', !back);
     to.classList.toggle('back', false);
     to.classList.add('active');
     current = name;
+    if (name === 'done') startCountdown();
     $$('#steps button').forEach(b => { if (b.dataset.step === name) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
     closeSheet();
   }
@@ -73,6 +75,39 @@
     $$('.scr[data-screen="results"] [data-panel]').forEach(p => (p.hidden = p.dataset.panel !== key));
   }
 
+  /* ---- confirmation: tick animation, countdown, redirect ---- */
+  const COUNT = 3;                 /* seconds shown on the countdown */
+  const TICK_MS = 900;             /* tick animation runs first, then the countdown starts */
+  let cdDelay = null, cdTimer = null;
+  const initialSwitches = $$('[data-act="toggle"]').map(s => s.classList.contains('on'));
+  function stopCountdown() { clearTimeout(cdDelay); clearInterval(cdTimer); cdDelay = cdTimer = null; }
+  function startCountdown() {
+    stopCountdown();
+    const scr = $('.scr[data-screen="done"]'), num = $('#cdNum');
+    num.textContent = COUNT;
+    scr.style.setProperty('--cd', COUNT + 's');
+    scr.classList.remove('play'); void scr.offsetWidth; scr.classList.add('play');
+    announce(`Attendance submitted. Going to the dashboard in ${COUNT} seconds.`);
+    cdDelay = setTimeout(() => {
+      let n = COUNT;
+      cdTimer = setInterval(() => {
+        n -= 1;
+        if (n <= 0) { stopCountdown(); toDashboard(); return; }
+        num.textContent = n;
+      }, 1000);
+    }, TICK_MS);
+  }
+  /* the dashboard is not in the Figma flow: the class list (home of the teacher flow) stands in, with a clean demo state */
+  function toDashboard() {
+    stopCountdown();
+    $$('[data-act="toggle"]').forEach((s, i) => setSw(s, initialSwitches[i]));
+    syncMarkAll($('.scr[data-screen="list"]'));
+    retaking = false; resetPhotos(); setTab('absent');
+    stack.length = 0;
+    go('list', { replace: true, back: true });
+    announce('Dashboard');
+  }
+
   /* ---- actions ---- */
   const actions = {
     back: goBack,
@@ -97,7 +132,11 @@
       setSw(el, on);
       $$('[data-act="toggle"]', el.closest('.scr')).forEach(s => setSw(s, on));
     },
-    submit: (el) => { el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse'); announce('Attendance submitted (prototype)'); },
+    submit: (el) => {
+      el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse');
+      setTimeout(() => go('done', { replace: true }), 220);
+    },
+    godash: toDashboard,
   };
 
   app.addEventListener('click', (e) => {

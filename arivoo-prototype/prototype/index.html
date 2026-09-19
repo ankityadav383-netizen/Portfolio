@@ -3,16 +3,16 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Arivoo SMS - AI attendance prototype</title>
 <script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add('embed')</script>
-<link rel="stylesheet" href="../tokens/tokens.css"><link rel="stylesheet" href="../screens/components.css"><link rel="stylesheet" href="proto.css?v=3">
+<link rel="stylesheet" href="../tokens/tokens.css"><link rel="stylesheet" href="../screens/components.css"><link rel="stylesheet" href="proto.css?v=5">
 </head><body>
 <main class="proto">
   <aside class="side" aria-label="Prototype guide">
     <h1>AI attendance</h1>
     <p class="sub">Teacher app - clickable prototype built from the measured Figma tokens.</p>
-    <ol class="steps" id="steps"><li><button type="button" data-step="list">Class list</button></li><li><button type="button" data-step="camera">Camera</button></li><li><button type="button" data-step="photos">Photos captured</button></li><li><button type="button" data-step="results">AI results</button></li></ol>
+    <ol class="steps" id="steps"><li><button type="button" data-step="list">Class list</button></li><li><button type="button" data-step="camera">Camera</button></li><li><button type="button" data-step="photos">Photos captured</button></li><li><button type="button" data-step="results">AI results</button></li><li><button type="button" data-step="done">Confirmation</button></li></ol>
     <p class="hint">Try: toggle a student, tap the <b>i</b> icon, <b>Capture with AI</b>, the shutter, <b>Review</b>, then the Absent / Present / Others tabs.</p>
     <button type="button" class="restart" id="restart">Restart</button>
-    <p class="note">Submit has no destination in the Figma flow, so it only gives press feedback.</p>
+    <p class="note">Submit opens a confirmation screen (added after the Figma flow, built from the same tokens) that counts down and returns to the class list, which stands in for the dashboard.</p>
   </aside>
   <div class="stage-wrap" id="stageWrap"><div class="stage" id="stage">
     <div class="screen" id="app">
@@ -142,6 +142,23 @@
   <div class="ai"><div class="ai-title t-bar-aiTitle grad-text" style="background-image:linear-gradient(124.87deg,var(--ai-text-stops))">AI Powered</div>
     <div class="ai-cap t-bar-aiCaption" style="color:var(--c-text-muted)">Attendance</div></div>
 </div></section>
+      <section class="scr" data-screen="done" aria-label="Attendance submitted"><div class="hdr-bg"></div>
+<div class="status">
+  <img src="../assets/icons/signal.svg" style="left:0;top:2.333px;width:15.395px;height:9.33px">
+  <span class="txt" style="left:22.392px">Airtel</span>
+  <img src="../assets/icons/wifi.svg" style="left:55.514px;top:2.333px;width:13.38px;height:9.33px">
+  <span class="txt" style="left:283.895px">100%</span>
+  <img src="../assets/icons/bluetooth.svg" style="left:322.58px;top:2.67px;width:6.62px;height:11.32px">
+  <img src="../assets/icons/battery.svg" style="left:338.493px;top:2.27px;width:24.725px;height:10.73px">
+</div><div class="ttl" style="left:16px;top:46px;width:362px;height:42px">
+  <div class="l"><div class="txt"><div class="t-header-title">Class XII A </div><div class="t-header-subtitle">Period 1 ,Physical Science</div></div></div>
+</div><div class="done">
+  <div class="ok" aria-hidden="true"><span class="halo"></span><svg viewBox="0 0 96 96" focusable="false"><circle class="disc" cx="48" cy="48" r="48"/><path class="tick" pathLength="100" d="M28 50 L43 65 L69 34"/></svg></div>
+  <h2 class="t-sheet-title done-title">Attendance submitted</h2>
+  <p class="t-photos-count done-sub">Class XII A &middot; Period 1, Physical Science</p>
+  <p class="t-photos-count done-cd" aria-hidden="true">Redirecting to dashboard in <span class="num t-sheet-rowValue" id="cdNum">3</span></p>
+  <div class="cd" aria-hidden="true"><i></i></div>
+</div><div class="bbar"><div class="btn btn-outline t-button-label" data-act="godash" style="left:16px;top:10px;width:358px">Go to dashboard now</div><div class="home"></div></div></section>
       <div class="sheet-layer" id="sheetLayer" aria-hidden="true">
 <div class="scrim" data-act="closesheet"></div>
 <div class="sheet" role="dialog" aria-label="Class details">
@@ -156,5 +173,5 @@
   </div></div>
 </main>
 <div class="sr-only" id="live" aria-live="polite"></div>
-<script src="app.js?v=4"></script>
+<script src="app.js?v=5"></script>
 </body></html>
