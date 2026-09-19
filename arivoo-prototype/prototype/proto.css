@@ -46,7 +46,8 @@ body{display:block;color:var(--c-text);font-family:var(--font-brand)}
 /* photos */
 .pcount{left:16px}
 .pcards{left:16px}
-.pcard.gone{display:none}
+.pcards{gap:12px}
+.pcard.gone,.pcard.later{display:none}
 .empty{position:absolute;left:16px;top:147px;width:358px;color:#4a4f4f}
 .empty[hidden]{display:none}
 .btn.disabled{opacity:.45;pointer-events:none}

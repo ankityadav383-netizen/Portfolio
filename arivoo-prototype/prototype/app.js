@@ -42,16 +42,23 @@
   }
 
   /* ---- photos ---- */
+  /* a fresh capture shows 1 card; every Retake -> shutter reveals one more (up to 3) */
+  let retaking = false;
   function resetPhotos() {
-    $$('#pcards .pcard').forEach(c => c.classList.remove('gone'));
+    $$('#pcards .pcard').forEach((c, i) => { c.classList.remove('gone'); c.classList.toggle('later', i > 0); });
+    updatePhotos();
+  }
+  function revealNextPhoto() {
+    const next = $('#pcards .pcard.later') || $('#pcards .pcard.gone');
+    if (next) next.classList.remove('later', 'gone');
     updatePhotos();
   }
   function updatePhotos() {
-    const n = $$('#pcards .pcard:not(.gone)').length;
+    const n = $$('#pcards .pcard:not(.gone):not(.later)').length;
     $('#pcount').textContent = `Photo Captured : ${n}`;
     $('#pempty').hidden = n !== 0;
     $('[data-act="review"]').classList.toggle('disabled', n === 0);
-    const first = $('#pcards .pcard:not(.gone)');
+    const first = $('#pcards .pcard:not(.gone):not(.later)');
     $$('#pcards .pcard').forEach(c => (c.style.marginTop = ''));
     if (first) first.style.marginTop = '0';
   }
@@ -71,15 +78,16 @@
     back: goBack,
     info: openSheet,
     closesheet: closeSheet,
-    capture: () => go('camera'),
-    recapture: () => go('camera'),
+    capture: () => { retaking = false; go('camera'); },
+    recapture: () => { retaking = false; go('camera'); },
     camclose: goBack,
     shutter: () => {
       const f = $('#camflash'); f.classList.remove('on'); void f.offsetWidth; f.classList.add('on');
-      resetPhotos();
+      if (retaking) revealNextPhoto(); else resetPhotos();
+      retaking = false;
       setTimeout(() => go('photos', { replace: false }), 140);
     },
-    retake: () => go('camera', { replace: true }),
+    retake: () => { retaking = true; go('camera', { replace: true }); },
     review: () => { setTab('absent'); go('results'); },
     remove: (el) => { el.closest('.pcard').classList.add('gone'); updatePhotos(); announce('Photo removed'); },
     tab: (el) => setTab(el.dataset.tab),
@@ -119,6 +127,7 @@
   /* ---- side panel ---- */
   $$('#steps button').forEach(b => b.addEventListener('click', () => {
     const t = b.dataset.step;
+    retaking = false;
     if (t === 'photos') resetPhotos();
     if (t === 'results') setTab('absent');
     stack.length = 0;
@@ -140,5 +149,5 @@
     if (phone) { stage.style.borderRadius = '0'; stage.style.boxShadow = 'none'; }
   }
   addEventListener('resize', fit); fit();
-  updatePhotos();
+  resetPhotos();
 })();
