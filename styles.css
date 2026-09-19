@@ -1446,6 +1446,29 @@ body.deck-fs-page.deck-dark{background:var(--fs-bg-dark);}
 .fs-linkrow{display:flex;align-items:center;gap:16px;font-size:var(--fs-20);}
 .fs-linkrow .fs-pill{align-self:center;}
 
+/* ==========================================================================
+   User-flow diagrams (vector): white cards + icon tiles joined by rounded
+   connectors. Desktop draws the canvas; small screens show a stacked list.
+   ========================================================================== */
+.fs-flowsl .fs-safe{padding:140px 120px 80px;justify-content:flex-start;gap:28px;}
+.fs-flow{position:relative;width:1680px;height:var(--fh);}
+.fs-flow-svg{position:absolute;left:0;top:0;width:1680px;height:var(--fh);overflow:visible;pointer-events:none;}
+.fs-flow-svg .ln{fill:none;stroke:var(--fs-grey-808);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.fs-flow-svg .ln.dash{stroke-dasharray:7 7;}
+.fs-flow-svg .ah{fill:var(--fs-grey-808);}
+.fs-flow-svg .sp{fill:var(--fs-ink);filter:drop-shadow(0 0 6px rgba(25,24,25,.35));}
+.fs-fn{position:absolute;display:flex;align-items:center;gap:14px;box-sizing:border-box;width:var(--w);height:68px;padding:0 18px 0 12px;background:var(--fs-surface);border:1px solid rgba(25,24,25,.08);border-radius:var(--fs-r-callout-sm);}
+.fs-fn .ic{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:10px;background:var(--fs-bg-light);color:var(--fs-ink-2);}
+.fs-fn .ic svg{width:22px;height:22px;display:block;}
+.fs-fn .t{font-weight:500;font-size:var(--fs-18t);line-height:1.25;}
+.fs-fn small{display:block;margin-top:2px;font-weight:400;font-size:var(--fs-14);line-height:1.3;color:var(--fs-ink-2);}
+.fs-fn.hub{background:var(--fs-bg-dark);color:var(--fs-on-dark);border-color:var(--fs-bg-dark);}
+.fs-fn.hub .ic{background:rgba(255,255,255,.14);color:var(--fs-on-dark);}
+.fs-fn.alt{border:1px dashed var(--fs-grey-808);background:transparent;}
+.fs-flow-list{position:absolute;width:1px;height:1px;margin:0;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+.fs-lcards.row{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.fs-lcards.row .fs-lcard{padding:20px 24px;}
+
 /* deck chrome on this page */
 @media (min-width:901px){
   .deck-fs-page .deck-topbar{top:34px;left:24px;padding:0;}
@@ -1538,4 +1561,19 @@ body.deck-fs-page.deck-dark{background:var(--fs-bg-dark);}
   .fs-panel.multi{padding:24px;flex-direction:row;flex-wrap:wrap;justify-content:center;align-items:flex-start;}
   .fs-panel.multi img{max-width:44%;max-height:420px;margin:0;}
   .fs-jrn-line{display:none;}
+}
+
+/* small screens: the flow becomes a stacked list */
+@media (max-width:900px){
+  .fs-flow{display:none;}
+  .fs-flow-list{position:static;width:auto;height:auto;overflow:visible;clip:auto;white-space:normal;display:flex;flex-direction:column;gap:12px;}
+  .fs-flow-list li{position:relative;display:flex;align-items:center;gap:12px;margin-left:calc(var(--lv, 0) * 16px);padding:12px 14px;background:var(--fs-surface);border:1px solid rgba(25,24,25,.08);border-radius:var(--fs-r-callout-sm);font-weight:500;font-size:var(--fs-18t);line-height:1.3;}
+  .fs-flow-list li.hub{background:var(--fs-bg-dark);color:var(--fs-on-dark);}
+  .fs-flow-list li.alt{border-style:dashed;background:transparent;}
+  .fs-flow-list .ic{flex:none;display:grid;place-items:center;width:38px;height:38px;border-radius:10px;background:var(--fs-bg-light);color:var(--fs-ink-2);}
+  .fs-flow-list .hub .ic{background:rgba(255,255,255,.14);color:var(--fs-on-dark);}
+  .fs-flow-list .ic svg{width:20px;height:20px;display:block;}
+  .fs-flow-list small{display:block;font-weight:400;font-size:var(--fs-14);color:var(--fs-ink-2);}
+  .fs-flow-list li:not(:last-child)::after{content:"";position:absolute;left:32px;bottom:-12px;width:2px;height:12px;background:var(--fs-grey-808);}
+  .fs-lcards.row{grid-template-columns:1fr;gap:16px;}
 }
