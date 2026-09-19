@@ -1337,6 +1337,52 @@ body.deck-fs-page.deck-dark{background:var(--fs-bg-dark);}
 .fs-res-desc{font-size:var(--fs-18t);line-height:calc(26 / 18);opacity:.65;}
 .fs-lh-32{line-height:calc(32 / 22);}
 
+/* ==========================================================================
+   Reusable layouts for the other case studies (RICE Smart, BuzzEd, NABC).
+   Same tokens as the AI Attendance deck; these only add layout variants.
+   ========================================================================== */
+.fs-tags{display:flex;flex-wrap:wrap;gap:12px 40px;margin:0;}
+.fs-tags li{font-family:var(--fs-mono);font-size:var(--fs-14);letter-spacing:.08em;text-transform:uppercase;line-height:normal;color:var(--fs-mute);}
+.fs-para{max-width:1400px;}
+.fs-num-cards.n2{grid-template-columns:repeat(2,1fr);}
+.fs-goals.cols-3{grid-template-columns:repeat(3,1fr);}
+.fs-personas.cols-3{grid-template-columns:repeat(3,1fr);gap:24px;}
+.fs-personas.cols-3 .fs-persona{padding:32px;}
+.fs-pname{font-weight:500;font-size:var(--fs-28);line-height:calc(36 / 28);}
+.fs-persona-text{font-size:var(--fs-22);line-height:calc(32 / 22);color:var(--fs-ink-2);}
+.fs-mono-tag{font-family:var(--fs-mono);font-size:var(--fs-14);letter-spacing:.08em;text-transform:uppercase;line-height:1.4;opacity:.6;}
+.fs-s8 .fs-head{min-height:184px;}
+.fs-s8.no-tl .fs-head{margin-bottom:64px;min-height:0;}
+.fs-s8.no-tl .fs-timeline{display:none;}
+.fs-s8.no-tl .fs-steps{margin-bottom:0;}
+.fs-vc .fs-safe{justify-content:center;padding-bottom:80px;}
+
+/* side panel with an image (same panel as the interface slide) */
+.fs-split .fs-safe{padding:0 0 0 89px;justify-content:center;gap:0;}
+.fs-split .fs-col{width:864px;gap:48px;}
+.fs-panel img{display:block;width:auto;height:auto;max-width:88%;max-height:90%;object-fit:contain;}
+
+/* screens gallery */
+.fs-gal .fs-safe{padding:140px 120px 80px;justify-content:flex-start;}
+.fs-gal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+.fs-gal-grid li{display:flex;align-items:center;justify-content:center;height:700px;background:var(--fs-panel);border-radius:var(--fs-r-card);overflow:hidden;}
+.fs-gal-grid img{display:block;width:auto;height:auto;max-width:86%;max-height:92%;object-fit:contain;}
+
+/* challenge / solution cards (comparison card with text) */
+.fs-cmp-grid.pairs{row-gap:24px;}
+.fs-cmp-body{font-size:var(--fs-28);line-height:calc(38 / 28);}
+
+/* closing slide variants */
+.fs-close-title.sm{font-size:var(--fs-72);line-height:calc(80 / 72);}
+.fs-res-grid.rows{grid-template-columns:1fr;}
+.fs-res-cell{display:flex;}
+.fs-res-cell > a{flex:1;}
+.fs-res-link{justify-content:space-between;color:var(--fs-ink);transition:background .2s ease,color .2s ease;}
+.fs-res-link:hover{background:var(--fs-bg-dark);color:var(--fs-on-dark);}
+.fs-res-linktitle{font-weight:500;font-size:var(--fs-40);line-height:calc(48 / 40);}
+.fs-pill{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;padding:12px 20px;border-radius:var(--fs-r-pill);background:var(--fs-surface);border:1px solid var(--line);color:var(--fs-ink);font:500 16px/1 var(--fs-sans);}
+.fs-pill:hover{background:var(--fs-bg-dark);color:var(--fs-on-dark);}
+
 /* deck chrome on this page */
 @media (min-width:901px){
   .deck-fs-page .deck-topbar{top:34px;left:24px;padding:0;}
@@ -1391,4 +1437,20 @@ body.deck-fs-page.deck-dark{background:var(--fs-bg-dark);}
   .fs-bars{flex-direction:column;align-items:flex-start;gap:12px;}
   .fs-bar-before{width:100%;}
   .fs-spacer{display:none;}
+}
+
+/* small screens: layouts added for the other case studies */
+@media (max-width:900px){
+  .deck-fs .slide.fs-split{display:flex;flex-direction:column;}
+  .deck-fs .slide.fs-split > *{flex-shrink:0;}
+  .deck-fs .slide.fs-split .fs-stage{order:1;}
+  .fs-panel img{max-width:100%;max-height:640px;align-self:center;margin:24px 0 8px;}
+  .fs-goals.cols-3,.fs-personas.cols-3{grid-template-columns:1fr;}
+  .fs-personas.cols-3 .fs-persona{padding:22px;}
+  .fs-gal-grid{grid-template-columns:repeat(2,1fr);gap:12px;}
+  .fs-gal-grid li{height:340px;}
+  .fs-res-grid.rows{grid-template-rows:none;}
+  .fs-res-link{min-height:150px;}
+  .fs-pill{padding:12px 18px;}
+  .fs-s8 .fs-head,.fs-s8.no-tl .fs-head{margin-bottom:0;min-height:0;}
 }
