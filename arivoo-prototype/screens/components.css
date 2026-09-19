@@ -1,0 +1,109 @@
+/* Arivoo SMS - shared components. Values come from tokens.css + measured Figma geometry. */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#d9dcdc}
+body{display:flex;justify-content:center}
+.screen{position:relative;width:390px;height:844px;overflow:hidden;background:var(--c-page);font-family:var(--font-brand);color:var(--c-text);-webkit-font-smoothing:antialiased}
+.abs{position:absolute}
+.nowrap{white-space:nowrap}
+
+/* ---------- header + status bar ---------- */
+.hdr-bg{position:absolute;left:0;top:0;width:390px;height:97.9665px;background:var(--c-primary);box-shadow:var(--shadow-header)}
+.status{position:absolute;left:14.265px;top:10.73px;width:363.22px;height:13px;color:#fff}
+.status .txt{position:absolute;top:0;font:400 11.196px/normal var(--font-mock);white-space:nowrap}
+.status img{position:absolute;display:block}
+.ttl{position:absolute;display:flex;align-items:center;justify-content:space-between}
+.ttl .l{display:flex;align-items:center;gap:20px}
+.ttl .arrow{width:18px;height:15.98px;display:block}
+.ttl .txt{width:150px;color:#fff}
+.ttl .info{width:24px;height:24px;display:block}
+.ttl .t-header-title{position:relative;top:1px}
+
+/* ---------- mark-all bar ---------- */
+.bar{position:absolute;top:98px;width:390px;height:42px;background:var(--c-tint);padding:5px 16px}
+.bar .row{position:absolute;left:16px;top:9px;width:120px;height:24px;display:flex;align-items:center;gap:12px}
+.bar .lbl{width:56px;height:18px;flex:none;line-height:8px;white-space:nowrap;padding-top:6px}
+.bar .ai{position:absolute;left:290px;top:5px;width:84px;height:32px;display:flex;flex-direction:column;gap:2px;text-align:center}
+.ai-title{height:15px;font-family:var(--font-brand);white-space:nowrap}
+.ai-cap{height:15px;white-space:nowrap;position:relative;left:1px}
+.grad-text{background-clip:text;-webkit-background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+
+/* ---------- switch (measured: 52x24, off = 1.5px border + 18px handle, on = teal + 20px white handle) ---------- */
+.sw{position:relative;width:52px;height:24px;border-radius:var(--r-pill);flex:none}
+.sw.off{box-shadow:inset 0 0 0 1.5px var(--c-outline)}
+.sw.off::after{content:"";position:absolute;left:3.5px;top:50%;width:18px;height:18px;margin-top:-9px;border-radius:50%;background:var(--c-outline)}
+.sw.on{background:var(--c-primary)}
+.sw.on::after{content:"";position:absolute;right:2px;top:2px;width:20px;height:20px;border-radius:50%;background:#fff}
+
+/* ---------- student card ---------- */
+.list{position:absolute;display:flex;flex-direction:column;gap:12px}
+.card{position:relative;background:var(--c-card);border-radius:var(--r-card);padding:9.251px;box-shadow:var(--shadow-card);width:358.814px}
+.card.narrow{width:358px}
+.card .row{display:flex;align-items:center;justify-content:space-between;width:340.313px}
+.card.narrow .row{width:338.313px}
+.card .left{display:flex;align-items:center;gap:11.101px}
+.avatar{position:relative;width:63.829px;height:63.829px;flex:none}
+.avatar img{position:absolute;left:-5.8%;top:-5.8%;width:111.6%;height:111.6%;display:block}
+.ctext{width:106.382px;line-height:normal}
+.ctext .n{height:20.351px;white-space:nowrap}
+.ctext .m{height:17.576px;white-space:nowrap}
+.ctext .k{white-space:nowrap;color:var(--c-link)}
+
+/* ---------- chips ---------- */
+.chips{position:absolute;display:flex;gap:16px}
+.chip{height:30px;padding-bottom:2px;border-radius:var(--r-pill);border:1px solid var(--c-primary);color:var(--c-primary);display:flex;align-items:center;justify-content:center;white-space:nowrap;flex:none;cursor:pointer}
+.chip.sel{background:var(--c-primary);color:#fff}
+
+/* ---------- bottom bar + buttons ---------- */
+.bbar{position:absolute;left:0;top:771.077px;width:390px;height:72.923px;background:#fff;box-shadow:var(--shadow-bar)}
+.home{position:absolute;left:122px;top:69.05px;width:141px;height:3px;border-radius:var(--r-homeBar);background:#000}
+.btn{position:absolute;display:flex;align-items:center;justify-content:center;white-space:nowrap;cursor:pointer}
+.btn-fill{height:36.923px;padding-bottom:2px;border-radius:var(--r-pill);background:var(--c-primary);color:#fff}
+.btn-outline{height:36.923px;padding-bottom:2px;border-radius:var(--r-pill);border:1px solid var(--c-primary);color:var(--c-primary)}
+.btn-ai{box-sizing:content-box;width:173px;height:36px;border:2px solid transparent;border-radius:30px;gap:8px;padding:0;
+  background:linear-gradient(var(--ai-border-angle),var(--ai-btn-stops-20)),linear-gradient(#fff,#fff),linear-gradient(var(--ai-border-angle),var(--ai-btn-stops));
+  background-origin:border-box;background-clip:padding-box,padding-box,border-box}
+.btn-ai img{width:16px;height:16px;display:block}
+.btn-ai .lbl{height:10px;line-height:20px;text-box:trim-both cap alphabetic}
+
+/* ---------- bottom sheet (screen 3) ---------- */
+.scrim{position:absolute;left:0;top:0;width:390px;height:844px;background:var(--scrim)}
+.sheet{position:absolute;left:0;width:390px;bottom:0.45px;display:flex;flex-direction:column}
+.sheet .top{background:#fff;border-radius:16px 16px 0 0;padding:11px 10px 9px;display:flex;align-items:center;gap:211.957px}
+.sheet .top .t{flex:1;height:27.554px}
+.sheet .xbox{position:relative;width:25.435px;height:25.435px;flex:none}
+.sheet .xbox img{position:absolute;left:4.99px;top:4.97px;width:14.249px;height:14.296px;display:block}
+.sheet .r{background:#fff;padding:6px 16px 2px;display:flex;justify-content:space-between;align-items:center;white-space:nowrap}
+.sheet .foot{position:relative;background:#fff;box-shadow:var(--shadow-bar);height:72.923px}
+
+/* ---------- camera (screen 4) ---------- */
+.cam{position:absolute;left:0;top:0;width:390px;height:844px;overflow:hidden;background:#fff}
+.cam .photo{position:absolute;left:0;top:0;width:390px;height:867px;overflow:hidden}
+.cam .photo img{position:absolute;left:-117.15%;top:-0.01%;width:334.17%;height:100%;max-width:none;display:block}
+.cam .fade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,0) 79.125%,var(--camera-fade) 100%),linear-gradient(180deg,rgba(0,0,0,0) 82.125%,var(--camera-fade) 100%)}
+.cam .shutter{position:absolute;left:153.8335px;top:726px;width:82.333px;height:82.333px;display:block}
+.cam .close{position:absolute;left:17.333px;top:17.333px;width:30.333px;height:30.333px}
+.cam .flash{position:absolute;left:284.5px;top:17.333px;width:22.1px;height:26px}
+.cam .flip{position:absolute;left:342.333px;top:17.333px;width:30.333px;height:30.333px}
+.cam .flip img.i{position:absolute;inset:8.33%;width:auto;height:auto}
+
+/* ---------- photo cards (screen 5) ---------- */
+.pcount{position:absolute;left:17px;top:111px;width:358px;height:20px;line-height:20px}
+.pcards{position:absolute;left:17px;top:147px;width:358px;display:flex;flex-direction:column}
+.pcard{position:relative;width:358px;height:153px;border-radius:var(--r-photoCard);background:var(--c-photo-card);box-shadow:var(--shadow-photo);overflow:hidden;color:#fff}
+.pcard .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pcard .shade{position:absolute;inset:0;background:linear-gradient(-89.6deg,rgba(0,0,0,0) 0.1585%,#000 99.866%),linear-gradient(0deg,#000 11.538%,rgba(0,0,0,0) 108.82%)}
+.pcard .t{position:absolute;left:24px;top:10px;white-space:pre;line-height:normal}
+.pcard .cap{position:absolute;left:24px;top:43px;display:flex;flex-direction:column;gap:5px;align-items:flex-start}
+.pcard .badge{padding:5px 10px;border-radius:var(--r-badge);line-height:normal}
+.pcard .meta{position:absolute;left:25px;top:96px;width:314px;padding-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.pcard .meta .a{display:flex;align-items:center;gap:8px}
+.pcard .meta .a img{width:20px;height:20px;display:block}
+.pcard .meta .b{display:flex;align-items:center;gap:6px;padding:0 12px}
+.pcard .meta .b img{width:25px;height:25px;display:block}
+
+/* ---------- 'Others' cards (screen 9) ---------- */
+.others{position:absolute;display:flex;gap:16px}
+.ocard{width:169px;background:var(--c-tint);border-radius:var(--r-cardLarge);padding:12.519px;display:flex;flex-direction:column;align-items:center}
+.ocard .av{position:relative;flex:none}
+.ocard .av img{position:absolute;display:block}
+.pill6{height:20px;border-radius:var(--r-status);display:flex;align-items:center;justify-content:center;padding:0 10px;white-space:nowrap}

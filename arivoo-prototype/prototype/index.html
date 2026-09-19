@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Arivoo SMS - AI attendance prototype</title>
+<script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add('embed')</script>
+<link rel="stylesheet" href="../tokens/tokens.css"><link rel="stylesheet" href="../screens/components.css"><link rel="stylesheet" href="proto.css">
+</head><body>
+<main class="proto">
+  <aside class="side" aria-label="Prototype guide">
+    <h1>AI attendance</h1>
+    <p class="sub">Teacher app - clickable prototype built from the measured Figma tokens.</p>
+    <ol class="steps" id="steps"><li><button type="button" data-step="list">Class list</button></li><li><button type="button" data-step="camera">Camera</button></li><li><button type="button" data-step="photos">Photos captured</button></li><li><button type="button" data-step="results">AI results</button></li></ol>
+    <p class="hint">Try: toggle a student, tap the <b>i</b> icon, <b>Capture with AI</b>, the shutter, <b>Review</b>, then the Absent / Present / Others tabs.</p>
+    <button type="button" class="restart" id="restart">Restart</button>
+    <p class="note">Submit has no destination in the Figma flow, so it only gives press feedback.</p>
+  </aside>
+  <div class="stage-wrap" id="stageWrap"><div class="stage" id="stage">
+    <div class="screen" id="app">
+      <section class="scr active" data-screen="list" aria-label="Class list"><div class="hdr-bg"></div>
+<div class="status">
+  <img src="../assets/icons/signal.svg" style="left:0;top:2.333px;width:15.395px;height:9.33px">
+  <span class="txt" style="left:22.392px">Airtel</span>
+  <img src="../assets/icons/wifi.svg" style="left:55.514px;top:2.333px;width:13.38px;height:9.33px">
+  <span class="txt" style="left:283.895px">100%</span>
+  <img src="../assets/icons/bluetooth.svg" style="left:322.58px;top:2.67px;width:6.62px;height:11.32px">
+  <img src="../assets/icons/battery.svg" style="left:338.493px;top:2.27px;width:24.725px;height:10.73px">
+</div><div class="scroll" style="top:152px;height:619px"><div class="stack" id="listStack"><div class="card"><div class="row"><div class="left">
+  <div class="avatar"><img src="../assets/photos/angel.png"></div>
+  <div class="ctext"><div class="n t-card-name">Angel </div><div class="m t-card-meta">Roll No. - 1</div><div class="k t-card-link">View More</div></div>
+</div><div class="sw off" data-act="toggle"></div></div></div><div class="card"><div class="row"><div class="left">
+  <div class="avatar"><img src="../assets/photos/amianca.png"></div>
+  <div class="ctext"><div class="n t-card-name">Amianca</div><div class="m t-card-meta">Roll No. - 2</div><div class="k t-card-link">View More</div></div>
+</div><div class="sw off" data-act="toggle"></div></div></div><div class="card"><div class="row"><div class="left">
+  <div class="avatar"><img src="../assets/photos/bailey.png"></div>
+  <div class="ctext"><div class="n t-card-name">Bailey</div><div class="m t-card-meta">Roll No. - 3</div><div class="k t-card-link">View More</div></div>
+</div><div class="sw off" data-act="toggle"></div></div></div><div class="card"><div class="row"><div class="left">
+  <div class="avatar"><img src="../assets/photos/carol.png"></div>
+  <div class="ctext"><div class="n t-card-name">Carol</div><div class="m t-card-meta">Roll No. - 4</div><div class="k t-card-link">View More</div></div>
+</div><div class="sw off" data-act="toggle"></div></div></div><div class="card"><div class="row"><div class="left">
+  <div class="avatar"><img src="../assets/photos/dolly.png"></div>
+  <div class="ctext"><div class="n t-card-name">Dolly</div><div class="m t-card-meta">Roll No. - 5</div><div class="k t-card-link">View More</div></div>
+</div><div class="sw off" data-act="toggle"></div></div></div><div class="card"><div class="row"><div class="left">
+  <div class="avatar"><img src="../assets/photos/tom.png"></div>
+  <div class="ctext"><div class="n t-card-name">Tom</div><div class="m t-card-meta">Roll No. - 6</div><div class="k t-card-link">View More</div></div>
+</div><div class="sw off" data-act="toggle"></div></div></div><div class="card"><div class="row"><div class="left">
+  <div class="avatar"><img src="../assets/photos/steve.png"></div>
+  <div class="ctext"><div class="n t-card-name">Steve</div><div class="m t-card-meta">Roll No. - 7</div><div class="k t-card-link">View More</div></div>
+</div><div class="sw on" data-act="toggle"></div></div></div></div></div><div class="bbar"><div class="btn btn-ai" data-act="capture" style="left:14px;top:8.462px"><img src="../assets/icons/ai-capture.svg">
+  <span class="lbl t-button-aiLabel grad-text" style="background-image:linear-gradient(142.04deg,var(--ai-text-stops))">Capture with AI</span></div><div class="btn btn-fill t-button-label" data-act="submit" style="left:200.462px;top:10px;width:173.538px">Submit</div><div class="home"></div></div><div class="ttl" style="left:16px;top:46px;width:362px;height:42px">
+  <div class="l"><img class="arrow" data-act="back" src="../assets/icons/arrow-back.svg">
+    <div class="txt"><div class="t-header-title">Class XII A </div><div class="t-header-subtitle">Period 1 ,Physical Science</div></div></div>
+  <img class="info" data-act="info" src="../assets/icons/info-square.svg" style="position:absolute;left:338px;top:9px">
+</div><div class="bar" style="left:0px">
+  <div class="row"><div class="lbl t-bar-markAll">Mark All </div><div class="sw off" data-act="markall"></div></div>
+  <div class="ai"><div class="ai-title t-bar-aiTitle grad-text" style="background-image:linear-gradient(124.87deg,var(--ai-text-stops))">AI Powered</div>
+    <div class="ai-cap t-bar-aiCaption" style="color:var(--c-text-muted)">Attendance</div></div>
+</div></section>
+      <section class="scr" data-screen="camera" aria-label="Camera"><div class="cam"><div class="photo"><img src="../assets/photos/classroom.png" alt="Classroom camera preview"></div><div class="fade" style="height:867px"></div>
+  <img class="shutter" data-act="shutter" role="button" aria-label="Capture photo" src="../assets/icons/cam-shutter.svg">
+  <img class="close" data-act="camclose" role="button" aria-label="Close camera" src="../assets/icons/cam-close.svg">
+  <img class="flash" src="../assets/icons/cam-flash-off.svg" alt="Flash off">
+  <div class="flip"><img src="../assets/icons/cam-flip.svg" alt="" style="width:100%;height:100%;display:block"><img class="i" src="../assets/icons/cam-flip-inner.svg" alt="Flip camera"></div>
+  <div class="camflash" id="camflash"></div></div></section>
+      <section class="scr" data-screen="photos" aria-label="Photos captured"><div class="hdr-bg"></div>
+<div class="status">
+  <img src="../assets/icons/signal.svg" style="left:0;top:2.333px;width:15.395px;height:9.33px">
+  <span class="txt" style="left:22.392px">Airtel</span>
+  <img src="../assets/icons/wifi.svg" style="left:55.514px;top:2.333px;width:13.38px;height:9.33px">
+  <span class="txt" style="left:283.895px">100%</span>
+  <img src="../assets/icons/bluetooth.svg" style="left:322.58px;top:2.67px;width:6.62px;height:11.32px">
+  <img src="../assets/icons/battery.svg" style="left:338.493px;top:2.27px;width:24.725px;height:10.73px">
+</div><div class="ttl" style="left:16px;top:46px;width:362px;height:42px">
+  <div class="l"><img class="arrow" data-act="back" src="../assets/icons/arrow-back.svg">
+    <div class="txt"><div class="t-header-title">Class XII A </div><div class="t-header-subtitle">Period 1 ,Physical Science</div></div></div>
+  <img class="info" data-act="info" src="../assets/icons/info-square.svg" style="position:absolute;left:338px;top:9px">
+</div><div class="pcount t-photos-count" id="pcount">Photo Captured : 3</div><div class="pcards" id="pcards"><div class="pcard" style="margin-top:0px">
+  <img class="bg" src="../assets/photos/face-frame.png"><div class="shade"></div>
+  <div class="t t-photos-title">Face Detected 14  </div>
+  <div class="cap"><span class="t-photos-caption" style="color:var(--c-text-on-photo-muted)">Confidence score</span><span class="badge t-photos-badge" style="background:var(--c-good-bg);color:var(--c-good-fg)">Good</span></div>
+  <div class="meta"><div class="a"><img src="../assets/icons/image-file.svg"><div><div class="t-photos-fileName">Image 1</div><div class="t-photos-fileMeta">98 KB</div></div></div>
+    <div class="b" data-act="remove"><img src="../assets/icons/remove.svg"><span class="t-photos-fileMeta">Remove</span></div></div>
+</div><div class="pcard" style="margin-top:19px">
+  <img class="bg" src="../assets/photos/face-frame.png"><div class="shade"></div>
+  <div class="t t-photos-title">Face Detected 14  </div>
+  <div class="cap"><span class="t-photos-caption" style="color:var(--c-text-on-photo-muted)">Confidence score</span><span class="badge t-photos-badge" style="background:var(--c-average-bg);color:var(--c-average-fg)">Average</span></div>
+  <div class="meta"><div class="a"><img src="../assets/icons/image-file.svg"><div><div class="t-photos-fileName">Image 1</div><div class="t-photos-fileMeta">98 KB</div></div></div>
+    <div class="b" data-act="remove"><img src="../assets/icons/remove.svg"><span class="t-photos-fileMeta">Remove</span></div></div>
+</div><div class="pcard" style="margin-top:10px">
+  <img class="bg" src="../assets/photos/face-frame.png"><div class="shade"></div>
+  <div class="t t-photos-title">Face Detected 14  </div>
+  <div class="cap"><span class="t-photos-caption" style="color:var(--c-text-on-photo-muted)">Confidence score</span><span class="badge t-photos-badge" style="background:var(--c-poor-bg);color:var(--c-poor-fg)">Poor</span></div>
+  <div class="meta"><div class="a"><img src="../assets/icons/image-file.svg"><div><div class="t-photos-fileName">Image 1</div><div class="t-photos-fileMeta">98 KB</div></div></div>
+    <div class="b" data-act="remove"><img src="../assets/icons/remove.svg"><span class="t-photos-fileMeta">Remove</span></div></div>
+</div></div><div class="empty t-photos-count" id="pempty" hidden>No photos left. Tap Retake to capture again.</div><div class="bbar"><div class="btn btn-outline t-button-label" data-act="retake" style="left:16px;top:10px;width:173.5px">Retake</div><div class="btn btn-fill t-button-label" data-act="review" style="left:200.462px;top:10px;width:173.538px">Review</div><div class="home"></div></div></section>
+      <section class="scr" data-screen="results" aria-label="AI attendance results"><div class="hdr-bg"></div>
+<div class="status">
+  <img src="../assets/icons/signal.svg" style="left:0;top:2.333px;width:15.395px;height:9.33px">
+  <span class="txt" style="left:22.392px">Airtel</span>
+  <img src="../assets/icons/wifi.svg" style="left:55.514px;top:2.333px;width:13.38px;height:9.33px">
+  <span class="txt" style="left:283.895px">100%</span>
+  <img src="../assets/icons/bluetooth.svg" style="left:322.58px;top:2.67px;width:6.62px;height:11.32px">
+  <img src="../assets/icons/battery.svg" style="left:338.493px;top:2.27px;width:24.725px;height:10.73px">
+</div><div class="ttl" style="left:16px;top:46px;width:362px;height:42px">
+  <div class="l"><img class="arrow" data-act="back" src="../assets/icons/arrow-back.svg">
+    <div class="txt"><div class="t-header-title">Class XII A </div><div class="t-header-subtitle">Period 1 ,Physical Science</div></div></div>
+  <img class="info" data-act="info" src="../assets/icons/info-square.svg" style="position:absolute;left:338px;top:9px">
+</div><div class="bbar"><div class="btn btn-ai" data-act="recapture" style="left:14px;top:8.462px"><img src="../assets/icons/ai-capture.svg">
+  <span class="lbl t-button-aiLabel grad-text" style="background-image:linear-gradient(140.07deg,var(--ai-text-stops))">Capture Again</span></div><div class="btn btn-fill t-button-label" data-act="submit" style="left:200.462px;top:10px;width:173.538px">Submit</div><div class="home"></div></div><div class="chips" role="tablist" aria-label="Attendance result" style="left:16px;top:161px"><div class="chip t-chip-label sel" style="width:95px" data-act="tab" data-tab="absent" role="tab" aria-selected="true">Absent 2</div><div class="chip t-chip-label" style="width:103px" data-act="tab" data-tab="present" role="tab" aria-selected="false">Present 12</div><div class="chip t-chip-label" style="width:92px" data-act="tab" data-tab="others" role="tab" aria-selected="false">Others 2</div></div><div class="scroll panel-absent" data-panel="absent" style="top:203px;height:568px"><div class="stack"><div class="card"><div class="row"><div class="left">
+  <div class="avatar"><img src="../assets/photos/gabriel.png"></div>
+  <div class="ctext"><div class="n t-card-name">Gabriel</div><div class="m t-card-meta">Roll No. - 23</div><div class="k t-card-link">View More</div></div>
+</div><div class="sw off" data-act="toggle"></div></div></div><div class="card"><div class="row"><div class="left">
+  <div class="avatar"><img src="../assets/photos/rahul.png"></div>
+  <div class="ctext"><div class="n t-card-name">Rahul</div><div class="m t-card-meta">Roll No. -28</div><div class="k t-card-link">View More</div></div>
+</div><div class="sw off" data-act="toggle"></div></div></div></div></div><div class="scroll panel-present" data-panel="present" style="top:203px;height:568px" hidden><div class="stack"><div class="card"><div class="row"><div class="left">
+  <div class="avatar"><img src="../assets/photos/angel.png"></div>
+  <div class="ctext"><div class="n t-card-name">Angel </div><div class="m t-card-meta">Roll No. - 1</div><div class="k t-card-link">View More</div></div>
+</div><div class="sw on" data-act="toggle"></div></div></div><div class="card"><div class="row"><div class="left">
+  <div class="avatar"><img src="../assets/photos/amianca.png"></div>
+  <div class="ctext"><div class="n t-card-name">Amianca</div><div class="m t-card-meta">Roll No. - 2</div><div class="k t-card-link">View More</div></div>
+</div><div class="sw on" data-act="toggle"></div></div></div><div class="card"><div class="row"><div class="left">
+  <div class="avatar"><img src="../assets/photos/bailey.png"></div>
+  <div class="ctext"><div class="n t-card-name">Bailey</div><div class="m t-card-meta">Roll No. - 3</div><div class="k t-card-link">View More</div></div>
+</div><div class="sw on" data-act="toggle"></div></div></div><div class="card"><div class="row"><div class="left">
+  <div class="avatar"><img src="../assets/photos/carol.png"></div>
+  <div class="ctext"><div class="n t-card-name">Carol</div><div class="m t-card-meta">Roll No. - 4</div><div class="k t-card-link">View More</div></div>
+</div><div class="sw on" data-act="toggle"></div></div></div><div class="card"><div class="row"><div class="left">
+  <div class="avatar"><img src="../assets/photos/dolly.png"></div>
+  <div class="ctext"><div class="n t-card-name">Dolly</div><div class="m t-card-meta">Roll No. - 5</div><div class="k t-card-link">View More</div></div>
+</div><div class="sw on" data-act="toggle"></div></div></div><div class="card"><div class="row"><div class="left">
+  <div class="avatar"><img src="../assets/photos/tom.png"></div>
+  <div class="ctext"><div class="n t-card-name">Tom</div><div class="m t-card-meta">Roll No. - 6</div><div class="k t-card-link">View More</div></div>
+</div><div class="sw on" data-act="toggle"></div></div></div></div></div><div class="scroll panel-others" data-panel="others" style="top:203px;height:568px" hidden><div class="stack" style="padding:0"><div class="others" style="position:relative;align-items:flex-start;left:16px;top:0"><div class="ocard" style="gap:12.519px"><div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+    <div class="av" style="width:86.378px;height:86.378px"><img src="../assets/photos/john-doe.png" alt="" style="left:-5.8%;top:-5.8%;width:111.6%;height:111.6%"></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+      <div class="t-other-name" style="white-space:nowrap">John Doe</div><div class="t-other-class" style="white-space:nowrap">Class 10 th</div>
+      <div class="pill6" style="background:var(--c-notOfClass-bg)"><span class="t-other-statusA" style="color:var(--c-notOfClass-fg);line-height:18px">Not of this Class</span></div>
+    </div></div></div><div class="ocard" style="gap:12.519px"><div style="display:flex;flex-direction:column;align-items:center;gap:23px">
+    <div class="av" style="width:123px;height:124px"><img src="../assets/photos/no-record.png" alt="" style="left:-4.07%;top:-4.04%;width:108.14%;height:108.08%"></div>
+    <div class="pill6" style="background:var(--c-noRecord-bg)"><span class="t-other-statusB" style="color:var(--c-noRecord-fg)">No record found !</span></div>
+  </div></div></div></div></div><div class="bar" style="left:0px">
+  <div class="row"><div class="lbl t-bar-markAll">Mark All </div><div class="sw off" data-act="markall"></div></div>
+  <div class="ai"><div class="ai-title t-bar-aiTitle grad-text" style="background-image:linear-gradient(124.87deg,var(--ai-text-stops))">AI Powered</div>
+    <div class="ai-cap t-bar-aiCaption" style="color:var(--c-text-muted)">Attendance</div></div>
+</div></section>
+      <div class="sheet-layer" id="sheetLayer" aria-hidden="true">
+<div class="scrim" data-act="closesheet"></div>
+<div class="sheet" role="dialog" aria-label="Class details">
+  <div class="top"><div class="t t-sheet-title">Class XII A</div><div class="xbox" data-act="closesheet" role="button" aria-label="Close"><img src="../assets/icons/close-x.svg" alt=""></div></div>
+  <div class="r"><span class="t-sheet-rowLabel">Total Student Count</span><span class="t-sheet-rowValue">40</span></div>
+  <div class="r"><span class="t-sheet-rowLabel">Subject</span><span class="t-sheet-rowValue">Physical Science</span></div>
+  <div class="r"><span class="t-sheet-rowLabel">Period </span><span class="t-sheet-rowValue">Period 1</span></div>
+  <div class="r"><span class="t-sheet-rowLabel">Time</span><span class="t-sheet-rowValue">10:30 AM to 11:30 AM</span></div>
+  <div class="foot"><div class="btn btn-fill t-button-label" data-act="closesheet" style="left:14px;top:10px;width:362px">Close</div><div class="home"></div></div>
+</div></div>
+    </div>
+  </div></div>
+</main>
+<div class="sr-only" id="live" aria-live="polite"></div>
+<script src="app.js"></script>
+</body></html>

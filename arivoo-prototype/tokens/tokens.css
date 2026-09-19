@@ -1,0 +1,77 @@
+/* GENERATED from tokens/tokens.json by tokens/build_css.py - do not edit by hand.
+   Every value below passed tokens/measure.py against the Figma renders (71/71). */
+@font-face{font-family:Poppins;font-weight:400;src:url(../assets/fonts/Poppins-Regular.ttf)}
+@font-face{font-family:Poppins;font-weight:500;src:url(../assets/fonts/Poppins-Medium.ttf)}
+@font-face{font-family:Poppins;font-weight:600;src:url(../assets/fonts/Poppins-SemiBold.ttf)}
+@font-face{font-family:Poppins;font-weight:700;src:url(../assets/fonts/Poppins-Bold.ttf)}
+@font-face{font-family:Roboto;font-weight:100 900;src:url(../assets/fonts/Roboto.ttf)}
+@font-face{font-family:Manrope;font-weight:200 800;src:url(../assets/fonts/Manrope.ttf)}
+@font-face{font-family:Inter;font-weight:100 900;src:url(../assets/fonts/Inter.ttf)}
+@font-face{font-family:'Public Sans';font-weight:100 900;src:url(../assets/fonts/PublicSans.ttf)}
+:root{
+  --c-primary:#309DA3; --c-on-primary:#FFFFFF;
+  --c-page:#FFFFFF; --c-card:#EEF5F3; --c-tint:#EAF5F6; --c-photo-card:#28235E;
+  --c-text:#000000; --c-text-muted:#7A7A7A; --c-link:#309DA3; --c-text-on-photo-muted:rgba(255,255,255,0.5);
+  --c-outline:#79747E;
+  --c-good-fg:#3FCB5E; --c-good-bg:rgba(63,203,94,0.19);
+  --c-average-fg:#CB983F; --c-average-bg:rgba(203,152,63,0.19);
+  --c-poor-fg:#FF2F2F; --c-poor-bg:rgba(255,47,47,0.19);
+  --c-notOfClass-fg:#D26F14; --c-notOfClass-bg:rgba(210,111,20,0.16);
+  --c-noRecord-fg:#EA5455; --c-noRecord-bg:rgba(255,0,0,0.16);
+  --c-remove-ring:#F2D4D4; --c-remove-dot:#ED3B3B;
+  --scrim:rgba(27,27,27,0.4); --camera-fade:rgba(0,0,0,0.6); --shutter:#ECECEC;
+  --ai-gradient-stops:rgb(33,208,161) 8.5195%, rgb(146,62,212) 55.256%, rgb(59,197,216) 120.37%;
+  --ai-gradient-stops-20:rgba(33,208,161,0.2) 8.5195%, rgba(146,62,212,0.2) 55.256%, rgba(59,197,216,0.2) 120.37%;
+  --ai-border-angle:120.88deg;
+  --ai-btn-stops:rgb(33,208,161) -2.33%, rgb(146,62,212) 52.65%, rgb(59,197,216) 129.26%;
+  --ai-btn-stops-20:rgba(33,208,161,0.2) -2.33%, rgba(146,62,212,0.2) 52.65%, rgba(59,197,216,0.2) 129.26%;
+  --ai-text-stops:rgb(33,208,161) -7.97%, rgb(146,62,212) 54.34%, rgb(59,197,216) 141.16%;
+  --font-brand:'Poppins',sans-serif;
+  --font-system:'Roboto',sans-serif;
+  --font-ai:'Manrope',sans-serif;
+  --font-aux1:'Inter',sans-serif;
+  --font-aux2:'Public Sans',sans-serif;
+  --font-mock:'Helvetica','Helvetica Neue',Helvetica,Arial,sans-serif;
+  --r-card:11.101px;
+  --r-cardLarge:15.022px;
+  --r-photoCard:18px;
+  --r-sheetTop:16px;
+  --r-pill:100px;
+  --r-aiButton:28px;
+  --r-badge:20px;
+  --r-status:6px;
+  --r-homeBar:10px;
+  --shadow-header:0 2.799px 5.598px rgba(0,0,0,0.161);
+  --shadow-card:0 1.85px 1.85px rgba(0,0,0,0.25);
+  --shadow-bar:0 0 2px rgba(0,0,0,0.25);
+  --shadow-photo:0 0 10px rgba(0,0,0,0.24);
+  --gutter:16px; --card-gap:12px; --card-pad:9.251px;
+}
+/* Dark-mode tokens: read from the file but NOT exercised by the 9 flow screens and NOT measured. */
+[data-theme="dark"]{--c-page:#0D0D0D;--c-primary:#52B599;--c-card:#434343;}
+/* type styles */
+.t-header-title{font-family:var(--font-brand);font-weight:600;font-size:16px;line-height:1.5;letter-spacing:0px;}
+.t-header-subtitle{font-family:var(--font-brand);font-weight:400;font-size:12px;line-height:1.5;letter-spacing:0px;}
+.t-bar-markAll{font-family:var(--font-brand);font-weight:500;font-size:14px;line-height:8px;letter-spacing:0px;}
+.t-bar-aiTitle{font-family:var(--font-brand);font-weight:700;font-size:14px;line-height:1.5;letter-spacing:0px;}
+.t-bar-aiCaption{font-family:var(--font-brand);font-weight:500;font-size:10px;line-height:1.5;letter-spacing:2.1px;}
+.t-card-name{font-family:var(--font-brand);font-weight:700;font-size:14.801px;line-height:1.5;letter-spacing:0px;}
+.t-card-meta{font-family:var(--font-brand);font-weight:500;font-size:12.951px;line-height:1.5;letter-spacing:0px;}
+.t-card-link{font-family:var(--font-brand);font-weight:400;font-size:14px;line-height:1.5;letter-spacing:0px;}
+.t-button-label{font-family:var(--font-system);font-weight:500;font-size:14px;line-height:20px;letter-spacing:0.5px;}
+.t-button-aiLabel{font-family:var(--font-ai);font-weight:600;font-size:14px;line-height:20px;letter-spacing:0px;}
+.t-chip-label{font-family:var(--font-brand);font-weight:500;font-size:14px;line-height:20px;letter-spacing:0.1px;}
+.t-sheet-title{font-family:var(--font-brand);font-weight:700;font-size:18px;line-height:1.5;letter-spacing:0px;}
+.t-sheet-rowLabel{font-family:var(--font-brand);font-weight:400;font-size:16px;line-height:1.5;letter-spacing:0px;}
+.t-sheet-rowValue{font-family:var(--font-brand);font-weight:600;font-size:16px;line-height:1.5;letter-spacing:0px;}
+.t-photos-count{font-family:var(--font-brand);font-weight:400;font-size:14px;line-height:20px;letter-spacing:0px;}
+.t-photos-title{font-family:var(--font-brand);font-weight:400;font-size:14px;line-height:1.5;letter-spacing:0px;}
+.t-photos-caption{font-family:var(--font-aux1);font-weight:400;font-size:10px;line-height:normal;letter-spacing:0px;}
+.t-photos-badge{font-family:var(--font-aux1);font-weight:400;font-size:12px;line-height:normal;letter-spacing:0px;}
+.t-photos-fileName{font-family:var(--font-aux2);font-weight:700;font-size:12px;line-height:20px;letter-spacing:0px;}
+.t-photos-fileMeta{font-family:var(--font-aux2);font-weight:400;font-size:12px;line-height:20px;letter-spacing:0px;}
+.t-other-name{font-family:var(--font-brand);font-weight:700;font-size:16px;line-height:1.5;letter-spacing:0px;}
+.t-other-class{font-family:var(--font-brand);font-weight:500;font-size:14px;line-height:1.5;letter-spacing:0px;}
+.t-other-statusA{font-family:var(--font-aux2);font-weight:500;font-size:12px;line-height:18px;letter-spacing:0.43px;}
+.t-other-statusB{font-family:var(--font-system);font-weight:500;font-size:12px;line-height:18.719px;letter-spacing:-0.2202px;}
+.t-statusbar{font-family:var(--font-mock);font-weight:400;font-size:11.196px;line-height:normal;letter-spacing:0px;}
