@@ -1,0 +1,20 @@
+/* Attendant "Route + attendance" flow (7 frames, Figma node 1827:20865).
+   Layer on top of ../tokens/tokens.css (+ ../flow2/tokens-flow2.css, already-measured values). Only values that neither file holds are added here.
+   Reused: --c-primary #309DA3, --c-tint #EAF5F6, --c-page #FFF, --c-text #000, --f2-sds-text #1E1E1E (ink), --f2-muted #757575, --f2-line-soft #EBEBEB (borders/tab track),
+           --f2-ink #0D0D0D (info banner), --f2-sds-border #D9D9D9, --f2-sds-tertiary #B3B3B3, --f2-terms #767676, --f2-teal-20 rgba(48,157,163,.2).
+   [raw] = raw fill in the frame (no Figma variable). */
+:root{
+  --f3-teal-10:rgba(48,157,163,0.1);   /* [raw] login background wash */
+  --f3-plate:#F7FF00;                  /* [raw] number-plate chip (parent flow used #FAFF00) */
+  --f3-dropoff-bg:#FEF9E6;             /* [raw] drop-off card header */
+  --f3-dropoff-fg:#D5B200;             /* [raw] drop-off card label */
+  --f3-toast:rgba(30,30,30,0.8);       /* [raw] tooltip */
+  --f3-banner-text:#FFFF00;            /* [raw] info banner text ("yellow") */
+  --f3-tab-shadow:0 2px 2px rgba(0,0,0,0.1);
+  --f3-card-shadow:0 2px 8px rgba(0,0,0,0.03);
+  --f3-route-shadow:0 4px 12px rgba(0,0,0,0.08);
+  --f3-live-shadow:0 4px 6px rgba(48,157,163,0.2);
+  --f3-bar-shadow:0 -2px 2px rgba(0,0,0,0.1);
+  --f3-error:#900B09;                  /* [raw] invalid-number border (SDS error; measured from the antialiased render) */
+  --f3-kb:#CDD5DC; --f3-kb-key:#A6B4C1; --f3-kb-sel:#EBEDF0; /* [raw] iOS keyboard mock, flattened from the blend layers */
+}

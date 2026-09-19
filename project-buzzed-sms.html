@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;700&family=42dot+Sans:wght@400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=fs23">
+<link rel="stylesheet" href="styles.css?v=fs24">
 </head>
 <body class="deck-page deck-fs-page">
 
@@ -180,13 +180,17 @@
     </div>
   </section>
 
-  <section class="slide fs fs-split has-cards" data-theme="light" aria-label="UI for Attendant app">
-    <div class="fs-panel multi" style="--n:3"><img src="assets/buzz/ui-attendant-1.png" alt="Attendant app route selection with upcoming trips" loading="lazy"><img src="assets/buzz/ui-attendant-2.png" alt="Attendant app trip with bus stops and student counts" loading="lazy"><img src="assets/buzz/ui-attendant-3.png" alt="Attendant app student attendance list with guardian details" loading="lazy"></div>
+  <section class="slide fs fs-split has-cards has-proto" data-theme="light" aria-label="UI for Attendant app">
+    <div class="fs-panel">
+      <iframe src="attendant-prototype/index.html?embed" title="Arivoo attendant app: interactive route and attendance prototype" loading="lazy"></iframe>
+      <a class="fs-panel-link" href="attendant-prototype/index.html" target="_blank" rel="noopener">Open full prototype &#8599;</a>
+    </div>
     <div class="fs-stage">
       <div class="fs-safe">
         <div class="fs-col">
           <div class="fs-head"><p class="fs-eyebrow">User Flow</p><h2 class="fs-title fs-title-64">UI for Attendant App</h2></div>
-          <div class="fs-lcards"><div class="fs-lcard"><h3>Upfront Daily schedule</h3><p>Bus Attendant will able to see their daily Schedule.</p></div><div class="fs-lcard"><h3>Bus Stop Count</h3><p>User can See a count (Bus stop, student). In case of a route change he can prepared.</p></div><div class="fs-lcard"><h3>Student Attendance &amp; Guardian details.</h3><p>Attendant can be drop the student to bus stops and make the informed decision quickly.</p></div></div>
+          <ol class="fs-psteps" data-proto-steps="attendant"><li><button type="button" class="fs-pstep" data-step="welcome" aria-current="step"><span class="fs-pstep-n">01</span><span class="fs-pstep-b"><span class="fs-pstep-t">Welcome &amp; login</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Attendants log in with the mobile number registered with the school. Submit stays disabled until the number is complete.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="number"><span class="fs-pstep-n">02</span><span class="fs-pstep-b"><span class="fs-pstep-t">Enter mobile number</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>The keyboard opens over the form. A number that can&rsquo;t be valid turns the field red, and Submit only enables for a full 10-digit number.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="routes"><span class="fs-pstep-n">03</span><span class="fs-pstep-b"><span class="fs-pstep-t">Upfront daily schedule</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Bus Attendant will be able to see their daily schedule: the pick-up and drop-off routes with start and end time, bus plate and kids assigned. START ROUTE begins the trip.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="before"><span class="fs-pstep-n">04</span><span class="fs-pstep-b"><span class="fs-pstep-t">Route not started</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Before the trip, a banner shows when the bus will start, with students assigned, remaining boarding and every stop in order.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="live"><span class="fs-pstep-n">05</span><span class="fs-pstep-b"><span class="fs-pstep-t">Bus stop count</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>On the way, the banner counts down to the next stop, finished stops get a tick and the current one is highlighted. Each stop shows how many students board, so a route change never catches the attendant off guard.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="students"><span class="fs-pstep-n">06</span><span class="fs-pstep-b"><span class="fs-pstep-t">Student attendance</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Details opens the stop&rsquo;s class list. Attendance is one toggle per student, or Mark All Present, with a running count of students marked.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="guardians"><span class="fs-pstep-n">07</span><span class="fs-pstep-b"><span class="fs-pstep-t">Guardian details</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>View Parent Details lists the authorised guardians with a one-tap call and the residential address, so the attendant can make an informed decision before dropping a student.</span></span></span></span></button></li></ol>
+          <p class="fs-mono-16 fs-hint">Tap through the phone, or pick a step to jump there.</p>
         </div>
       </div>
     </div>
@@ -216,6 +220,6 @@
   <button class="deck-btn deck-next" aria-label="Next slide">&rarr;</button>
 </div>
 
-<script src="script.js?v=fs23"></script>
+<script src="script.js?v=fs24"></script>
 </body>
 </html>
