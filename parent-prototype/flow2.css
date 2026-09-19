@@ -33,9 +33,9 @@ html,body{margin:0;background:#e9eeee}
 /* ---- welcome ---- */
 .w-logo{position:absolute;left:161px;top:480px;width:67px;height:67px;background:#fff;border-radius:16px;box-shadow:0 2px 6px 2px rgba(0,0,0,.15),0 1px 2px 0 rgba(0,0,0,.3);padding:12.984px 5.194px}
 .w-logo img{width:56.612px;height:34.279px;object-fit:cover}
-.w-ill{position:absolute;left:35px;top:133px;width:319px;height:233px;overflow:hidden}
-.w-ill img{position:absolute;height:100%;left:6.87%;top:.17%;width:88.62%}
-.w-cap{position:absolute;left:53px;top:400px;width:283px;height:49px;font:500 18px/24px var(--font-brand);text-align:center}
+.w-ill{position:absolute;left:35px;top:133px;width:323.272px;height:230px}
+.w-ill img{display:block;width:323.272px;height:215.667px}
+.w-cap{position:absolute;left:55.136px;top:397px;width:283px;height:49px;font:500 18px/24px var(--font-brand);text-align:center}
 .w-form{position:absolute;left:17px;top:559px;width:358px}
 .w-title{position:absolute;left:33px;top:0;width:292px;height:41px;font:600 30px/normal var(--font-brand)}
 .w-sub{position:absolute;left:0;top:49px;width:358px;text-align:center;font:600 14px/normal var(--font-brand)}
