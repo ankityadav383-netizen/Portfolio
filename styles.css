@@ -1383,6 +1383,69 @@ body.deck-fs-page.deck-dark{background:var(--fs-bg-dark);}
 .fs-pill{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;padding:12px 20px;border-radius:var(--fs-r-pill);background:var(--fs-surface);border:1px solid var(--line);color:var(--fs-ink);font:500 16px/1 var(--fs-sans);}
 .fs-pill:hover{background:var(--fs-bg-dark);color:var(--fs-on-dark);}
 
+/* ==========================================================================
+   BuzzEd now — layouts taken from its Figma deck (competitor table, journey
+   cards, list cards beside images, problem solving). Same tokens.
+   ========================================================================== */
+.fs-tbl-sec .fs-safe{padding:140px 120px 80px;justify-content:flex-start;}
+.fs-tbl-wrap{background:var(--fs-surface);border-radius:var(--fs-r-card);overflow:hidden;}
+.fs-tbl{width:100%;border-collapse:collapse;table-layout:fixed;font-family:var(--fs-sans);}
+.fs-tbl th,.fs-tbl td{height:52px;padding:0 24px;text-align:center;border-top:1px solid rgba(25,24,25,.08);}
+.fs-tbl thead th{height:92px;border-top:0;vertical-align:middle;}
+.fs-tbl thead th:first-child,.fs-tbl tbody th{text-align:left;}
+.fs-tbl col.c0{width:34%;}
+.fs-tbl-h{font-family:var(--fs-mono);font-weight:400;font-size:var(--fs-16);letter-spacing:.08em;text-transform:uppercase;}
+.fs-tbl-name{font-weight:500;font-size:var(--fs-20);line-height:normal;}
+.fs-tbl tbody th{font-weight:400;font-size:var(--fs-20);}
+.fs-tbl .us{background:var(--fs-bg-dark);color:var(--fs-on-dark);border-top-color:rgba(255,255,255,.1);}
+.fs-tbl .us img{display:block;height:54px;width:auto;margin:0 auto;}
+.fs-mark{display:inline-grid;place-items:center;width:32px;height:32px;vertical-align:middle;}
+.fs-mark svg{width:22px;height:22px;display:block;}
+.fs-mark.no{color:var(--fs-grey-b3);}
+.us .fs-mark{background:var(--fs-surface);color:var(--fs-ink);border-radius:50%;}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+
+.fs-jrn .fs-safe{padding:140px 120px 80px;justify-content:flex-start;}
+.fs-jrn-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+.fs-jc{display:flex;flex-direction:column;gap:14px;background:var(--fs-surface);border-radius:var(--fs-r-card);padding:32px 28px;}
+.fs-jc ul{display:flex;flex-direction:column;gap:6px;}
+.fs-jc li{font-size:var(--fs-20);line-height:calc(28 / 20);color:var(--fs-ink-2);}
+.fs-jc li::before{content:"\2022\00a0\00a0";}
+.fs-jc-emotion{font-weight:500;font-size:var(--fs-24);line-height:normal;}
+.fs-jc-pain{margin-top:auto;background:var(--fs-bg-dark);color:var(--fs-on-dark);border-radius:var(--fs-r-callout-sm);padding:14px 18px;font-size:var(--fs-20);line-height:calc(28 / 20);}
+.fs-jc-spacer{margin-top:auto;}
+.fs-jrn-line{display:flex;align-items:center;gap:20px;margin-top:8px;}
+.fs-jrn-line i{flex:1;height:2px;background:var(--fs-ink);border-radius:var(--fs-r-bar);}
+
+.fs-p-head{display:flex;align-items:center;gap:16px;}
+.fs-avatar{width:60px;height:60px;border-radius:50%;flex:none;display:block;}
+.fs-p-head p{margin:0;}
+.fs-p-age{font-size:var(--fs-20);line-height:calc(28 / 20);color:var(--fs-ink-2);}
+
+.fs-lcards{display:flex;flex-direction:column;gap:16px;}
+.fs-lcard{display:flex;flex-direction:column;gap:8px;background:var(--fs-surface);border-radius:var(--fs-r-card);padding:24px 28px;}
+.fs-lcard h3{font-family:var(--fs-sans);letter-spacing:normal;font-weight:500;font-size:var(--fs-28);line-height:calc(34 / 28);}
+.fs-lcard p{font-size:var(--fs-20);line-height:calc(28 / 20);color:var(--fs-ink-2);}
+.fs-lcard.dark{background:var(--fs-bg-dark);color:var(--fs-on-dark);}
+.fs-lcard.dark p{color:var(--fs-grey-b3);}
+.fs-split.has-cards .fs-col{gap:32px;}
+.fs-panel.multi{gap:16px;padding:0 12px;box-sizing:border-box;}
+.fs-panel.multi img{flex:0 1 auto;min-width:0;max-width:calc((100% - 24px - (var(--n) - 1) * 16px) / var(--n));max-height:88%;}
+
+.fs-solve .fs-safe{padding:140px 120px 80px;justify-content:flex-start;gap:32px;}
+.fs-solve-grid{display:grid;grid-template-columns:1fr 560px;gap:48px;align-items:start;}
+.fs-opts{display:flex;flex-direction:column;gap:16px;}
+.fs-opt{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;background:var(--fs-surface);border-radius:var(--fs-r-card);padding:22px 28px;}
+.fs-opt h3{font-family:var(--fs-sans);letter-spacing:normal;font-weight:500;font-size:var(--fs-24);line-height:calc(32 / 24);}
+.fs-opt p{margin-top:6px;font-size:var(--fs-20);line-height:calc(28 / 20);color:var(--fs-ink-2);}
+.fs-opt.chosen{background:var(--fs-bg-dark);color:var(--fs-on-dark);}
+.fs-opt.chosen p{color:var(--fs-grey-b3);}
+.fs-verdict{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;border:2px solid var(--fs-grey-b3);color:var(--fs-grey-666);}
+.fs-verdict svg{width:22px;height:22px;display:block;}
+.chosen .fs-verdict{background:var(--fs-surface);border-color:var(--fs-surface);color:var(--fs-ink);}
+.fs-linkrow{display:flex;align-items:center;gap:16px;font-size:var(--fs-20);}
+.fs-linkrow .fs-pill{align-self:center;}
+
 /* deck chrome on this page */
 @media (min-width:901px){
   .deck-fs-page .deck-topbar{top:34px;left:24px;padding:0;}
@@ -1453,4 +1516,26 @@ body.deck-fs-page.deck-dark{background:var(--fs-bg-dark);}
   .fs-res-link{min-height:150px;}
   .fs-pill{padding:12px 18px;}
   .fs-s8 .fs-head,.fs-s8.no-tl .fs-head{margin-bottom:0;min-height:0;}
+}
+
+/* small screens: BuzzEd layouts */
+@media (max-width:900px){
+  .fs-jrn-grid{grid-template-columns:1fr;gap:16px;}
+  .fs-jc,.fs-lcard,.fs-opt{padding:22px;}
+  .fs-solve-grid{grid-template-columns:1fr;gap:20px;}
+  .fs-opt{grid-template-columns:1fr auto;gap:14px;}
+  .fs-verdict{width:36px;height:36px;}
+  .fs-tbl-wrap{overflow-x:auto;}
+  .fs-tbl th,.fs-tbl td{padding:0 6px;height:46px;}
+  .fs-tbl thead th{height:80px;}
+  .fs-tbl col.c0{width:31%;}
+  .fs-tbl-name{font-size:13px;line-height:1.25;}
+  .fs-tbl-h{font-size:11px;}
+  .fs-tbl tbody th{font-size:13px;line-height:1.3;padding-left:12px;}
+  .fs-tbl .us img{height:34px;max-width:100%;}
+  .fs-mark{width:26px;height:26px;}
+  .fs-mark svg{width:17px;height:17px;}
+  .fs-panel.multi{padding:24px;flex-direction:row;flex-wrap:wrap;justify-content:center;align-items:flex-start;}
+  .fs-panel.multi img{max-width:44%;max-height:420px;margin:0;}
+  .fs-jrn-line{display:none;}
 }
