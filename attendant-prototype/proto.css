@@ -42,3 +42,21 @@ html.embed .side{display:none}
 .scr[data-screen="welcome"],.scr[data-screen="number"]{transform:none}
 /* the mock keyboard is only for pointer devices; touch devices get the real one */
 @media (pointer:coarse){.kb{display:none}}
+
+/* confirmation animation */
+.scr.play .halo{animation:okHalo .6s .05s ease-out forwards}
+.scr.play .disc{animation:okPop .45s cubic-bezier(.2,.9,.3,1.25) forwards}
+.scr.play .tick{animation:okDraw .4s .38s ease-out forwards}
+.scr.play :is(.done-title,.done-sub){animation:okRise .4s .6s ease-out forwards}
+.scr.play :is(.done-cd,.cd){animation:okRise .4s .8s ease-out forwards}
+.scr.play .cd i{animation:okDrain var(--cd,3s) .9s linear forwards}
+@keyframes okHalo{0%{opacity:0;transform:scale(.6)}100%{opacity:1;transform:scale(1)}}
+@keyframes okPop{0%{transform:scale(0)}100%{transform:scale(1)}}
+@keyframes okDraw{to{stroke-dashoffset:0}}
+@keyframes okRise{0%{opacity:0;transform:translateY(6px)}100%{opacity:1;transform:none}}
+@keyframes okDrain{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+@media (prefers-reduced-motion:reduce){
+  .scr.play .halo,.scr.play .disc,.scr.play .tick,.scr.play :is(.done-title,.done-sub,.done-cd,.cd),.scr.play .cd i{animation:none}
+  .scr.play .halo{opacity:1;transform:none}.scr.play .disc{transform:none}.scr.play .tick{stroke-dashoffset:0}
+  .scr.play :is(.done-title,.done-sub,.done-cd,.cd){opacity:1}
+}

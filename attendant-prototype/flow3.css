@@ -184,3 +184,19 @@ button{font:inherit;color:inherit;background:none;border:0;outline:0;padding:0;m
 .pd .ad span{font:400 11px/normal var(--font-brand);color:var(--f2-muted);white-space:nowrap}
 .pd .ad p{font:400 12px/normal var(--font-brand);color:var(--f2-sds-text)}
 .sbar2{position:absolute;left:0;top:783px;width:390px;height:66px;background:#fff;box-shadow:var(--f3-bar-shadow);display:flex;align-items:center;justify-content:center;padding:10px;z-index:3}
+
+/* ---- confirmation (added after the Figma flow; tokens only) ---- */
+.sbtn.out{background:#fff;border:1px solid var(--c-primary);color:var(--c-primary);cursor:pointer}
+.done{position:absolute;left:0;top:250px;width:390px;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 24px}
+.ok{position:relative;width:136px;height:136px;display:grid;place-items:center}
+.ok .halo{position:absolute;inset:0;border-radius:50%;background:var(--c-tint);opacity:0;transform:scale(.6)}
+.ok svg{position:relative;width:96px;height:96px;display:block;overflow:visible}
+.ok .disc{fill:var(--c-primary);transform-box:fill-box;transform-origin:center;transform:scale(0)}
+.ok .tick{fill:none;stroke:var(--c-on-primary);stroke-width:6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:100;stroke-dashoffset:100}
+#screen .done-title{margin-top:28px;font:700 20px/normal var(--font-brand);color:var(--c-text)}
+#screen .done-sub{margin-top:4px;font:400 14px/normal var(--font-brand);color:var(--f2-muted)}
+#screen .done-cd{margin-top:28px;font:400 14px/normal var(--font-brand);color:var(--f2-sds-text)}
+.done-cd .num{color:var(--c-primary);font-weight:600;display:inline-block;min-width:1ch}
+.cd{width:200px;height:4px;margin-top:14px;border-radius:var(--r-pill);background:var(--c-tint);overflow:hidden}
+.cd i{display:block;height:100%;background:var(--c-primary);border-radius:inherit;transform-origin:left center}
+.done-title,.done-sub,.done-cd,.cd{opacity:0}

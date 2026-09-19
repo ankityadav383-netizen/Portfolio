@@ -7,8 +7,8 @@
   const stack = [];
   let autoTimer = 0;
   /* what the Back arrow returns to when a step is opened from the guide */
-  const PRE = { welcome: [], number: ['welcome'], routes: ['welcome'], before: ['welcome', 'routes'], live: ['welcome', 'routes'], students: ['welcome', 'routes', 'live'] };
-  const ORDER = ['welcome', 'number', 'routes', 'before', 'live', 'students'];
+  const PRE = { welcome: [], number: ['welcome'], routes: ['welcome'], before: ['welcome', 'routes'], live: ['welcome', 'routes'], students: ['welcome', 'routes', 'live'], done: ['welcome', 'routes', 'live', 'students'] };
+  const ORDER = ['welcome', 'number', 'routes', 'before', 'live', 'students', 'done'];
 
   function announce(msg) { live.textContent = ''; setTimeout(() => (live.textContent = msg), 30); }
 
@@ -25,6 +25,7 @@
   function go(name, { replace = false, back = false } = {}) {
     if (name === current) return;
     clearTimeout(autoTimer);
+    if (current === 'done') stopCountdown();
     const from = $(`.scr[data-screen="${current}"]`);
     const to = $(`.scr[data-screen="${name}"]`);
     if (!back && !replace) stack.push(current);
@@ -34,6 +35,7 @@
     to.classList.add('active');
     current = name;
     if (name === 'students') { const sc = $('.ss', students); sc.scrollTop = 0; }
+    if (name === 'done') startCountdown();
     markStep();
   }
   function goBack() { const p = stack.pop(); if (p) go(p, { back: true }); }
@@ -67,6 +69,39 @@
     setTg(bulk, n === kids.length);
   }
 
+  /* ---- confirmation: tick animation, countdown, redirect to the route listing ---- */
+  const COUNT = 3;                 /* seconds shown on the countdown */
+  const TICK_MS = 900;             /* tick animation runs first, then the countdown starts */
+  let cdDelay = null, cdTimer = null;
+  function stopCountdown() { clearTimeout(cdDelay); clearInterval(cdTimer); cdDelay = cdTimer = null; }
+  function startCountdown() {
+    stopCountdown();
+    const scr = $('.scr[data-screen="done"]'), num = $('#cdNum');
+    const n0 = kids.filter(k => $('.tg', k).getAttribute('aria-checked') === 'true').length;
+    $('#doneSub').textContent = n0 + ' of ' + kids.length + ' students marked present';
+    num.textContent = COUNT;
+    scr.style.setProperty('--cd', COUNT + 's');
+    scr.classList.remove('play'); void scr.offsetWidth; scr.classList.add('play');
+    announce(`Attendance submitted. Back to the route listing in ${COUNT} seconds.`);
+    cdDelay = setTimeout(() => {
+      let n = COUNT;
+      cdTimer = setInterval(() => {
+        n -= 1;
+        if (n <= 0) { stopCountdown(); toListing(); return; }
+        num.textContent = n;
+      }, 1000);
+    }, TICK_MS);
+  }
+  /* back to the route listing, with a clean attendance list for the next stop */
+  function toListing() {
+    stopCountdown();
+    kids.forEach(k => setTg($('.tg', k), false)); refreshCount();
+    michael.classList.remove('open'); $('.vp', michael).setAttribute('aria-expanded', 'false'); $('.vp span', michael).textContent = 'View Parent Details';
+    stack.length = 0; stack.push('welcome', 'routes');
+    go('live', { replace: true, back: true });
+    announce('Route listing');
+  }
+
   /* ---- actions ---- */
   const nyi = (msg) => () => announce(msg);
   const actions = {
@@ -95,7 +130,8 @@
       markStep();
     },
     call: nyi('Calling is not part of the designed flow'),
-    submit: nyi('Submitting attendance is not part of the designed flow'),
+    submit: () => go('done'),
+    golist: toListing,
   };
 
   app.addEventListener('click', (e) => {
@@ -120,7 +156,7 @@
     if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
     stack.length = 0; (PRE[target] || []).forEach(s => stack.push(s));
     if (key === 'guardians') { michael.classList.add('open'); $('.vp', michael).setAttribute('aria-expanded', 'true'); $('.vp span', michael).textContent = 'Hide Parent Details'; setTg($('.tg', michael), true); refreshCount(); }
-    else if (target === 'students') { michael.classList.remove('open'); $('.vp', michael).setAttribute('aria-expanded', 'false'); $('.vp span', michael).textContent = 'View Parent Details'; }
+    else if (target === 'students' || target === 'done') { michael.classList.remove('open'); $('.vp', michael).setAttribute('aria-expanded', 'false'); $('.vp span', michael).textContent = 'View Parent Details'; }
     go(target, { replace: true, back: ORDER.indexOf(target) < ORDER.indexOf(current) });
     if (target === 'number') setTimeout(() => phoneB.focus(), 60);
     markStep();
