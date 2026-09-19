@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arivoo &mdash; AI Attendance Prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal: #17A69A;
+    --teal-dark: #128378;
+    --ink: #1B2523;
+    --muted: #7C8F8A;
+    --mint: #EAF5F1;
+    --mint-card: #E3EFEA;
+    --line: #D7E6E1;
+    --good: #1E9E5A;
+    --avg: #D98A1A;
+    --poor: #E14B4B;
+    --purple: #7C5CE0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:24px;
+    background:#0e1413;
+    font-family:'Inter',sans-serif;
+    padding:40px 20px;
+  }
+  .note{color:rgba(255,255,255,0.55);font-size:13px;max-width:380px;text-align:center;line-height:1.6;}
+  .note b{color:rgba(255,255,255,0.85);}
+
+  .phone{
+    position:relative;
+    width:375px;height:812px;
+    background:#000;
+    border-radius:48px;
+    padding:12px;
+    box-shadow:0 30px 80px rgba(0,0,0,0.5);
+  }
+  .phone-screen{position:relative;width:100%;height:100%;border-radius:38px;overflow:hidden;background:#fff;}
+  .notch{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:120px;height:26px;background:#000;border-radius:14px;z-index:50;}
+
+  .screen{position:absolute;inset:0;background:#fff;display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .25s ease;}
+  .screen.active{opacity:1;visibility:visible;}
+
+  .statusbar{height:40px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-size:13px;font-weight:600;}
+  .statusbar.on-teal{color:#fff;}
+  .statusbar.on-white{color:var(--ink);}
+
+  .app-header{flex:none;background:var(--teal);color:#fff;padding:2px 16px 16px;display:flex;align-items:center;gap:10px;}
+  .app-header .back{width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex:none;}
+  .app-header .titles{flex:1;}
+  .app-header .titles h1{margin:0;font-size:17px;font-weight:700;}
+  .app-header .titles p{margin:2px 0 0;font-size:12px;opacity:0.85;font-weight:500;}
+  .app-header .info-btn{width:26px;height:26px;border:1.5px solid rgba(255,255,255,0.8);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex:none;cursor:pointer;}
+
+  .toolbar{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:var(--mint);flex:none;}
+  .toolbar .mark-all{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;color:var(--ink);}
+  .toolbar .ai-badge{text-align:right;line-height:1.2;}
+  .toolbar .ai-badge .ai{font-size:12px;font-weight:800;background:linear-gradient(90deg,var(--purple),#4C8CE0);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .toolbar .ai-badge .sub{font-size:11px;color:var(--muted);font-weight:600;}
+
+  .switch{width:36px;height:20px;border-radius:100px;background:#C7D3CF;position:relative;flex:none;cursor:pointer;}
+  .switch.on{background:var(--teal);}
+  .switch::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .18s ease;box-shadow:0 1px 2px rgba(0,0,0,0.25);}
+  .switch.on::after{left:18px;}
+
+  .body-scroll{flex:1;overflow-y:auto;background:var(--mint);padding:12px 14px 4px;}
+
+  .filter-row{display:flex;gap:8px;padding:2px 4px 12px;}
+  .pill{padding:7px 14px;border-radius:100px;font-size:12px;font-weight:700;border:1.5px solid var(--teal);color:var(--teal);background:#fff;cursor:pointer;}
+  .pill.active{background:var(--teal);color:#fff;}
+
+  .student-row{display:flex;align-items:center;gap:12px;background:var(--mint-card);margin:0 0 10px;padding:10px 12px;border-radius:14px;}
+  .avatar{width:46px;height:46px;border-radius:50%;flex:none;background:linear-gradient(135deg,#CFE3DF,#A9C9C2);display:flex;align-items:center;justify-content:center;font-weight:700;color:#3d5a53;font-size:14px;}
+  .student-info{flex:1;min-width:0;}
+  .student-info .name{font-size:14px;font-weight:700;color:var(--ink);}
+  .student-info .roll{font-size:12px;color:var(--muted);margin-top:1px;}
+  .student-info .view-more{font-size:12px;color:var(--teal);font-weight:700;margin-top:2px;text-decoration:underline;}
+
+  .others-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding-top:4px;}
+  .other-card{background:var(--mint-card);border-radius:14px;padding:18px 12px;text-align:center;}
+  .other-card .avatar{width:56px;height:56px;margin:0 auto 10px;font-size:16px;}
+  .other-card .name{font-size:13px;font-weight:700;color:var(--ink);}
+  .other-card .sub{font-size:11px;color:var(--muted);margin:2px 0 8px;}
+  .other-badge{display:inline-block;font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px;}
+  .other-badge.warn{background:#FBEDD9;color:var(--avg);}
+  .other-badge.err{background:#FBE1E1;color:var(--poor);}
+
+  .cta-bar{flex:none;padding:12px 16px 22px;background:#fff;border-top:1px solid var(--line);display:flex;gap:10px;}
+  .btn{flex:1;border:none;border-radius:100px;padding:13px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px;}
+  .btn.primary{background:var(--teal);color:#fff;}
+  .btn.ai{background:#fff;color:var(--purple);border:1.5px solid transparent;background-image:linear-gradient(#fff,#fff),linear-gradient(90deg,var(--purple),#4C8CE0);background-origin:border-box;background-clip:padding-box, border-box;}
+
+  /* Modal */
+  .modal-overlay{position:absolute;inset:0;background:rgba(10,20,18,0.45);z-index:40;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity .2s ease;}
+  .modal-overlay.open{opacity:1;pointer-events:auto;}
+  .modal-card{background:#fff;width:100%;border-radius:20px 20px 0 0;padding:20px 20px 24px;}
+  .modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .modal-head h3{margin:0;font-size:16px;color:var(--ink);}
+  .modal-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px;}
+  .modal-row .k{color:var(--muted);}
+  .modal-row .v{color:var(--ink);font-weight:700;}
+
+  /* Camera */
+  .camera-view{position:relative;flex:1;background:linear-gradient(160deg,#3a4442,#1c2422 60%,#0d100f);}
+  .camera-topbar{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:44px 18px 0;color:#fff;z-index:2;}
+  .camera-topbar .icon-btn{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;cursor:pointer;}
+  .shutter-wrap{position:absolute;bottom:34px;left:0;right:0;display:flex;justify-content:center;z-index:2;}
+  .shutter{width:64px;height:64px;border-radius:50%;background:#fff;border:none;cursor:pointer;}
+
+  /* Face review */
+  .review-dark{background:#0F1E1B;flex:1;}
+  .review-count{padding:14px 16px 4px;font-size:13px;font-weight:600;color:var(--ink);background:var(--mint);}
+  .face-card{background:#12211D;margin:10px 14px;border-radius:14px;padding:12px;display:flex;align-items:center;gap:12px;}
+  .face-thumb{width:52px;height:52px;border-radius:10px;background:#2A3E39;flex:none;display:flex;align-items:center;justify-content:center;}
+  .face-thumb svg{width:24px;height:24px;color:rgba(255,255,255,0.5);}
+  .face-info{flex:1;min-width:0;}
+  .face-info .title{color:#fff;font-size:13px;font-weight:700;}
+  .face-info .conf-label{color:rgba(255,255,255,0.45);font-size:10px;margin-top:4px;}
+  .conf-badge{display:inline-block;margin-top:3px;padding:2px 9px;border-radius:100px;font-size:11px;font-weight:700;color:#fff;}
+  .conf-badge.good{background:var(--good);}
+  .conf-badge.average{background:var(--avg);}
+  .conf-badge.poor{background:var(--poor);}
+  .face-meta{color:rgba(255,255,255,0.4);font-size:10px;margin-top:6px;}
+  .remove-btn{flex:none;display:flex;align-items:center;gap:5px;background:#fff;color:var(--poor);border-radius:100px;padding:7px 11px;font-size:11px;font-weight:700;}
+
+  .dots{display:flex;gap:8px;}
+  .dots button{width:8px;height:8px;border-radius:50%;border:none;background:rgba(255,255,255,0.25);cursor:pointer;padding:0;}
+  .dots button.active{background:var(--teal);width:20px;border-radius:100px;}
+  .nav-row{display:flex;align-items:center;gap:18px;}
+  .nav-btn{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.06);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+  .nav-btn:disabled{opacity:0.3;cursor:default;}
+</style>
+</head>
+<body>
+
+<div class="note"><b>Interactive prototype</b> &mdash; built from the exact screens you shared (list &rarr; class-info modal &rarr; camera &rarr; face-detection review &rarr; Absent/Present/Others results). Avatars are generic placeholders since I don't have your actual student photo assets; everything else follows your screens directly. Tell me if anything's off.</div>
+
+<div class="phone">
+  <div class="notch"></div>
+  <div class="phone-screen" id="phoneScreen">
+
+    <!-- Screen 1: Class list -->
+    <section class="screen active" data-screen="1">
+      <div class="statusbar on-teal"><span>Airtel &#128246;</span><span>100% &#128267;</span></div>
+      <div class="app-header">
+        <div class="back">&#8592;</div>
+        <div class="titles"><h1>Class XII A</h1><p>Period 1 ,Physical Science</p></div>
+        <div class="info-btn" onclick="openModal()">&#9432;</div>
+      </div>
+      <div class="toolbar">
+        <div class="mark-all"><div class="switch" onclick="this.classList.toggle('on')"></div> Mark All</div>
+        <div class="ai-badge"><div class="ai">AI Powered</div><div class="sub">Attendance</div></div>
+      </div>
+      <div class="body-scroll" id="list1"></div>
+      <div class="cta-bar">
+        <button class="btn ai" onclick="goTo(2)">&#129302; Capture with AI</button>
+        <button class="btn primary" onclick="goTo(5)">Submit</button>
+      </div>
+      <div class="modal-overlay" id="modal">
+        <div class="modal-card">
+          <div class="modal-head"><h3>Class XII A</h3><span onclick="closeModal()" style="cursor:pointer;font-size:18px;">&#10005;</span></div>
+          <div class="modal-row"><span class="k">Total Student Count</span><span class="v">40</span></div>
+          <div class="modal-row"><span class="k">Subject</span><span class="v">Physical Science</span></div>
+          <div class="modal-row"><span class="k">Period</span><span class="v">Period 1</span></div>
+          <div class="modal-row" style="border-bottom:none;"><span class="k">Time</span><span class="v">10:30 AM to 11:30 AM</span></div>
+          <button class="btn primary" style="width:100%;margin-top:14px;padding:14px;" onclick="closeModal()">Close</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Screen 2: Camera -->
+    <section class="screen" data-screen="2">
+      <div class="camera-view">
+        <div class="camera-topbar">
+          <div class="icon-btn" onclick="goTo(1)">&#10005;</div>
+          <div class="icon-btn">&#9889;</div>
+          <div class="icon-btn">&#128260;</div>
+        </div>
+        <div class="shutter-wrap"><button class="shutter" onclick="goTo(3)" aria-label="Capture photo"></button></div>
+      </div>
+    </section>
+
+    <!-- Screen 3: Face detection review -->
+    <section class="screen" data-screen="3">
+      <div class="statusbar on-teal"><span>Airtel &#128246;</span><span>100% &#128267;</span></div>
+      <div class="app-header">
+        <div class="back" onclick="goTo(2)">&#8592;</div>
+        <div class="titles"><h1>Class XII A</h1><p>Period 1 ,Physical Science</p></div>
+        <div class="info-btn">&#9432;</div>
+      </div>
+      <div class="review-dark" style="display:flex;flex-direction:column;">
+        <div class="review-count" style="background:transparent;color:#fff;">Photo Captured : 3</div>
+        <div style="flex:1;overflow-y:auto;">
+          <div class="face-card">
+            <div class="face-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+            <div class="face-info"><div class="title">Face Detected 14</div><div class="conf-label">Confidence score</div><span class="conf-badge good">Good</span><div class="face-meta">Image 1 &middot; 98 KB</div></div>
+            <div class="remove-btn">&#10005; Remove</div>
+          </div>
+          <div class="face-card">
+            <div class="face-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+            <div class="face-info"><div class="title">Face Detected 14</div><div class="conf-label">Confidence score</div><span class="conf-badge average">Average</span><div class="face-meta">Image 1 &middot; 98 KB</div></div>
+            <div class="remove-btn">&#10005; Remove</div>
+          </div>
+          <div class="face-card">
+            <div class="face-thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+            <div class="face-info"><div class="title">Face Detected 14</div><div class="conf-label">Confidence score</div><span class="conf-badge poor">Poor</span><div class="face-meta">Image 1 &middot; 98 KB</div></div>
+            <div class="remove-btn">&#10005; Remove</div>
+          </div>
+        </div>
+      </div>
+      <div class="cta-bar" style="background:#0F1E1B;border-top-color:rgba(255,255,255,0.08);">
+        <button class="btn" style="background:transparent;color:var(--teal);border:1.5px solid var(--teal);" onclick="goTo(2)">Retake</button>
+        <button class="btn primary" onclick="goTo(4)">Review</button>
+      </div>
+    </section>
+
+    <!-- Screen 4: Results (Absent / Present / Others) -->
+    <section class="screen" data-screen="4">
+      <div class="statusbar on-teal"><span>Airtel &#128246;</span><span>100% &#128267;</span></div>
+      <div class="app-header">
+        <div class="back" onclick="goTo(3)">&#8592;</div>
+        <div class="titles"><h1>Class XII A</h1><p>Period 1 ,Physical Science</p></div>
+        <div class="info-btn">&#9432;</div>
+      </div>
+      <div class="toolbar">
+        <div class="mark-all"><div class="switch"></div> Mark All</div>
+        <div class="ai-badge"><div class="ai">AI Powered</div><div class="sub">Attendance</div></div>
+      </div>
+      <div class="body-scroll">
+        <div class="filter-row">
+          <span class="pill" id="tabAbsent" onclick="setTab('absent')">Absent 2</span>
+          <span class="pill" id="tabPresent" onclick="setTab('present')">Present 12</span>
+          <span class="pill" id="tabOthers" onclick="setTab('others')">Others 2</span>
+        </div>
+        <div id="resultsList"></div>
+      </div>
+      <div class="cta-bar">
+        <button class="btn ai" onclick="goTo(2)">&#129302; Capture Again</button>
+        <button class="btn primary" onclick="goTo(1)">Submit</button>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<div class="nav-row">
+  <button class="nav-btn" id="prevBtn" onclick="step(-1)">&#8592;</button>
+  <div class="dots" id="dots"></div>
+  <button class="nav-btn" id="nextBtn" onclick="step(1)">&#8594;</button>
+</div>
+
+<script>
+  const total = 4;
+  let current = 1;
+  const dotsWrap = document.getElementById('dots');
+  for(let i=1;i<=total;i++){
+    const b = document.createElement('button');
+    b.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(b);
+  }
+  function render(){
+    document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', Number(s.dataset.screen) === current));
+    [...dotsWrap.children].forEach((d,i) => d.classList.toggle('active', i === current-1));
+    document.getElementById('prevBtn').disabled = current === 1;
+    document.getElementById('nextBtn').disabled = current === total;
+  }
+  function goTo(n){ current = Math.max(1, Math.min(total, n)); render(); if(n===4) setTab('absent'); }
+  function step(d){ goTo(current + d); }
+  function openModal(){ document.getElementById('modal').classList.add('open'); }
+  function closeModal(){ document.getElementById('modal').classList.remove('open'); }
+
+  function initials(name){ return name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(); }
+  function studentRow(name, roll, on){
+    return `<div class="student-row"><div class="avatar">${initials(name)}</div>
+      <div class="student-info"><div class="name">${name}</div><div class="roll">Roll No. &ndash; ${roll}</div><div class="view-more">View More</div></div>
+      <div class="switch ${on?'on':''}" onclick="this.classList.toggle('on')"></div></div>`;
+  }
+
+  const class1 = [
+    ['Angel',1],['Amianca',2],['Bailey',3],['Carol',4],['Dolly',5],['Tom',6],['Steve',7]
+  ];
+  document.getElementById('list1').innerHTML = class1.map(([n,r],i)=>studentRow(n,r,i===6)).join('');
+
+  const present = [['Angel',1],['Amianca',2],['Bailey',3],['Carol',4],['Dolly',5],['Tom',6]];
+  const absent = [['Gabriel',23],['Rahul',28]];
+
+  function setTab(tab){
+    ['tabAbsent','tabPresent','tabOthers'].forEach(id => document.getElementById(id).classList.remove('active'));
+    const list = document.getElementById('resultsList');
+    if(tab === 'absent'){
+      document.getElementById('tabAbsent').classList.add('active');
+      list.innerHTML = absent.map(([n,r])=>studentRow(n,r,false)).join('');
+    } else if(tab === 'present'){
+      document.getElementById('tabPresent').classList.add('active');
+      list.innerHTML = present.map(([n,r])=>studentRow(n,r,true)).join('');
+    } else {
+      document.getElementById('tabOthers').classList.add('active');
+      list.innerHTML = `<div class="others-grid">
+        <div class="other-card"><div class="avatar">JD</div><div class="name">John Doe</div><div class="sub">Class 10 th</div><span class="other-badge warn">Not of this Class</span></div>
+        <div class="other-card"><div class="avatar">?</div><div class="name">&nbsp;</div><div class="sub">&nbsp;</div><span class="other-badge err">No record found !</span></div>
+      </div>`;
+    }
+  }
+
+  render();
+</script>
+
+</body>
+</html>

@@ -159,3 +159,26 @@ if (deck) {
 
   renderDeck();
 }
+
+// Interactive prototype slides: keep the left-hand step list in step with the embedded prototype (and vice versa)
+document.querySelectorAll('[data-proto-steps]').forEach((list) => {
+  const key = list.dataset.protoSteps;
+  const frame = list.closest('.slide').querySelector('iframe');
+  const btns = [...list.querySelectorAll('.fs-pstep')];
+  const mark = (step) => btns.forEach((b) => {
+    if (b.dataset.step === step) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+  });
+  window.addEventListener('message', (e) => {
+    const d = e.data;
+    if (!frame || e.source !== frame.contentWindow || !d || d.arivooProto !== key || typeof d.step !== 'string') return;
+    mark(d.step);
+  });
+  list.addEventListener('click', (e) => {
+    const b = e.target.closest('.fs-pstep');
+    if (!b || !frame || !frame.contentWindow) return;
+    mark(b.dataset.step);
+    frame.contentWindow.postMessage({ arivooProto: key, goto: b.dataset.step }, '*');
+  });
+  // space / arrows on a focused step must not flip the slide
+  list.addEventListener('keydown', (e) => { if (e.key === ' ' || e.key.startsWith('Arrow')) e.stopPropagation(); });
+});

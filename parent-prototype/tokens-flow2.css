@@ -1,0 +1,28 @@
+/* Parent "Bus Tracking" flow (8 frames, Figma node 1811:17260).
+   Layer on top of ../tokens/tokens.css: only values MEASURED from these frames that tokens.css does not already hold.
+   [var] = a variable defined in the Figma file; [sds] = Simple Design System variable; [raw] = raw fill in the frame (no variable).
+   Existing tokens are reused wherever a value matches: --c-primary #309DA3, --c-tint #EAF5F6, --c-page #FFF, --c-text #000. */
+:root{
+  --f2-ink:#0D0D0D;            /* [var] "Dark Mode BG", used as text colour */
+  --f2-on-surface:#1D1B20;     /* [var] Schemes/On Surface */
+  --f2-p1:#717171;             /* [var] Hightlight P1 */
+  --f2-p2:#434343;             /* [var] Hightlight P2 Dark Mode, used as text colour */
+  --f2-disabled:#E3E3E4;       /* [var] Dissbaled light mode */
+  --f2-sds-text:#1E1E1E;       /* [sds] text/icon default */
+  --f2-sds-border:#D9D9D9;     /* [sds] border default */
+  --f2-sds-border-brand:#2C2C2C; /* [sds] border brand (active OTP box) */
+  --f2-sds-tertiary:#B3B3B3;   /* [sds] text tertiary (placeholder) */
+  --f2-terms:#767676;          /* [raw] terms text */
+  --f2-muted:#757575;          /* [raw] roll no. text */
+  --f2-line-soft:#EBEBEB;      /* [raw] school pill border */
+  --f2-line-tint:#E9F5F6;      /* [raw] active kid card border */
+  --f2-line-header:#E9E9E9;    /* [raw] home header bottom border */
+  --f2-line-logo:#D7EBED;      /* [raw] selected school logo border */
+  --f2-chip-active:#D6EBED;    /* [raw] highlighted stop / error card */
+  --f2-g50:#F9FAFB; --f2-g100:#F3F4F6; --f2-g200:#E5E7EB; --f2-g400:#9CA3AF; --f2-g500:#6B7280; /* [raw] inactive card palette */
+  --f2-plate:#FAFF00;          /* [raw] number plate */
+  --f2-warn-bg:rgba(245,124,0,0.13); /* [raw] technical error icon */
+  --f2-teal-20:rgba(48,157,163,0.2); --f2-teal-40:rgba(48,157,163,0.4); --f2-teal-16:rgba(48,157,163,0.16); /* [raw] primary at alpha */
+  --f2-dps:#003366; --f2-gold:#FFD700; --f2-sx:#800000; /* [raw] school logo art */
+  --f2-scrim:rgba(0,0,0,0.4);  /* [raw] overlay */
+}

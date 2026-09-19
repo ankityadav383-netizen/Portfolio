@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;700&family=42dot+Sans:wght@400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=fs21">
+<link rel="stylesheet" href="styles.css?v=fs22">
 </head>
 <body class="deck-page deck-fs-page">
 
@@ -164,13 +164,17 @@
     </div>
   </section>
 
-  <section class="slide fs fs-split has-cards" data-theme="light" aria-label="UI for Parent app">
-    <div class="fs-panel multi" style="--n:2"><img src="assets/buzz/ui-parent-1.png" alt="Parent app welcome and login screen" loading="lazy"><img src="assets/buzz/ui-parent-2.png" alt="Parent app live bus tracking screen with ETA and driver details" loading="lazy"></div>
+  <section class="slide fs fs-split has-cards has-proto" data-theme="light" aria-label="UI for Parent app">
+    <div class="fs-panel">
+      <iframe src="parent-prototype/index.html?embed" title="Arivoo parent app: interactive bus tracking prototype" loading="lazy"></iframe>
+      <a class="fs-panel-link" href="parent-prototype/index.html" target="_blank" rel="noopener">Open full prototype &#8599;</a>
+    </div>
     <div class="fs-stage">
       <div class="fs-safe">
         <div class="fs-col">
           <div class="fs-head"><p class="fs-eyebrow">User Flow</p><h2 class="fs-title fs-title-64">UI for Parent App</h2></div>
-          <div class="fs-lcards"><div class="fs-lcard"><h3>ETA Details</h3><p>User can see the ETA details and they can plan their day accordingly.</p></div><div class="fs-lcard"><h3>Bus Staff Details</h3><p>If the Bus staff details are available the user can contact them seamlessly.</p></div></div>
+          <ol class="fs-psteps" data-proto-steps="parent"><li><button type="button" class="fs-pstep" data-step="welcome" aria-current="step"><span class="fs-pstep-n">01</span><span class="fs-pstep-b"><span class="fs-pstep-t">Welcome &amp; login</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Parents land on one job: track the bus. They enter a 10-digit mobile number, and Submit stays disabled until the number is complete.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="otp"><span class="fs-pstep-n">02</span><span class="fs-pstep-b"><span class="fs-pstep-t">OTP verification</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>A four-digit code goes to that number. The boxes advance on their own and accept a pasted code; the number can be edited or the code resent without starting over.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="home"><span class="fs-pstep-n">03</span><span class="fs-pstep-b"><span class="fs-pstep-t">My Kids</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Every child under one login, with class, roll number and the next bus event: &ldquo;Reaching bus stop in 5 mins&rdquo; or the boarding time.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="switch"><span class="fs-pstep-n">04</span><span class="fs-pstep-b"><span class="fs-pstep-t">Switch school</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Parents with kids in different schools switch from the header. The sheet lists each school with the number of kids enrolled.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="trip"><span class="fs-pstep-n">05</span><span class="fs-pstep-b"><span class="fs-pstep-t">Live bus tracking</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>ETA Details: distance away, the next stop and its time, so parents can plan their day. Bus Staff Details: driver name, bus plate and a one-tap Call Driver.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="details"><span class="fs-pstep-n">06</span><span class="fs-pstep-b"><span class="fs-pstep-t">Trip details</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Trip Logs is the day as a timeline: boarded the bus, reached school, boarded back, reached the bus stop, with a blank time until it happens.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="stops"><span class="fs-pstep-n">07</span><span class="fs-pstep-b"><span class="fs-pstep-t">All stops</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Expanding the card lists every stop on the route with its time and distance, so parents can see exactly where the bus is.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="error"><span class="fs-pstep-n">08</span><span class="fs-pstep-b"><span class="fs-pstep-t">When GPS drops</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>If the driver&rsquo;s phone loses network, the parent still gets the expected stop time, the last seen location and how long ago, plus Call Driver and Call School.</span></span></span></span></button></li></ol>
+          <p class="fs-mono-16 fs-hint">Tap through the phone, or pick a step to jump there.</p>
         </div>
       </div>
     </div>
@@ -212,6 +216,6 @@
   <button class="deck-btn deck-next" aria-label="Next slide">&rarr;</button>
 </div>
 
-<script src="script.js?v=fs21"></script>
+<script src="script.js?v=fs22"></script>
 </body>
 </html>
