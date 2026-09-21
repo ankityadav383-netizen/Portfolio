@@ -1638,3 +1638,5 @@ body.deck-fs-page.deck-dark{background:var(--fs-bg-dark);}
 /* NABC screens are taller than the other case studies' phones: keep them clear of the floating nav pill */
 body.page-nabc .fs-panel img{max-height:80%;}
 body.page-nabc .fs-panel .nb-mood img{max-height:none;}
+/* NABC overview: a single photograph in the panel */
+.fs-panel.nb-photo img{border-radius:20px;max-width:88%;max-height:none;height:auto;}
