@@ -116,12 +116,16 @@
   });
 
   /* ---------- fit ---------- */
+  const laptop = $('#laptop'), FW = 1684, FH = 1027;   // laptop frame around the 1512x941 screen
   function fit() {
     const embed = document.documentElement.classList.contains('embed');
     const narrow = innerWidth <= 860 && !embed;
-    const side = embed || narrow ? 0 : 308, mv = narrow ? 0 : embed ? 64 : 72, mh = narrow ? 0 : embed ? 64 : 52;   // room for the frame
-    const s = Math.min(embed ? 10 : 1, (innerHeight - mv) / H, (innerWidth - side - mh) / W);
-    stage.style.transform = `scale(${s})`; wrap.style.width = W * s + 'px'; wrap.style.height = H * s + 'px';
+    const framed = !narrow;
+    laptop.classList.toggle('frameless', !framed);
+    const w = framed ? FW : W, h = framed ? FH : H;
+    const side = embed || narrow ? 0 : 308, mv = narrow ? 0 : embed ? 40 : 56, mh = narrow ? 0 : embed ? 56 : 40;
+    const s = Math.min(embed ? 10 : 1, (innerHeight - mv) / h, (innerWidth - side - mh) / w);
+    laptop.style.transform = `scale(${s})`; wrap.style.width = w * s + 'px'; wrap.style.height = h * s + 'px';
   }
   addEventListener('resize', fit); fit();
   go('pdp');
