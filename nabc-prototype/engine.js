@@ -33,7 +33,7 @@
     let nav = null;
     if (s.tabs) buildTabs(sc, s.tabs, s.tab, s.dim);
     else if (pin) {
-      nav = el('pin'); nav.style.height = navH + 'px'; nav.style.background = s.navbg || s.bg || '#fff';
+      nav = el('pin'); nav.style.height = navH + 'px'; nav.style.background = s.navbg && s.navsplit ? `linear-gradient(${s.bg} ${s.navsplit - pin}px, ${s.navbg} ${s.navsplit - pin}px)` : (s.navbg || s.bg || '#fff');   // keyboard colour only where the keyboard is
       const ni = new Image(); ni.alt = ''; ni.src = C.base + s.img; ni.style.cssText = `left:${dx}px;top:${-pin}px;width:${s.w}px;height:${s.h}px`;
       nav.appendChild(ni); sc.appendChild(nav);
     }
