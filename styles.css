@@ -1643,3 +1643,10 @@ body.page-nabc .fs-panel .nb-mood img{max-height:none;}
 .fs-panel.nb-photo img{position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;border-radius:0;object-fit:cover;object-position:66% 50%;}
 @media (max-width:900px){.fs-panel.nb-photo{min-height:340px;padding-bottom:0;}.fs-panel.nb-photo img{margin:0;max-height:none;}}
 body.page-nabc .fs-panel.nb-photo img{max-height:none;}
+
+/* RICE: static screens swapped by the step list (no prototype available) */
+.fs-panel .rc-shot{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .25s ease,visibility 0s .25s;}
+.fs-panel .rc-shot.on{opacity:1;visibility:visible;transition:opacity .25s ease;}
+.fs-panel .rc-shot img{max-height:82%;max-width:80%;width:auto;height:auto;}
+@media (max-width:900px){.fs-panel .rc-shot{position:relative;display:none;}.fs-panel .rc-shot.on{display:flex;}.fs-panel .rc-shot img{max-height:560px;margin:24px 0 8px;}}
+@media (prefers-reduced-motion:reduce){.fs-panel .rc-shot,.fs-panel .rc-shot.on{transition:none;}}

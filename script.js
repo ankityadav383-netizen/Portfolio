@@ -175,10 +175,14 @@ if (deck) {
 document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   const key = list.dataset.protoSteps;
   const frame = list.closest('.slide').querySelector('iframe');
+  const shots = [...list.closest('.slide').querySelectorAll('.fs-panel [data-shot]')];
   const btns = [...list.querySelectorAll('.fs-pstep')];
-  const mark = (step) => btns.forEach((b) => {
-    if (b.dataset.step === step) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
-  });
+  const mark = (step) => {
+    btns.forEach((b) => {
+      if (b.dataset.step === step) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+    });
+    shots.forEach((n) => n.classList.toggle('on', n.dataset.shot === step));
+  };
   window.addEventListener('message', (e) => {
     const d = e.data;
     if (!frame || e.source !== frame.contentWindow || !d || d.arivooProto !== key || typeof d.step !== 'string') return;
@@ -186,8 +190,9 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   });
   list.addEventListener('click', (e) => {
     const b = e.target.closest('.fs-pstep');
-    if (!b || !frame || !frame.contentWindow) return;
+    if (!b) return;
     mark(b.dataset.step);
+    if (!frame || !frame.contentWindow) return;
     frame.contentWindow.postMessage({ arivooProto: key, goto: b.dataset.step }, '*');
   });
   // space / arrows on a focused step must not flip the slide
