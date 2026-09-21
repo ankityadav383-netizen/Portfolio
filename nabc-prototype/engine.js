@@ -26,17 +26,19 @@
     const inner = el('inner'); inner.style.height = (pin || s.h) + 'px'; inner.style.background = s.bg || '#fff';
     body.style.overflowY = (pin || s.h) > bodyH ? 'auto' : 'hidden';
     const dx = (W - s.w) / 2;
-    const img = new Image(); img.alt = ''; img.src = C.base + s.img; img.style.cssText = `left:${dx}px;top:0;width:${s.w}px;height:${s.h}px`;
+    const fk = s.fill ? H / s.h : 1, idx = s.fill ? (W - s.w * fk) / 2 : dx;   // fill: scale a shorter frame up to the full stage height
+    if (s.fill) inner.style.height = H + 'px';
+    const img = new Image(); img.alt = ''; img.src = C.base + s.img; img.style.cssText = `left:${idx}px;top:0;width:${s.w * fk}px;height:${s.h * fk}px`;
     inner.appendChild(img); body.appendChild(inner); sc.appendChild(body);
     let nav = null;
     if (s.tabs) buildTabs(sc, s.tabs, s.tab, s.dim);
     else if (pin) {
-      nav = el('pin'); nav.style.height = navH + 'px';
+      nav = el('pin'); nav.style.height = navH + 'px'; nav.style.background = s.navbg || s.bg || '#fff';
       const ni = new Image(); ni.alt = ''; ni.src = C.base + s.img; ni.style.cssText = `left:${dx}px;top:${-pin}px;width:${s.w}px;height:${s.h}px`;
       nav.appendChild(ni); sc.appendChild(nav);
     }
     const host = (y) => (nav && pin && y >= pin ? { p: nav, dy: pin } : { p: inner, dy: 0 });
-    (s.covers || []).forEach((c) => { const d = el('cover'); place(d, c); d.style.background = c.bg || '#fff'; inner.appendChild(d); });
+    (s.covers || []).forEach((c) => { const t = host(c.y), d = el('cover'); place(d, c, t.dy); d.style.background = c.bg || '#fff'; t.p.appendChild(d); });
     (s.hot || []).forEach((h) => {
       const t = host(h.y), b = el('hs', 'button'); b.type = 'button'; b.setAttribute('aria-label', h.label || h.go || h.act);
       place(b, { x: h.x + dx, y: h.y, w: h.w, h: h.h }, t.dy);
@@ -60,8 +62,8 @@
       }
     });
     (s.btns || []).forEach((o) => {
-      const b = el('xbtn' + (o.cls ? ' ' + o.cls : ''), 'button'); b.type = 'button'; b.textContent = o.text; place(b, { x: o.x + dx, y: o.y, w: o.w, h: o.h });
-      b.addEventListener('click', () => { if (o.act) act(o.act, o); else if (o.go) go(o.go); }); inner.appendChild(b);
+      const b = el('xbtn' + (o.cls ? ' ' + o.cls : ''), 'button'); b.type = 'button'; b.textContent = o.text; place(b, { x: o.x + dx, y: o.y, w: o.w, h: o.h }, host(o.y).dy);
+      b.addEventListener('click', () => { if (o.act) act(o.act, o); else if (o.go) go(o.go); }); host(o.y).p.appendChild(b);
     });
     if (s.slider) buildSlider(inner, s.slider, dx);
     if (s.swipe) swipe(sc, id, s.swipe);
