@@ -10,7 +10,7 @@
   const el = (cls, tag = 'div') => { const e = document.createElement(tag); if (cls) e.className = cls; return e; };
   const announce = (m) => { live.textContent = ''; setTimeout(() => (live.textContent = m), 30); };
   const S = { email: '', otp: ['', '', '', ''], packets: 1 };
-  let cur = null, timer = 0;
+  let cur = null, timer = 0, hist = [];
   const screens = {}, actions = {};
 
   function place(node, o, dy = 0) {
@@ -57,6 +57,10 @@
         if (i.opens) n.addEventListener('focus', () => { if (cur === id) go(i.opens, { focus: '[data-email]' }); });
         t.p.appendChild(n);
       }
+    });
+    (s.btns || []).forEach((o) => {
+      const b = el('xbtn' + (o.cls ? ' ' + o.cls : ''), 'button'); b.type = 'button'; b.textContent = o.text; place(b, { x: o.x + dx, y: o.y, w: o.w, h: o.h });
+      b.addEventListener('click', () => { if (o.act) act(o.act, o); else if (o.go) go(o.go); }); inner.appendChild(b);
     });
     if (s.slider) buildSlider(inner, s.slider, dx);
     if (s.swipe) swipe(sc, id, s.swipe);
@@ -120,6 +124,8 @@
   function go(id, o = {}) {
     if (!screens[id]) return;
     clearTimeout(timer);
+    if (cur && cur !== id && !o.back && !o.reset) hist.push(cur);
+    if (o.reset) hist = [];
     if (cur) screens[cur].classList.remove('active');
     cur = id; const sc = screens[id]; sc.classList.add('active'); const b = $('.body', sc); if (b) b.scrollTop = 0;
     if (C.screens[id].auto) timer = setTimeout(() => { if (cur === id) go(C.screens[id].auto.go); }, C.screens[id].auto.ms);
@@ -129,9 +135,10 @@
   const say = (m) => () => announce(m);
   Object.assign(actions, {
     continue: () => { if (S.email.trim().length < 3) { announce('Enter your email or user name'); const t = $('[data-email]', screens[cur]); if (t) t.focus(); return; } S.otp = ['', '', '', '']; otpSync(); go('otp', { focus: '.otp[data-i="0"]' }); announce('Enter the verification code'); },
-    verify: () => { if (S.otp.join('') === '1234') { go(C.afterLogin); announce('Signed in'); } else { go('otp_err'); announce('The passcode you have entered is incorrect'); } },
+    verify: () => { if (S.otp.join('') === '1234') { go(C.afterLogin, { reset: true }); announce('Signed in'); } else { go('otp_err'); announce('The passcode you have entered is incorrect'); } },
     editemail: () => go(C.signin, { focus: '[data-email]' }),
-    logout: () => { S.email = ''; $$('[data-email]').forEach((n) => (n.value = '')); S.otp = ['', '', '', '']; otpSync(); go(C.signin); },
+    logout: () => { S.email = ''; $$('[data-email]').forEach((n) => (n.value = '')); S.otp = ['', '', '', '']; otpSync(); go(C.signin, { reset: true }); },
+    back: () => { const p = hist.pop(); go(p || C.afterLogin, { back: true }); },
     fabclose: () => go('events'),
     inert: (h) => announce(h.msg || 'Not part of the designed flow'),
     submit: (h) => go(h.go || 'kiosk'),
@@ -140,7 +147,7 @@
 
   /* ---------- guide ---------- */
   $$('#steps button').forEach((b) => b.addEventListener('click', () => {
-    const t = C.entry[b.dataset.step]; if (t) go(t);
+    const t = C.entry[b.dataset.step]; if (t) go(t, { reset: true });
   }));
   $('#restart').addEventListener('click', () => location.reload());
   addEventListener('message', (e) => {

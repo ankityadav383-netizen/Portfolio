@@ -34,6 +34,9 @@ html,body{height:100%;margin:0;background:#e9eaee;font-family:'Inter FS','Inter'
 .otp:focus{border-color:#E05A47}
 .otp.err{border-color:#E05A47}
 .cover{position:absolute;background:#fff}
+.xbtn{position:absolute;box-sizing:border-box;border:0;border-radius:10px;background:#EAF0FA;color:#2A3143;font:700 14px/1 Roboto,system-ui,sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.xbtn:focus-visible{outline:2px solid #E05A47;outline-offset:2px}
+.xbtn:active{filter:brightness(.96)}
 .sl-lbl{position:absolute;font:400 15px/1 Roboto,system-ui,sans-serif;color:#6b7896;transform:translateX(-50%);cursor:pointer}
 .sl-lbl.on{color:#000;font-weight:700}
 .sl-track{position:absolute;height:6px;border-radius:6px;background:#707a99}
