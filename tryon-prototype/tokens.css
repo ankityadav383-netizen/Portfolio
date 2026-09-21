@@ -1,0 +1,45 @@
+/* Senco Virtual Try-on (web plugin). Every value read from the Figma file WrCqyzT1TJIryt1ZFfqtCE (frames 199:*, 261:*, 249:*, 376:*, 374:*).
+   The file defines no variables, so every token is [raw] (a fill/stroke/effect on a layer); names follow how the value is used. */
+@font-face{font-family:Manrope;font-weight:200 800;src:url(assets/fonts/Manrope.woff2) format("woff2")}
+@font-face{font-family:'Public Sans';font-weight:100 900;src:url(assets/fonts/PublicSans.woff2) format("woff2")}
+@font-face{font-family:Inter;font-weight:100 900;src:url(assets/fonts/Inter.woff2) format("woff2")}
+@font-face{font-family:Poppins;font-weight:400;src:url(assets/fonts/Poppins-Regular.woff2) format("woff2")}
+@font-face{font-family:Poppins;font-weight:500;src:url(assets/fonts/Poppins-Medium.woff2) format("woff2")}
+@font-face{font-family:Poppins;font-weight:600;src:url(assets/fonts/Poppins-SemiBold.woff2) format("woff2")}
+@font-face{font-family:Poppins;font-weight:700;src:url(assets/fonts/Poppins-Bold.woff2) format("woff2")}
+:root{
+  /* colour */
+  --t-ink:#241F1B;              /* primary text, borders at alpha */
+  --t-ink-62:rgba(36,31,27,.62);/* secondary text / labels */
+  --t-ink-50:rgba(36,31,27,.5);
+  --t-ink-42:rgba(36,31,27,.42);
+  --t-line:rgba(36,31,27,.1);   /* hairlines */
+  --t-line-dash:rgba(36,31,27,.26);
+  --t-line-14:rgba(36,31,27,.14);
+  --t-maroon:#8A1626;           /* price, active tab, primary CTA (top of gradient) */
+  --t-maroon-deep:#73101D;      /* Done / consent-free solid button */
+  --t-maroon-bot:#500610;       /* CTA gradient bottom */
+  --t-maroon-line:#801423;      /* selected chip border */
+  --t-gold:#B68A3E;             /* category label, star fill */
+  --t-green:#2E7D52;            /* "Save" */
+  --t-cream:#FBF8F3;            /* modal background, comment box */
+  --t-white:#FFFFFF;
+  --t-chip-line:#E9E9E8; --t-chip-text:#5F5F5F; --t-card-label:#373737; --t-btn-text:#585858;
+  --t-carousel:#F1F1F1;         /* carousel tray */
+  --t-sel-bg:#F9E8E0; --t-sel-line:#980000;   /* selected product card */
+  --t-login-line:#EA3A3E;   /* sampled from the raster login modal (Figma has it as a screenshot) */
+  --t-scrim:rgba(0,0,0,.6);     /* page dim behind the plugin */
+  --t-load:#221C18;             /* loading panel */
+  --t-pill:rgba(255,255,255,.9); --t-pill-line:rgba(255,255,255,.6); --t-glass:rgba(20,16,14,.42);
+  /* type: family / weight / size (px) - names are the Figma text roles */
+  --f-manrope:Manrope,sans-serif; --f-public:'Public Sans',sans-serif; --f-poppins:Poppins,sans-serif; --f-inter:Inter,sans-serif; --f-arial:Arial,Helvetica,sans-serif;
+  /* radius */
+  --r-modal:18px; --r-thumb:18px; --r-slot:14px; --r-card:8.533px; --r-btn:8px; --r-cta:11px; --r-pill:999px; --r-chip:40px;
+  /* effects */
+  --e-modal:0 30px 80px rgba(0,0,0,.5);
+  --e-bar:0 -6px 9px rgba(58,53,65,.05);
+  --e-close:0 2px 4px rgba(58,53,65,.12);
+  --e-pill:0 4px 14px rgba(58,53,65,.12);
+  --e-card:0 0 2.133px rgba(0,0,0,.25);
+  --e-swap:0 0 4px rgba(0,0,0,.25);
+}
