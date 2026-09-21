@@ -29,12 +29,13 @@
     const img = new Image(); img.alt = ''; img.src = C.base + s.img; img.style.cssText = `left:${dx}px;top:0;width:${s.w}px;height:${s.h}px`;
     inner.appendChild(img); body.appendChild(inner); sc.appendChild(body);
     let nav = null;
-    if (pin) {
+    if (s.tabs) buildTabs(sc, s.tabs, s.tab, s.dim);
+    else if (pin) {
       nav = el('pin'); nav.style.height = navH + 'px';
       const ni = new Image(); ni.alt = ''; ni.src = C.base + s.img; ni.style.cssText = `left:${dx}px;top:${-pin}px;width:${s.w}px;height:${s.h}px`;
       nav.appendChild(ni); sc.appendChild(nav);
     }
-    const host = (y) => (pin && y >= pin ? { p: nav, dy: pin } : { p: inner, dy: 0 });
+    const host = (y) => (nav && pin && y >= pin ? { p: nav, dy: pin } : { p: inner, dy: 0 });
     (s.covers || []).forEach((c) => { const d = el('cover'); place(d, c); d.style.background = c.bg || '#fff'; inner.appendChild(d); });
     (s.hot || []).forEach((h) => {
       const t = host(h.y), b = el('hs', 'button'); b.type = 'button'; b.setAttribute('aria-label', h.label || h.go || h.act);
@@ -66,6 +67,22 @@
     if (s.swipe) swipe(sc, id, s.swipe);
     stage.appendChild(sc); screens[id] = sc;
   });
+
+  /* ---------- bottom bar: real tabs, only the current one is coral ---------- */
+  function buildTabs(sc, set, active, dim) {
+    const bar = el('tabbar' + (dim ? ' dim' : ''));
+    if (dim) bar.addEventListener('click', () => go(dim));
+    C.tabsets[set].forEach((t) => {
+      const b = el('tab' + (t.k === active ? ' on' : ''), 'button'); b.type = 'button'; b.setAttribute('aria-label', t.label);
+      if (t.k === active) b.setAttribute('aria-current', 'page');
+      b.style.left = t.seg[0] + 'px'; b.style.width = (t.seg[1] - t.seg[0]) + 'px';
+      const i = el('', 'i'); i.style.cssText = `left:${t.x - t.seg[0]}px;top:${t.y}px;width:${t.w}px;height:${t.h}px;-webkit-mask-image:url(${C.base + (t.off && t.k !== active ? t.off : t.file)});mask-image:url(${C.base + (t.off && t.k !== active ? t.off : t.file)})`;
+      b.appendChild(i);
+      b.addEventListener('click', () => { if (t.k === active) announce('You are on ' + t.label); else if (t.go) go(t.go); else announce(t.msg || 'Not part of the designed flow'); });
+      bar.appendChild(b);
+    });
+    sc.appendChild(bar);
+  }
 
   /* ---------- OTP ---------- */
   const otpBoxes = (id) => $$('.otp', screens[id]);

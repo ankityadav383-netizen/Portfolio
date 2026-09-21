@@ -22,6 +22,14 @@ html,body{height:100%;margin:0;background:#e9eaee;font-family:'Inter FS','Inter'
 .body{position:absolute;left:0;top:0;width:100%;overflow-x:hidden;overflow-y:auto;scrollbar-width:none}
 .body::-webkit-scrollbar{display:none}
 .inner{position:relative;width:100%;overflow:hidden}
+.tabbar{position:absolute;left:0;right:0;bottom:0;height:77px;background:#fff;box-shadow:0 -1px 6px rgba(0,0,0,.16);z-index:3}
+.tabbar.dim::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.6);pointer-events:none}
+.tabbar.dim .tab{pointer-events:none}
+.tab{all:unset;position:absolute;top:0;height:77px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.tab i{position:absolute;display:block;background:#686A6A;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-size:100% 100%;mask-size:100% 100%}
+.tab.on i{background:#E05A47}
+.tab:focus-visible{outline:2px solid #E05A47;outline-offset:-3px}
+.tab:active i{opacity:.7}
 .pin{position:absolute;left:0;right:0;bottom:0;overflow:hidden}
 .scr img{position:absolute;display:block;max-width:none;user-select:none;-webkit-user-drag:none}
 .hs{all:unset;position:absolute;cursor:pointer;-webkit-tap-highlight-color:transparent;border-radius:10px}
