@@ -486,6 +486,8 @@ a{text-decoration:none;color:inherit;}
   transition:transform .35s ease;
 }
 .thought-card:hover{transform:translateY(-6px);}
+.stan-row{margin-bottom:32px;}
+.stan-row .thought-card::before{background:linear-gradient(180deg,rgba(0,0,0,.04) 0%,rgba(0,0,0,.5) 42%,rgba(0,0,0,.93) 100%);}
 .thought-card::before{
   content:"";
   position:absolute;inset:0;
