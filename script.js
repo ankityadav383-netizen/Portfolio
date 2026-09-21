@@ -222,6 +222,22 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     const f = box.querySelector('iframe'); if (f) f.remove(); box.classList.remove('ready');   // stop the video, next open starts fresh
     if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }
+  // surprise card: teaser lines type themselves out, one after another (only while on screen, static if reduced motion)
+  const typeEl = document.getElementById('stanType');
+  if (typeEl && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const LINES = ['Psst. Wanna level up?', 'One tap. Sixty seconds.', 'Something is waiting inside.', 'Your first day starts here.'];
+    let li = 0, ci = 0, dir = 1, tm = 0, run = false;
+    const tick = () => {
+      const line = LINES[li];
+      ci += dir; typeEl.textContent = line.slice(0, ci);
+      let wait = dir > 0 ? 55 + Math.random() * 45 : 22;
+      if (dir > 0 && ci === line.length) { dir = -1; wait = 1900; }
+      else if (dir < 0 && ci === 0) { dir = 1; li = (li + 1) % LINES.length; wait = 350; }
+      tm = setTimeout(tick, wait);
+    };
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting && !run) { run = true; tick(); } else if (!e.isIntersecting && run) { run = false; clearTimeout(tm); } }, { threshold: .3 });
+    io.observe(open);
+  }
   open.addEventListener('click', openModal);
   open.addEventListener('keydown', (e) => { if (e.key === ' ') openModal(e); });
   document.getElementById('stanClose').addEventListener('click', closeModal);
