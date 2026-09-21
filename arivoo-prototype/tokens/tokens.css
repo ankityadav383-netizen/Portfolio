@@ -1,13 +1,13 @@
 /* GENERATED from tokens/tokens.json by tokens/build_css.py - do not edit by hand.
    Every value below passed tokens/measure.py against the Figma renders (71/71). */
-@font-face{font-family:Poppins;font-weight:400;src:url(../assets/fonts/Poppins-Regular.ttf)}
-@font-face{font-family:Poppins;font-weight:500;src:url(../assets/fonts/Poppins-Medium.ttf)}
-@font-face{font-family:Poppins;font-weight:600;src:url(../assets/fonts/Poppins-SemiBold.ttf)}
-@font-face{font-family:Poppins;font-weight:700;src:url(../assets/fonts/Poppins-Bold.ttf)}
-@font-face{font-family:Roboto;font-weight:100 900;src:url(../assets/fonts/Roboto.ttf)}
-@font-face{font-family:Manrope;font-weight:200 800;src:url(../assets/fonts/Manrope.ttf)}
-@font-face{font-family:Inter;font-weight:100 900;src:url(../assets/fonts/Inter.ttf)}
-@font-face{font-family:'Public Sans';font-weight:100 900;src:url(../assets/fonts/PublicSans.ttf)}
+@font-face{font-family:Poppins;font-weight:400;src:url(../assets/fonts/Poppins-Regular.woff2) format("woff2")}
+@font-face{font-family:Poppins;font-weight:500;src:url(../assets/fonts/Poppins-Medium.woff2) format("woff2")}
+@font-face{font-family:Poppins;font-weight:600;src:url(../assets/fonts/Poppins-SemiBold.woff2) format("woff2")}
+@font-face{font-family:Poppins;font-weight:700;src:url(../assets/fonts/Poppins-Bold.woff2) format("woff2")}
+@font-face{font-family:Roboto;font-weight:100 900;src:url(../assets/fonts/Roboto.woff2) format("woff2")}
+@font-face{font-family:Manrope;font-weight:200 800;src:url(../assets/fonts/Manrope.woff2) format("woff2")}
+@font-face{font-family:Inter;font-weight:100 900;src:url(../assets/fonts/Inter.woff2) format("woff2")}
+@font-face{font-family:'Public Sans';font-weight:100 900;src:url(../assets/fonts/PublicSans.woff2) format("woff2")}
 :root{
   --c-primary:#309DA3; --c-on-primary:#FFFFFF;
   --c-page:#FFFFFF; --c-card:#EEF5F3; --c-tint:#EAF5F6; --c-photo-card:#28235E;

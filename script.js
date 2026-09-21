@@ -116,7 +116,18 @@ if (deck) {
     window.addEventListener('resize', fitStage);
   }
 
+  /* Media in later slides is deferred (data-src) so a case study opens with two slides' worth of assets, not all of them.
+     Images load for the current and next slide; prototype iframes only for the slide on screen. */
+  function hydrate(slide, withFrames) {
+    if (!slide) return;
+    slide.querySelectorAll('[data-src]').forEach((n) => {
+      if (n.tagName === 'IFRAME' && !withFrames) return;
+      n.src = n.getAttribute('data-src'); n.removeAttribute('data-src');
+    });
+  }
+
   function renderDeck() {
+    hydrate(slides[current], true); hydrate(slides[current + 1], false);
     slides.forEach((s, i) => s.classList.toggle('active', i === current));
     if (isFigmaDeck) {
       document.body.classList.toggle('deck-dark', slides[current].dataset.theme === 'dark');
