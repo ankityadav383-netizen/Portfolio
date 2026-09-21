@@ -199,25 +199,37 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   list.addEventListener('keydown', (e) => { if (e.key === ' ' || e.key.startsWith('Arrow')) e.stopPropagation(); });
 });
 
-// Stan card: play the Figma prototype on tap, and send feedback to the owner's inbox
+// Stan: a Thoughts card opens the Figma prototype in a modal, then a short judge-and-feedback step that goes to the owner's inbox
 (() => {
-  const card = document.getElementById('stanCard');
-  if (!card) return;
-  const box = document.getElementById('stanBox'), play = document.getElementById('stanPlay');
-  const PROTO = 'https://embed.figma.com/proto/6QnaHZ2rFU34qQOwCHlWMk/Ankit_Yadav_Stan?node-id=154-1848&starting-point-node-id=154%3A1848&scaling=scale-down&content-scaling=fixed&hide-ui=1&embed-host=share';
-  play.addEventListener('click', () => {
-    if (box.querySelector('iframe')) return;
-    play.classList.add('loading'); play.querySelector('span').textContent = 'Loading...';
-    const f = document.createElement('iframe');
-    f.src = PROTO; f.title = 'Stan onboarding prototype: tap through it'; f.setAttribute('allow', 'fullscreen'); f.allowFullscreen = true;
-    f.addEventListener('load', () => setTimeout(() => box.classList.add('live'), 900));
-    box.appendChild(f);
-  });
-
+  const open = document.getElementById('stanOpen'), modal = document.getElementById('stanModal');
+  if (!open || !modal) return;
   const MAIL = 'ankit.yadav383@gmail.com';
-  const stars = document.getElementById('stanStars'), form = document.getElementById('stanForm'), msg = document.getElementById('stanMsg');
-  const send = document.getElementById('stanSend'), mail = document.getElementById('stanMail');
-  let rating = 0;
+  const PROTO = 'https://embed.figma.com/proto/6QnaHZ2rFU34qQOwCHlWMk/Ankit_Yadav_Stan?node-id=154-1848&starting-point-node-id=154%3A1848&scaling=scale-down&content-scaling=fixed&hide-ui=1&embed-host=share';
+  const box = document.getElementById('stanBox'), play = document.getElementById('stanPlay'), form = document.getElementById('stanForm');
+  const stars = document.getElementById('stanStars'), msg = document.getElementById('stanMsg'), send = document.getElementById('stanSend'), mail = document.getElementById('stanMail');
+  let rating = 0, lastFocus = null;
+
+  function show(step) { play.hidden = step !== 'play'; form.hidden = step !== 'form'; const t = step === 'play' ? document.getElementById('stanNext') : document.getElementById('stanExp'); if (t) t.focus({ preventScroll: true }); }
+  function openModal(e) {
+    e.preventDefault(); lastFocus = document.activeElement; modal.hidden = false; document.body.classList.add('stan-lock');
+    if (!box.querySelector('iframe')) {
+      const f = document.createElement('iframe'); f.src = PROTO; f.title = 'Stan onboarding prototype: tap through it'; f.setAttribute('allow', 'fullscreen'); f.allowFullscreen = true; f.addEventListener('load', () => setTimeout(() => box.classList.add('ready'), 3500)); box.appendChild(f);
+    }
+    show('play'); document.getElementById('stanClose').focus({ preventScroll: true });
+  }
+  function closeModal() {
+    modal.hidden = true; document.body.classList.remove('stan-lock');
+    const f = box.querySelector('iframe'); if (f) f.remove(); box.classList.remove('ready');   // stop the video, next open starts fresh
+    if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+  }
+  open.addEventListener('click', openModal);
+  open.addEventListener('keydown', (e) => { if (e.key === ' ') openModal(e); });
+  document.getElementById('stanClose').addEventListener('click', closeModal);
+  modal.addEventListener('mousedown', (e) => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) closeModal(); });
+  document.getElementById('stanNext').addEventListener('click', () => show('form'));
+  document.getElementById('stanBack').addEventListener('click', () => show('play'));
+
   for (let i = 1; i <= 5; i++) {
     const b = document.createElement('button'); b.type = 'button'; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', 'false'); b.setAttribute('aria-label', i + (i === 1 ? ' star' : ' stars')); b.dataset.v = i;
     b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg>'; stars.appendChild(b);
