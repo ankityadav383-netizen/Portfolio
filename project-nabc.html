@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;700&family=42dot+Sans:wght@400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=fs30">
+<link rel="stylesheet" href="styles.css?v=fs31">
 </head>
 <body class="deck-page deck-fs-page page-nabc">
 
@@ -110,15 +110,6 @@
     </div>
   </section>
 
-  <section class="slide fs nb-sl fs-vc" data-theme="light" aria-label="Attendee and volunteer roles">
-    <div class="fs-stage">
-      <div class="fs-safe">
-        <div class="fs-head"><p class="fs-eyebrow">Users</p><h2 class="fs-title fs-title-64">Two apps, one event</h2></div>
-        <div class="nb-roles"><article class="nb-role"><div><span class="k">App 01</span><h3>Attendee</h3><p>Everyone who comes to the event, from tech-savvy young adults to grandparents.</p><ul><li>Find sessions, stalls and checkpoints</li><li>Get in with a QR pass</li><li>Collect meals, one QR per meal</li><li>Manage a whole family from one phone</li></ul></div><img src="assets/nabc/att-06.png" alt="Attendee app home" loading="lazy"></article><article class="nb-role dark"><div><span class="k">App 02</span><h3>Volunteer</h3><p>The people at entry points, the food counter and the registration kiosk, often at peak times.</p><ul><li>Scan a QR or type a registration number</li><li>See who the pass belongs to at a glance</li><li>Mark food packets in one slide</li><li>Keep a log of every check</li></ul></div><img src="assets/nabc/vol-12.png" alt="Volunteer app home" loading="lazy"></article></div>
-      </div>
-    </div>
-  </section>
-
   <section class="slide fs fs-flowsl" data-theme="light" aria-label="Attendee app user flow">
     <div class="fs-stage">
       <div class="fs-safe">
@@ -139,49 +130,33 @@
     </div>
   </section>
 
-  <section class="slide fs fs-split has-cards" data-theme="light" aria-label="User navigation with maps">
-    <div class="fs-panel multi" style="--n:3"><img src="assets/nabc/att-09.png" alt="Events list with filters and status" loading="lazy"><img src="assets/nabc/att-10.png" alt="Floating shortcuts for schedule and map" loading="lazy"><img src="assets/nabc/att-11.png" alt="Event details sheet" loading="lazy"></div>
+  <section class="slide fs fs-split has-cards has-proto" data-theme="light" aria-label="UI for Attendee app">
+    <div class="fs-panel">
+      <iframe src="nabc-prototype/attendee.html?embed" title="NABC attendee app: interactive prototype" loading="lazy"></iframe>
+      <a class="fs-panel-link" href="nabc-prototype/attendee.html" target="_blank" rel="noopener">Open full prototype &#8599;</a>
+    </div>
     <div class="fs-stage">
       <div class="fs-safe">
         <div class="fs-col">
-          <div class="fs-head"><p class="fs-eyebrow">Key Feature</p><h2 class="fs-title fs-title-64">User Navigation with Maps</h2></div>
-          <div class="fs-lcards"><div class="fs-lcard"><h3>Find it without asking</h3><p>An interactive map let users navigate the event venue with ease. Labelled zones and directions helped attendees locate entry points, food stalls, seating areas and other amenities &mdash; even on their first visit.</p></div><div class="fs-lcard"><h3>Filters and live status</h3><p>Filter sessions by day, type and location; every card shows Live, Delayed or Expired.</p></div><div class="fs-lcard dark"><h3>Map and schedule, one tap away</h3><p>A floating button opens the venue map or the day&rsquo;s schedule from anywhere in Events.</p></div></div>
+          <div class="fs-head"><p class="fs-eyebrow">Prototype</p><h2 class="fs-title fs-title-64">UI for Attendee App</h2></div>
+          <ol class="fs-psteps" data-proto-steps="nabc-attendee"><li><button type="button" class="fs-pstep" data-step="signin" aria-current="step"><span class="fs-pstep-n">01</span><span class="fs-pstep-b"><span class="fs-pstep-t">Sign in</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>One field and one button. The keyboard opens over the form and Continue stays in reach, for guests who use the app once.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="otp"><span class="fs-pstep-n">02</span><span class="fs-pstep-b"><span class="fs-pstep-t">Verify code</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Four boxes, a numeric keypad and a plain error if the code is wrong. Try 1234, or anything else to see the error.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="home"><span class="fs-pstep-n">03</span><span class="fs-pstep-b"><span class="fs-pstep-t">Home</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>What is on now and what is next, with Events, Food and Profile always one tap away.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="events"><span class="fs-pstep-n">04</span><span class="fs-pstep-b"><span class="fs-pstep-t">Find the session</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Filter by day, type and place; every card says Live, Delayed or Expired. One floating button holds the map and schedule, and a tap on a session opens its details.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="qr"><span class="fs-pstep-n">05</span><span class="fs-pstep-b"><span class="fs-pstep-t">One QR per meal</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Breakfast, lunch and dinner each get their own pass. &ldquo;Ankit Yadav + 1&rdquo; shows the passes left and used, and the dots switch meals: master control for a whole family.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="profile"><span class="fs-pstep-n">06</span><span class="fs-pstep-b"><span class="fs-pstep-t">Everything else</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Sponsors, exhibitors, FAQ, policies and Log Out, kept out of the main tabs.</span></span></span></span></button></li></ol>
+          <p class="fs-mono-16 fs-hint">Tap through the phone, or pick a step to jump there.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="slide fs fs-split has-cards" data-theme="light" aria-label="QR code-based access">
-    <div class="fs-panel multi" style="--n:3"><img src="assets/nabc/att-12.png" alt="Breakfast QR pass" loading="lazy"><img src="assets/nabc/att-13.png" alt="Lunch QR pass" loading="lazy"><img src="assets/nabc/att-14.png" alt="Dinner QR pass" loading="lazy"></div>
-    <div class="fs-stage">
-      <div class="fs-safe">
-        <div class="fs-col">
-          <div class="fs-head"><p class="fs-eyebrow">Key Feature</p><h2 class="fs-title fs-title-64">QR Code-Based Access</h2></div>
-          <div class="fs-lcards"><div class="fs-lcard"><h3>One code, two jobs</h3><p>Every attendee received a unique QR code at ticket purchase. It doubled as an entry pass for swift, contactless access and as a food voucher, cutting wait times on both lines.</p></div><div class="fs-lcard dark"><h3>A pass for every meal</h3><p>Breakfast, lunch and dinner each get their own themed QR, with passes left and used on the card.</p></div></div>
-        </div>
-      </div>
+  <section class="slide fs fs-split has-cards has-proto" data-theme="light" aria-label="UI for Volunteer app">
+    <div class="fs-panel">
+      <iframe src="nabc-prototype/volunteer.html?embed" title="NABC volunteer app: interactive prototype" loading="lazy"></iframe>
+      <a class="fs-panel-link" href="nabc-prototype/volunteer.html" target="_blank" rel="noopener">Open full prototype &#8599;</a>
     </div>
-  </section>
-
-  <section class="slide fs fs-split has-cards" data-theme="light" aria-label="Master control for multiple tickets">
-    <div class="fs-panel multi" style="--n:2"><img src="assets/nabc/att-12.png" alt="Pass card for a group of three" loading="lazy"><img src="assets/nabc/att-15.png" alt="Sponsor ticket with QR and profile menu" loading="lazy"></div>
     <div class="fs-stage">
       <div class="fs-safe">
         <div class="fs-col">
-          <div class="fs-head"><p class="fs-eyebrow">Key Feature</p><h2 class="fs-title fs-title-64">Master Control for Multiple Tickets</h2></div>
-          <div class="fs-lcards"><div class="fs-lcard"><h3>Manage a whole group</h3><p>This addressed the needs of families and groups, particularly those with children or elderly attendees. A single device could manage multiple entries and food collections without handing out separate phones.</p></div><div class="fs-lcard dark"><h3>Swipe between people</h3><p>The pass header reads &ldquo;Ankit Yadav + 1&rdquo; with the number of passes; dots let you move between each attendee&rsquo;s QR.</p></div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="slide fs fs-split has-cards" data-theme="light" aria-label="Volunteer module">
-    <div class="fs-panel multi" style="--n:3"><img src="assets/nabc/vol-12.png" alt="Volunteer home with two tiles" loading="lazy"><img src="assets/nabc/vol-01.png" alt="Food counter scan and logs" loading="lazy"><img src="assets/nabc/vol-03.png" alt="Slide to mark food packets" loading="lazy"></div>
-    <div class="fs-stage">
-      <div class="fs-safe">
-        <div class="fs-col">
-          <div class="fs-head"><p class="fs-eyebrow">Key Feature</p><h2 class="fs-title fs-title-64">Volunteer Module</h2></div>
-          <div class="fs-lcards"><div class="fs-lcard"><h3>Built for the queue</h3><p>Volunteers got a dedicated interface for scanning QR codes at entry points and food stalls, with real-time verification that a code was unique and valid for its assigned entry or meal slot.</p></div><div class="fs-lcard dark"><h3>Learn it in minutes</h3><p>Two big tiles, one scan area and a slider: designed to be picked up during the event itself, with minimal training.</p></div></div>
+          <div class="fs-head"><p class="fs-eyebrow">Prototype</p><h2 class="fs-title fs-title-64">UI for Volunteer App</h2></div>
+          <ol class="fs-psteps" data-proto-steps="nabc-volunteer"><li><button type="button" class="fs-pstep" data-step="signin" aria-current="step"><span class="fs-pstep-n">01</span><span class="fs-pstep-b"><span class="fs-pstep-t">Sign in</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Volunteers sign in the same way as attendees, so there is nothing new to learn. The code is 1234.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="home"><span class="fs-pstep-n">02</span><span class="fs-pstep-b"><span class="fs-pstep-t">Two jobs, two tiles</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Registration Kiosk or Food Counter, and nothing else on the screen, so a new volunteer can start without training.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="kiosk"><span class="fs-pstep-n">03</span><span class="fs-pstep-b"><span class="fs-pstep-t">Registration kiosk</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Scan a QR or type a registration number. The pass and the goodie-bag checklist come up to verify before Submit, and recent checks are logged below.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="counter"><span class="fs-pstep-n">04</span><span class="fs-pstep-b"><span class="fs-pstep-t">Food counter</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>The meal is set by the day and slot; scan the attendee&rsquo;s QR and the log shows who has already collected.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="mark"><span class="fs-pstep-n">05</span><span class="fs-pstep-b"><span class="fs-pstep-t">Mark packets</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Drag the slider from 0 to 5 to record the packets handed over, then Submit. Every pass is unique and valid for its slot, checked in real time.</span></span></span></span></button></li></ol>
+          <p class="fs-mono-16 fs-hint">Tap through the phone, or pick a step to jump there.</p>
         </div>
       </div>
     </div>
@@ -200,25 +175,23 @@
     </div>
   </section>
 
-  <section class="slide fs fs-split has-cards" data-theme="light" aria-label="Problem solving: multiple tickets">
-    <div class="fs-panel multi" style="--n:2"><img src="assets/nabc/att-14.png" alt="Dinner pass for a group" loading="lazy"><img src="assets/nabc/att-15.png" alt="Ticket card with QR" loading="lazy"></div>
+  <section class="slide fs fs-s10" data-theme="light" aria-label="Problem solving: multiple tickets">
     <div class="fs-stage">
       <div class="fs-safe">
         <div class="fs-col">
-          <div class="fs-head"><p class="fs-eyebrow">Problem Solving</p><h2 class="fs-title fs-title-64">Managing Multiple Tickets on One Device</h2></div>
-          <div class="fs-lcards"><div class="fs-lcard"><h3>Challenge</h3><p>Ensuring users could efficiently control multiple entries and food collections from one device without compromising security.</p></div><div class="fs-lcard dark"><h3>Solution</h3><p>A master-control dashboard where users could toggle between different attendees&rsquo; QR codes, reducing complexity while maintaining security checks per person.</p></div></div>
+          <div class="fs-head"><p class="fs-eyebrow">Problem Solving</p><h2 class="fs-alt-title fs-lh-auto">Managing Multiple Tickets on One Device</h2></div>
+          <div class="fs-cmp-grid pairs"><section class="fs-cmp"><div class="fs-cmp-head"><h3 class="fs-cmp-tag">Challenge</h3></div><p class="fs-cmp-body">Ensuring users could efficiently control multiple entries and food collections from one device without compromising security.</p></section><section class="fs-cmp fs-cmp-dark"><div class="fs-cmp-head"><h3 class="fs-cmp-tag">Solution</h3></div><p class="fs-cmp-body">A master-control dashboard where users could toggle between different attendees&rsquo; QR codes, reducing complexity while maintaining security checks per person.</p></section></div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="slide fs fs-split has-cards" data-theme="light" aria-label="Problem solving: volunteers and diverse users">
-    <div class="fs-panel multi" style="--n:2"><img src="assets/nabc/vol-06.png" alt="Registration kiosk scan" loading="lazy"><img src="assets/nabc/att-06.png" alt="Attendee home with large labelled navigation" loading="lazy"></div>
+  <section class="slide fs fs-s10" data-theme="light" aria-label="Problem solving: volunteers and diverse users">
     <div class="fs-stage">
       <div class="fs-safe">
         <div class="fs-col">
-          <div class="fs-head"><p class="fs-eyebrow">Problem Solving</p><h2 class="fs-title fs-title-64">Smooth Volunteer Operations &amp; Diverse Users</h2></div>
-          <div class="fs-lcards"><div class="fs-lcard"><h3>Challenge &middot; Volunteer speed</h3><p>Volunteers needed a straightforward, quick-to-navigate interface, particularly during peak times.</p></div><div class="fs-lcard dark"><h3>Solution</h3><p>A minimalistic UI enabling fast access to scanning and real-time validation, cutting attendee wait times.</p></div><div class="fs-lcard"><h3>Challenge &middot; Diverse demographics</h3><p>The app had to work for tech-savvy young adults and elderly attendees with limited tech experience alike.</p></div><div class="fs-lcard dark"><h3>Solution</h3><p>A simplified UI with large, clearly labelled icons and step-by-step prompts made the app accessible to everyone.</p></div></div>
+          <div class="fs-head"><p class="fs-eyebrow">Problem Solving</p><h2 class="fs-alt-title fs-lh-auto">Smooth Volunteer Operations &amp; Diverse Users</h2></div>
+          <div class="fs-cmp-grid pairs"><section class="fs-cmp"><div class="fs-cmp-head"><h3 class="fs-cmp-tag">Challenge</h3><span class="fs-cmp-mode">Volunteer speed</span></div><p class="fs-cmp-body">Volunteers needed a straightforward, quick-to-navigate interface, particularly during peak times.</p></section><section class="fs-cmp fs-cmp-dark"><div class="fs-cmp-head"><h3 class="fs-cmp-tag">Solution</h3></div><p class="fs-cmp-body">A minimalistic UI enabling fast access to scanning and real-time validation, cutting attendee wait times.</p></section><section class="fs-cmp"><div class="fs-cmp-head"><h3 class="fs-cmp-tag">Challenge</h3><span class="fs-cmp-mode">Diverse demographics</span></div><p class="fs-cmp-body">The app had to work for tech-savvy young adults and elderly attendees with limited tech experience alike.</p></section><section class="fs-cmp fs-cmp-dark"><div class="fs-cmp-head"><h3 class="fs-cmp-tag">Solution</h3></div><p class="fs-cmp-body">A simplified UI with large, clearly labelled icons and step-by-step prompts made the app accessible to everyone.</p></section></div>
         </div>
       </div>
     </div>
@@ -230,24 +203,6 @@
         <div class="fs-head"><p class="fs-eyebrow">Results &amp; Impact</p><h2 class="fs-title fs-title-64">What Changed</h2></div>
         
         <ol class="fs-steps"><li class="fs-step"><span class="fs-num-56">01</span><h3 class="fs-h28-34">Faster entry &amp; food collection</h3><p class="fs-body-20 fs-c-2">QR-based check-in noticeably cut wait times at both the entrance and the food line.</p></li><li class="fs-step"><span class="fs-num-56">02</span><h3 class="fs-h28-34">Self-serve navigation</h3><p class="fs-body-20 fs-c-2">The interactive map gave attendees an easy way to find their way without asking staff.</p></li><li class="fs-step"><span class="fs-num-56">03</span><h3 class="fs-h28-34">Simplified group management</h3><p class="fs-body-20 fs-c-2">Families and groups could manage multiple attendees with ease via the master-control feature.</p></li><li class="fs-step"><span class="fs-num-56">04</span><h3 class="fs-h28-34">Smoother volunteer operations</h3><p class="fs-body-20 fs-c-2">Volunteers could assist attendees more effectively even during peak crowd times.</p></li></ol>
-      </div>
-    </div>
-  </section>
-
-  <section class="slide fs nb-sl fs-vc" data-theme="light" aria-label="Attendee screens">
-    <div class="fs-stage">
-      <div class="fs-safe">
-        <div class="fs-head"><p class="fs-eyebrow">Screens</p><h2 class="fs-title fs-title-64">Attendee app</h2></div>
-        <ul class="nb-gal"><li><img src="assets/nabc/att-01.png" alt="Attendee app screen" loading="lazy"></li><li><img src="assets/nabc/att-02.png" alt="Attendee app screen" loading="lazy"></li><li><img src="assets/nabc/att-06.png" alt="Attendee app screen" loading="lazy"></li><li><img src="assets/nabc/att-08.png" alt="Attendee app screen" loading="lazy"></li><li><img src="assets/nabc/att-12.png" alt="Attendee app screen" loading="lazy"></li><li><img src="assets/nabc/att-15.png" alt="Attendee app screen" loading="lazy"></li><li><img src="assets/nabc/att-17.png" alt="Attendee app screen" loading="lazy"></li><li><img src="assets/nabc/att-19.png" alt="Attendee app screen" loading="lazy"></li></ul>
-      </div>
-    </div>
-  </section>
-
-  <section class="slide fs nb-sl fs-vc" data-theme="light" aria-label="Volunteer screens">
-    <div class="fs-stage">
-      <div class="fs-safe">
-        <div class="fs-head"><p class="fs-eyebrow">Screens</p><h2 class="fs-title fs-title-64">Volunteer app</h2></div>
-        <ul class="nb-gal"><li><img src="assets/nabc/vol-13.png" alt="Volunteer app screen" loading="lazy"></li><li><img src="assets/nabc/vol-16.png" alt="Volunteer app screen" loading="lazy"></li><li><img src="assets/nabc/vol-12.png" alt="Volunteer app screen" loading="lazy"></li><li><img src="assets/nabc/vol-06.png" alt="Volunteer app screen" loading="lazy"></li><li><img src="assets/nabc/vol-08.png" alt="Volunteer app screen" loading="lazy"></li><li><img src="assets/nabc/vol-01.png" alt="Volunteer app screen" loading="lazy"></li><li><img src="assets/nabc/vol-03.png" alt="Volunteer app screen" loading="lazy"></li><li><img src="assets/nabc/vol-05.png" alt="Volunteer app screen" loading="lazy"></li></ul>
       </div>
     </div>
   </section>
@@ -272,10 +227,10 @@
 
 <div class="deck-nav">
   <button class="deck-btn deck-prev" aria-label="Previous slide">&larr;</button>
-  <span class="deck-counter">01 / 19</span>
+  <span class="deck-counter">01 / 14</span>
   <button class="deck-btn deck-next" aria-label="Next slide">&rarr;</button>
 </div>
 
-<script src="script.js?v=fs30"></script>
+<script src="script.js?v=fs31"></script>
 </body>
 </html>

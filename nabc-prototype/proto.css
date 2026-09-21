@@ -1,0 +1,48 @@
+/* NABC prototypes: Figma renders as screens, live hotspots + real inputs on top. Layout only; every pixel of UI comes from the Figma frames. */
+html,body{height:100%;margin:0;background:#e9eaee;font-family:'Inter FS','Inter',system-ui,sans-serif;color:#191819}
+.proto{min-height:100%;display:flex;align-items:center;justify-content:center;gap:56px;padding:16px;box-sizing:border-box}
+.side{width:260px;flex:none}
+.side h1{font:600 22px/1.3 var(--sans,inherit);color:#191819;margin:0}
+.side .sub{margin:6px 0 0;font:400 13px/1.5 inherit;color:#4a4f4f}
+.steps{list-style:none;padding:0;margin:20px 0 14px;display:flex;flex-direction:column;gap:6px;counter-reset:s}
+.steps li{counter-increment:s}
+.steps button{all:unset;box-sizing:border-box;width:100%;cursor:pointer;display:flex;gap:10px;align-items:center;padding:9px 12px;border-radius:12px;font:500 14px/1.4 inherit;color:#2b2f2f;border:1px solid transparent}
+.steps button::before{content:counter(s);width:22px;height:22px;border-radius:50%;background:#fff;border:1px solid #cfd8d8;display:grid;place-items:center;font:600 12px inherit;flex:none}
+.steps button:hover{background:#fff}
+.steps button[aria-current="step"]{background:#fff;border-color:#191819;color:#191819}
+.steps button[aria-current="step"]::before{background:#191819;border-color:#191819;color:#fff}
+.steps button:focus-visible,.restart:focus-visible{outline:2px solid #191819;outline-offset:2px}
+.hint{font:400 13px/1.5 inherit;color:#4a4f4f;margin:0}
+.note{margin:14px 0 0;font:400 12px/1.5 inherit;color:#6b7272}
+.restart{all:unset;box-sizing:border-box;margin-top:14px;cursor:pointer;padding:8px 16px;border-radius:100px;border:1px solid #191819;color:#191819;font:500 13px inherit;background:#fff}
+.stage-wrap{flex:none;display:flex;align-items:center;justify-content:center}
+.stage{position:relative;flex:none;transform-origin:center center;border-radius:36px;overflow:hidden;background:#fff;box-shadow:0 0 0 10px #16191a,0 24px 60px rgba(0,0,0,.28)}
+.scr{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .18s ease,visibility 0s .18s}
+.scr.active{opacity:1;visibility:visible;transition:opacity .18s ease}
+.body{position:absolute;left:0;top:0;width:100%;overflow-x:hidden;overflow-y:auto;scrollbar-width:none}
+.body::-webkit-scrollbar{display:none}
+.inner{position:relative;width:100%;overflow:hidden}
+.pin{position:absolute;left:0;right:0;bottom:0;overflow:hidden}
+.scr img{position:absolute;display:block;max-width:none;user-select:none;-webkit-user-drag:none}
+.hs{all:unset;position:absolute;cursor:pointer;-webkit-tap-highlight-color:transparent;border-radius:10px}
+.hs:focus-visible{outline:2px solid #E05A47;outline-offset:-2px}
+.hs:active{background:rgba(25,24,25,.06)}
+.fld{position:absolute;box-sizing:border-box;font:400 16px/1 Roboto,system-ui,sans-serif;color:#1e1e1e;background:#FAFBFF;border:1px solid #E4E7EE;border-radius:12px;padding:0 16px;outline:0}
+.fld::placeholder{color:#B4B8C4;opacity:1}
+.fld:focus{border-color:#E05A47}
+.otp{position:absolute;box-sizing:border-box;text-align:center;font:400 24px/1 Roboto,system-ui,sans-serif;color:#111;background:#fff;border:1px solid #DADDE6;border-radius:10px;outline:0;padding:0}
+.otp:focus{border-color:#E05A47}
+.otp.err{border-color:#E05A47}
+.cover{position:absolute;background:#fff}
+.sl-lbl{position:absolute;font:400 15px/1 Roboto,system-ui,sans-serif;color:#6b7896;transform:translateX(-50%);cursor:pointer}
+.sl-lbl.on{color:#000;font-weight:700}
+.sl-track{position:absolute;height:6px;border-radius:6px;background:#707a99}
+.sl-fill{position:absolute;height:6px;border-radius:6px;background:#E05A47}
+.sl-thumb{position:absolute;width:24px;height:24px;margin:-9px 0 0 -12px;border-radius:50%;background:#E05A47;cursor:grab;touch-action:none}
+.sl-thumb:focus-visible{outline:2px solid #191819;outline-offset:2px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+html.embed,html.embed body{background:transparent;overflow:hidden}
+html.embed .proto{padding:0;min-height:100%}
+html.embed .side{display:none}
+@media (max-width:760px){.side{display:none}.proto{padding:0}}
+@media (prefers-reduced-motion:reduce){.scr,.scr.active{transition:none}}
