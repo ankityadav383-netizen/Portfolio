@@ -486,8 +486,52 @@ a{text-decoration:none;color:inherit;}
   transition:transform .35s ease;
 }
 .thought-card:hover{transform:translateY(-6px);}
-.stan-row{margin-bottom:32px;}
-.stan-row .thought-card::before{background:linear-gradient(180deg,rgba(0,0,0,.04) 0%,rgba(0,0,0,.5) 42%,rgba(0,0,0,.93) 100%);}
+/* STAN: one interactive card (Figma prototype + feedback) */
+.stan-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,400px);grid-template-areas:"copy phone" "form phone";grid-template-rows:auto 1fr;column-gap:56px;row-gap:26px;align-items:start;margin-bottom:32px;padding:44px;border-radius:24px;background:var(--near-black);color:var(--cream);}
+.stan-copy{grid-area:copy;}
+.stan-copy .thought-date{font-size:13px;opacity:.8;}
+.stan-copy h3{margin:12px 0 12px;font-size:34px;line-height:1.1;font-weight:700;color:#fff;}
+.stan-copy p{margin:0;font-size:15px;line-height:1.6;opacity:.85;}
+.stan-phone{grid-area:phone;align-self:center;justify-self:center;width:100%;max-width:400px;}
+.stan-box{position:relative;width:100%;aspect-ratio:420/780;border-radius:20px;overflow:hidden;background:#000;}
+.stan-box iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000;}
+.stan-play{position:absolute;inset:0;z-index:2;width:100%;height:100%;border:0;padding:0;background-color:#000;background-size:cover;background-position:center;cursor:pointer;display:flex;align-items:flex-end;justify-content:center;padding-bottom:9%;transition:opacity .45s ease;}
+.stan-play span{padding:12px 22px;border-radius:100px;background:var(--cream);color:var(--near-black);font-weight:600;font-size:14px;box-shadow:0 8px 24px rgba(0,0,0,.4);transition:transform .2s;}
+.stan-play:hover span{transform:scale(1.05);}
+.stan-play.loading span{opacity:.75;}
+.stan-box.live .stan-play{opacity:0;pointer-events:none;}
+.stan-play:focus-visible{outline:3px solid var(--cream);outline-offset:-3px;}
+.stan-open{display:block;margin-top:12px;text-align:center;font-size:13px;color:var(--cream);opacity:.7;}
+.stan-open:hover{opacity:1;}
+.stan-form{grid-area:form;display:flex;flex-direction:column;gap:14px;}
+.stan-form fieldset{border:0;margin:0;padding:0;}
+.stan-form legend,.stan-form label{display:block;padding:0;font-size:14px;font-weight:500;color:#fff;}
+.stan-form label span{font-weight:400;opacity:.65;}
+.stan-form textarea,.stan-form input[type=email]{display:block;width:100%;margin-top:8px;padding:12px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font:inherit;font-size:15px;line-height:1.5;resize:vertical;}
+.stan-form textarea::placeholder,.stan-form input::placeholder{color:rgba(250,247,243,.45);}
+.stan-form textarea:focus,.stan-form input:focus{outline:2px solid var(--cream);outline-offset:1px;}
+.stan-stars{display:flex;gap:4px;margin-top:8px;}
+.stan-stars button{width:38px;height:38px;border:0;background:none;padding:0;color:rgba(255,255,255,.25);cursor:pointer;transition:transform .15s,color .2s;}
+.stan-stars button svg{width:100%;height:100%;fill:currentColor;}
+.stan-stars button.on{color:#f5b301;}
+.stan-stars button:hover{transform:scale(1.12);}
+.stan-stars button:focus-visible{outline:2px solid var(--cream);border-radius:8px;}
+.stan-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+.stan-actions button,.stan-actions a{display:inline-flex;align-items:center;justify-content:center;padding:13px 22px;border-radius:100px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;border:1.5px solid var(--cream);}
+.stan-actions button{background:var(--cream);color:var(--near-black);}
+.stan-actions a{background:transparent;color:var(--cream);text-decoration:none;}
+.stan-actions [hidden]{display:none;}
+.stan-actions button:disabled{opacity:.6;cursor:default;}
+.stan-msg{min-height:20px;margin:0;font-size:14px;font-weight:500;}
+.stan-msg.err{color:#ff8f86;}.stan-msg.ok{color:#7ff29a;}
+.stan-fine{margin:0;font-size:12px;line-height:1.5;opacity:.6;}
+.stan-form.sent fieldset,.stan-form.sent label,.stan-form.sent .stan-fine{display:none;}
+@media (max-width:900px){
+  .stan-card{grid-template-columns:1fr;grid-template-areas:"copy" "phone" "form";padding:26px 20px;row-gap:22px;}
+  .stan-copy h3{font-size:26px;}
+}
+
+
 .thought-card::before{
   content:"";
   position:absolute;inset:0;

@@ -151,30 +151,42 @@
   <!-- THOUGHTS -->
   <section class="thoughts" id="thoughts">
     <h2 class="section-heading">Thoughts</h2>
-        <div class="thoughts-grid stan-row">
-      <a class="thought-card" href="stan-prototype/index.html#story" style="background-image:url('assets/stan/card-story.webp')">
-        <div class="thought-inner">
-          <span class="thought-date">Case study &middot; Stan</span>
-          <h3>The first minute, without the overwhelm</h3>
-          <p>An animation-led onboarding for first-time users of a gaming-community app, so the first minute feels like play, not paperwork.</p>
+        <article class="stan-card" id="stanCard">
+      <div class="stan-copy">
+        <span class="thought-date">Case study &middot; Stan</span>
+        <h3>The first minute, without the overwhelm</h3>
+        <p>An animation-led onboarding for first-time users of a gaming-community app, built to keep the first minute engaging instead of overwhelming. Tap through the real prototype, then tell me how it felt.</p>
+      </div>
+      <div class="stan-phone">
+        <div class="stan-box" id="stanBox">
+          <button type="button" class="stan-play" id="stanPlay" style="background-image:url('assets/stan/proto-poster.webp')" aria-label="Play the Stan prototype"><span>Tap to play</span></button>
         </div>
-      </a>
-      <a class="thought-card" href="stan-prototype/index.html#play" style="background-image:url('assets/stan/card-play.webp')">
-        <div class="thought-inner">
-          <span class="thought-date">Play it &middot; 2 minutes</span>
-          <h3>Level up your first day</h3>
-          <p>A small game through the real screens: sign in, unlock your avatar, join a club, play a game.</p>
+        <a class="stan-open" href="https://www.figma.com/proto/6QnaHZ2rFU34qQOwCHlWMk/Ankit_Yadav_Stan?node-id=154-1848&starting-point-node-id=154%3A1848&scaling=scale-down&content-scaling=fixed&hide-ui=1" target="_blank" rel="noopener">Open full screen &#8599;</a>
+      </div>
+      <form class="stan-form" id="stanForm" novalidate>
+        <fieldset>
+          <legend>How did it feel?</legend>
+          <div class="stan-stars" id="stanStars" role="radiogroup" aria-label="Rating out of 5"></div>
+        </fieldset>
+        <label>Your experience
+          <textarea id="stanExp" rows="3" maxlength="1200" placeholder="What worked, what confused you, what you liked..."></textarea>
+        </label>
+        <label>How would you solve the overwhelm?
+          <textarea id="stanIdea" rows="3" maxlength="1200" placeholder="Your idea for making a first day in a busy app feel easier..."></textarea>
+        </label>
+        <label>Your email <span>(optional, only if you want a reply)</span>
+          <input id="stanEmail" type="email" autocomplete="email" placeholder="you@example.com">
+        </label>
+        <input type="text" id="stanHoney" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0">
+        <p class="stan-msg" id="stanMsg" role="status" aria-live="polite"></p>
+        <div class="stan-actions">
+          <button type="submit" id="stanSend">Send to Ankit</button>
+          <a id="stanMail" href="mailto:ankit.yadav383@gmail.com" hidden>Email it instead</a>
         </div>
-      </a>
-      <a class="thought-card" href="stan-prototype/index.html#feedback" style="background-image:url('assets/stan/card-feedback.webp')">
-        <div class="thought-inner">
-          <span class="thought-date">Feedback &middot; straight to my inbox</span>
-          <h3>Tell me if it worked</h3>
-          <p>Rate it, say whether it made the app feel less overwhelming, add anything. It lands in ankit.yadav383@gmail.com.</p>
-        </div>
-      </a>
-    </div>
-<div class="thoughts-grid">
+        <p class="stan-fine">Lands in my inbox (ankit.yadav383@gmail.com) through FormSubmit. Only what you type here is sent.</p>
+      </form>
+    </article>
+    <div class="thoughts-grid">
       <a class="thought-card" href="https://ankitproduct.framer.website/blog/how-can-designers-prepare-for-the-future" target="_blank" rel="noopener" style="background-image:url('https://framerusercontent.com/images/cjrFm5woVT8oYzDhaqAWlnmJ8.png?scale-down-to=1024&width=1122&height=1402')">
         <div class="thought-inner">
           <span class="thought-date">May 5, 2025</span>
@@ -225,6 +237,6 @@
   </div>
 </footer>
 
-<script src="script.js?v=fs44"></script>
+<script src="script.js?v=fs45"></script>
 </body>
 </html>

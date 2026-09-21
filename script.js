@@ -198,3 +198,51 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   // space / arrows on a focused step must not flip the slide
   list.addEventListener('keydown', (e) => { if (e.key === ' ' || e.key.startsWith('Arrow')) e.stopPropagation(); });
 });
+
+// Stan card: play the Figma prototype on tap, and send feedback to the owner's inbox
+(() => {
+  const card = document.getElementById('stanCard');
+  if (!card) return;
+  const box = document.getElementById('stanBox'), play = document.getElementById('stanPlay');
+  const PROTO = 'https://embed.figma.com/proto/6QnaHZ2rFU34qQOwCHlWMk/Ankit_Yadav_Stan?node-id=154-1848&starting-point-node-id=154%3A1848&scaling=scale-down&content-scaling=fixed&hide-ui=1&embed-host=share';
+  play.addEventListener('click', () => {
+    if (box.querySelector('iframe')) return;
+    play.classList.add('loading'); play.querySelector('span').textContent = 'Loading...';
+    const f = document.createElement('iframe');
+    f.src = PROTO; f.title = 'Stan onboarding prototype: tap through it'; f.setAttribute('allow', 'fullscreen'); f.allowFullscreen = true;
+    f.addEventListener('load', () => setTimeout(() => box.classList.add('live'), 900));
+    box.appendChild(f);
+  });
+
+  const MAIL = 'ankit.yadav383@gmail.com';
+  const stars = document.getElementById('stanStars'), form = document.getElementById('stanForm'), msg = document.getElementById('stanMsg');
+  const send = document.getElementById('stanSend'), mail = document.getElementById('stanMail');
+  let rating = 0;
+  for (let i = 1; i <= 5; i++) {
+    const b = document.createElement('button'); b.type = 'button'; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', 'false'); b.setAttribute('aria-label', i + (i === 1 ? ' star' : ' stars')); b.dataset.v = i;
+    b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg>'; stars.appendChild(b);
+  }
+  stars.addEventListener('click', (e) => {
+    const b = e.target.closest('button'); if (!b) return; rating = +b.dataset.v;
+    stars.querySelectorAll('button').forEach((x) => { x.classList.toggle('on', +x.dataset.v <= rating); x.setAttribute('aria-checked', +x.dataset.v === rating ? 'true' : 'false'); });
+  });
+  const val = (id) => document.getElementById(id).value.trim();
+  const payload = () => ({ rating: rating ? rating + ' / 5' : 'not given', experience: val('stanExp') || '(none)', how_to_solve_the_overwhelm: val('stanIdea') || '(none)', reply_email: val('stanEmail') || '(none)', source: 'Portfolio: Stan prototype card' });
+  const mailto = () => 'mailto:' + MAIL + '?subject=' + encodeURIComponent('Stan prototype feedback') + '&body=' + encodeURIComponent(Object.entries(payload()).map(([k, v]) => k.replace(/_/g, ' ') + ': ' + v).join('\n'));
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault(); msg.className = 'stan-msg'; mail.hidden = true;
+    if (!rating && !val('stanExp') && !val('stanIdea')) { msg.className = 'stan-msg err'; msg.textContent = 'Add a rating or a line about your experience or your idea first.'; return; }
+    if (document.getElementById('stanHoney').value) return;
+    const em = val('stanEmail'); if (em && !/^\S+@\S+\.\S+$/.test(em)) { msg.className = 'stan-msg err'; msg.textContent = 'That email does not look right. Leave it empty if you prefer.'; return; }
+    send.disabled = true; send.textContent = 'Sending...'; msg.textContent = '';
+    try {
+      const res = await fetch('https://formsubmit.co/ajax/' + MAIL, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ _subject: 'Stan prototype feedback', _template: 'table', _captcha: 'false', ...(em ? { _replyto: em } : {}), ...payload() }) });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || String(data.success) === 'false') throw new Error(data.message || 'failed');
+      form.classList.add('sent'); msg.className = 'stan-msg ok'; msg.textContent = 'Sent. Thank you, this lands straight in my inbox.'; send.hidden = true;
+    } catch (err) {
+      msg.className = 'stan-msg err'; msg.textContent = 'Could not send it from here. Email it instead, nothing is lost.'; mail.href = mailto(); mail.hidden = false; send.disabled = false; send.textContent = 'Try again';
+    }
+  });
+})();
