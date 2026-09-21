@@ -1650,3 +1650,12 @@ body.page-nabc .fs-panel.nb-photo img{max-height:none;}
 .fs-panel .rc-shot img{max-height:82%;max-width:80%;width:auto;height:auto;}
 @media (max-width:900px){.fs-panel .rc-shot{position:relative;display:none;}.fs-panel .rc-shot.on{display:flex;}.fs-panel .rc-shot img{max-height:560px;margin:24px 0 8px;}}
 @media (prefers-reduced-motion:reduce){.fs-panel .rc-shot,.fs-panel .rc-shot.on{transition:none;}}
+
+/* Virtual Try-on: wide (landscape) screens fill more of the panel; longer step list gets tighter spacing */
+.fs-panel.wide .rc-shot img{max-width:94%;max-height:none;border-radius:14px;box-shadow:0 14px 34px rgba(0,0,0,.2);}
+@media (min-width:901px){
+  /* landscape screens: give the panel more width, narrow the text column to match */
+  .fs-panel.wide{left:calc(50% - var(--s,.5) * 150px);}
+  .fs-split.has-wide .fs-col{width:690px;}
+}
+.fs-psteps.tight{gap:12px;}
