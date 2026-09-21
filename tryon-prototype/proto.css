@@ -16,7 +16,7 @@ html,body{height:100%;margin:0;background:#e9e4dc;font-family:var(--f-public),sy
 .note{margin:14px 0 0;font:400 12px/1.5 var(--f-public);color:var(--t-ink-50)}
 .restart{all:unset;box-sizing:border-box;margin-top:14px;cursor:pointer;padding:8px 16px;border-radius:100px;border:1px solid var(--t-ink);color:var(--t-ink);font:500 13px var(--f-public);background:#fff}
 .stage-wrap{flex:none;position:relative}
-.stage{position:absolute;left:0;top:0;width:1512px;height:941px;transform-origin:0 0;overflow:hidden;border-radius:14px;background:#1b1b1b;box-shadow:0 24px 60px rgba(0,0,0,.28)}
+.stage{position:absolute;left:0;top:0;width:1512px;height:941px;transform-origin:0 0;overflow:hidden;border-radius:18px;background:var(--t-load);box-shadow:0 0 0 10px var(--t-load),0 24px 60px rgba(0,0,0,.28)}
 .stage .screen.scr{position:absolute;left:0;top:0;opacity:0;visibility:hidden;transition:opacity .18s ease,visibility 0s .18s}
 .stage .screen.scr.active{opacity:1;visibility:visible;transition:opacity .18s ease}
 /* affordances */
@@ -33,6 +33,6 @@ html,body{height:100%;margin:0;background:#e9e4dc;font-family:var(--f-public),sy
 html.embed,html.embed body{background:transparent;overflow:hidden}
 html.embed .proto{padding:0;min-height:100%}
 html.embed .side{display:none}
-html.embed .stage{border-radius:0;box-shadow:none}
-@media (max-width:860px){.side{display:none}.proto{padding:0}}
+html.embed .stage{box-shadow:0 0 0 10px var(--t-load),0 14px 34px rgba(0,0,0,.25)}
+@media (max-width:860px){.side{display:none}.proto{padding:0}.stage{border-radius:0;box-shadow:none}}
 @media (prefers-reduced-motion:reduce){.stage .screen.scr,.stage .screen.scr.active{transition:none}.stage .hint-ring{animation:none}}

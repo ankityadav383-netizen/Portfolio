@@ -119,7 +119,7 @@
   function fit() {
     const embed = document.documentElement.classList.contains('embed');
     const narrow = innerWidth <= 860 && !embed;
-    const side = embed || narrow ? 0 : 308, mv = embed || narrow ? 0 : 48, mh = embed || narrow ? 0 : 32;
+    const side = embed || narrow ? 0 : 308, mv = narrow ? 0 : embed ? 64 : 72, mh = narrow ? 0 : embed ? 64 : 52;   // room for the frame
     const s = Math.min(embed ? 10 : 1, (innerHeight - mv) / H, (innerWidth - side - mh) / W);
     stage.style.transform = `scale(${s})`; wrap.style.width = W * s + 'px'; wrap.style.height = H * s + 'px';
   }
