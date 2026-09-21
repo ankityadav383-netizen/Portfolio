@@ -1,126 +1,166 @@
-/* Senco Virtual Try-on prototype. Screens are the Figma frames; [data-act] elements inside them are the live hotspots. */
+/* Senco Virtual Try-on prototype. The plugin is rendered from state (engine.js); every control does what it says. */
 (() => {
   'use strict';
   const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
-  const KEY = 'tryon';
-  const stage = $('#stage'), wrap = $('#stageWrap'), toast = $('#toast');
-  const W = 1512, H = 941;
-
-  /* screen -> { action: target }.  '@R' = the screen we came from (login / feedback overlays) */
-  const T = {
-    pdp:      { tryon: 'loading' },
-    loading:  {},
-    consent:  { accept: 's1', decline: 'pdp', close: 'pdp' },
-    s1:       { add: 's2', cart: 'login', close: 'feedback', 'remove-earrings': 'empty' },
-    s2:       { back: 's1', close: 'feedback', 'pick-necklace-1': 's3' },
-    s3:       { done: 's4', back: 's2', 'pick-necklace-1': 's2', close: 'feedback' },
-    s4:       { add: 's5', cart: 'login', close: 'feedback', 'remove-necklace': 's1' },
-    s5:       { done: 's6', back: 's4', close: 'feedback' },
-    s6:       { cart: 'login', close: 'feedback', 'remove-nosepin': 's4', 'tab-hand': 's7', live: 'live' },
-    s7:       { done: 's8', back: 's6', 'tab-face': 's6', close: 'feedback' },
-    s8:       { add: 's9', cart: 'login', close: 'feedback', 'tab-face': 's6', 'remove-bangle': 's6' },
-    s9:       { done: 's10', back: 's8', 'tab-face': 's6', close: 'feedback' },
-    s10:      { cart: 'login', close: 'feedback', live: 'nohand', 'tab-face': 's6', 'remove-ring': 's8' },
-    live:     { model: 's6', cart: 'login', close: 'feedback' },
-    nohand:   { model: 's10', cart: 'login', close: 'feedback' },
-    empty:    { add: 's1', close: 'feedback' },
-    login:    { 'login-close': '@R', otp: '@otp' },
-    feedback: { stay: '@R', submit: 'pdp' },
-  };
-  /* the action that moves the designed story forward (gets the pulsing outline) */
-  const NEXT = { pdp: 'tryon', consent: 'accept', s1: 'add', s2: 'pick-necklace-1', s3: 'done', s4: 'add', s5: 'done', s6: 'tab-hand', s7: 'done', s8: 'add', s9: 'done', s10: 'cart', live: 'model', nohand: 'model', empty: 'add', login: 'otp', feedback: 'submit' };
-  const AUTO = { loading: { ms: 2400, go: 'consent' } };
-  /* deck step -> [screen, screen to return to from login/feedback] */
-  const ENTRY = { consent: ['consent', 's1'], look: ['s1', 's1'], add: ['s2', 's1'], set: ['s6', 's6'], hand: ['s10', 's10'], live: ['live', 's6'], cart: ['login', 's10'], feedback: ['feedback', 's10'] };
-  const STEP_OF = { pdp: null, loading: 'consent', consent: 'consent', s1: 'look', empty: 'look', s2: 'add', s3: 'add', s4: 'set', s5: 'set', s6: 'set', s7: 'hand', s8: 'hand', s9: 'hand', s10: 'hand', live: 'live', nohand: 'live', login: 'cart', feedback: 'feedback' };
-  const MSG = {
-    swap: 'Swap Item is not part of the Figma flow', download: 'Download look is not part of the Figma flow', tab: 'Add three pieces first, then the Hand tab opens',
-    cat: 'Only the designed picks are live: follow the outline', pick: 'Only the outlined card is designed as a pick', add: 'Not part of the Figma flow', remove: 'Not part of the Figma flow',
-    live: 'Live view opens from the three-piece look', model: 'Already on the model view', comment: '', close: '', cart: 'Add to cart is not available yet', done: 'Pick a piece first', back: '', accept: '', decline: '', default: 'Not part of the Figma flow',
-  };
-
-  let cur = null, R = 's1', timer = 0, hintTimer = 0, rating = 4;
+  const KEY = 'tryon', W = 1512, H = 941;
+  const E = window.TryonEngine, { CHIP_ORDER, MAXN } = E;
+  const stage = $('#stage'), wrap = $('#stageWrap'), toast = $('#toast'), plugin = $('#scr-plugin');
   const screens = Object.fromEntries($$('.scr', stage).map((s) => [s.id.replace('scr-', ''), s]));
-  const say = (m) => { if (!m) return; toast.textContent = m; toast.classList.add('on'); clearTimeout(say.t); say.t = setTimeout(() => toast.classList.remove('on'), 1800); };
 
-  function markStep(id) {
-    const k = STEP_OF[id];
+  const fresh = () => ({ tab: 'face', face: [{ c: 'earrings', v: 0 }], hand: [], mode: 'info', focus: 0, cat: null, pick: null, off: {}, live: false, swap: false });
+  let S = fresh(), view = 'pdp', loggedIn = false, rating = 4, timer = 0, hintTimer = 0;
+  const list = () => S[S.tab], other = () => (S.tab === 'face' ? 'hand' : 'face'), count = () => S.face.length + S.hand.length;
+
+  const say = (m) => { toast.textContent = m; toast.classList.add('on'); clearTimeout(say.t); say.t = setTimeout(() => toast.classList.remove('on'), 1900); };
+
+  /* ---------- state helpers ---------- */
+  const firstFree = (tab) => CHIP_ORDER[tab].find((c) => !S[tab].some((p) => p.c === c)) || CHIP_ORDER[tab][0];
+  function enterAdd(cat, pick = null, swap = false) { S.mode = 'add'; S.cat = cat; S.pick = pick; S.swap = swap; }
+  function emptyOrAdd() { if (count() === 0) { S.tab = 'face'; S.mode = 'empty'; } else enterAdd(firstFree(S.tab)); }
+  function toInfo(i) { const l = list(); if (!l.length) return emptyOrAdd(); S.mode = 'info'; S.swap = false; S.pick = null; S.focus = Math.max(0, Math.min(i == null ? l.length - 1 : i, l.length - 1)); }
+
+  const PLUGIN = {
+    'tab-face': () => setTab('face'), 'tab-hand': () => setTab('hand'),
+    add: () => enterAdd(firstFree(S.tab)),
+    swap: () => { const p = list()[S.focus]; enterAdd(p.c, p.v, true); },
+    done: () => {
+      if (S.pick == null) return;
+      const l = list(), at = l.findIndex((p) => p.c === S.cat);
+      if (at >= 0) { l[at].v = S.pick; S.focus = at; } else { l.push({ c: S.cat, v: S.pick }); S.focus = l.length - 1; }
+      S.mode = 'info'; S.swap = false; S.pick = null;
+    },
+    back: () => { S.pick = null; S.swap = false; if (list().length) toInfo(S.focus); else if (count() === 0) emptyOrAdd(); else { S.tab = other(); toInfo(); } },
+    live: () => { S.live = true; }, model: () => { S.live = false; },
+    prev: () => { S.off[S.cat] = (S.off[S.cat] || 0) - 1; }, next: () => { S.off[S.cat] = (S.off[S.cat] || 0) + 1; },
+    cart: () => { if (!count()) return; if (loggedIn) { go('feedback'); say('Added to cart'); } else go('login'); },
+    download: () => say('Look saved (simulated in the prototype)'), pd: () => say('Opens the product page on the Senco store'),
+    close: () => go('feedback'), scrim: () => go('feedback'),
+  };
+  function setTab(t) { if (S.tab === t) return; S.tab = t; if (S[t].length) toInfo(); else enterAdd(firstFree(t)); }
+  function pluginAct(a) {
+    let m;
+    if ((m = /^focus-(\d+)$/.exec(a))) return toInfo(+m[1]);
+    if ((m = /^remove-(\d+)$/.exec(a))) { const i = +m[1]; list().splice(i, 1); S.pick = null; S.swap = false; return list().length ? toInfo(Math.min(i, list().length - 1)) : emptyOrAdd(); }
+    if ((m = /^cat-(\w+)$/.exec(a))) { const ex = list().find((p) => p.c === m[1]); S.cat = m[1]; S.pick = ex ? ex.v : null; S.swap = !!ex; return; }
+    if ((m = /^pick-(\d+)$/.exec(a))) { S.pick = S.pick === +m[1] ? null : +m[1]; return; }
+    if (PLUGIN[a]) return PLUGIN[a]();
+  }
+
+  /* ---------- views ---------- */
+  const NEXT = () => {
+    if (view === 'pdp') return '.tryon-hs'; if (view === 'consent') return '[data-act="accept"]'; if (view === 'login') return '[data-act="otp"]'; if (view === 'feedback') return '[data-act="submit"]';
+    if (view !== 'plugin' || S.live) return null;
+    if (S.mode === 'empty') return '[data-act="add"]';
+    if (S.mode === 'add') return S.pick == null ? '[data-act="pick-1"]' : '[data-act="done"]';
+    if (S.tab === 'face') return S.face.length < 3 ? '[data-act="add"]' : (S.hand.length ? '[data-act="cart"]' : '[data-act="tab-hand"]');
+    return S.hand.length < 2 ? '[data-act="add"]' : '[data-act="cart"]';
+  };
+  function stepKey() {
+    if (view === 'pdp') return null;
+    if (view === 'loading' || view === 'consent') return 'consent';
+    if (view === 'login') return 'cart'; if (view === 'feedback') return 'feedback';
+    if (S.live) return 'live'; if (S.tab === 'hand') return 'hand'; if (S.mode === 'add') return 'add';
+    return S.face.length >= 2 ? 'set' : 'look';
+  }
+  function markStep() {
+    const k = stepKey();
     $$('#steps button').forEach((b) => (b.dataset.step === k ? b.setAttribute('aria-current', 'step') : b.removeAttribute('aria-current')));
     if (window.parent !== window && k) window.parent.postMessage({ arivooProto: KEY, step: k }, '*');
   }
-  function prep(id) {
-    const sc = screens[id], map = T[id] || {};
-    $$('[data-act]', sc).forEach((el) => {
-      const a = el.dataset.act, on = a in map;
-      el.classList.toggle('live', on); el.classList.toggle('inert', !on);
-      el.classList.remove('hint-ring');
+  function prep(scr) {
+    $$('[data-act]', scr).forEach((el) => {
+      const a = el.dataset.act; if (a === 'scrim') return;
       if (!el.matches('button,input,textarea,a')) { el.setAttribute('role', 'button'); if (!el.getAttribute('aria-label')) el.setAttribute('aria-label', (el.textContent || el.querySelector('img')?.alt || a).trim()); }
-      el.tabIndex = on || /^(star|chip)/.test(a) ? 0 : -1;
+      const dis = el.classList.contains('dis'); el.tabIndex = dis ? -1 : 0; if (dis) el.setAttribute('aria-disabled', 'true');
     });
-    $$('.hs', sc).forEach((h) => { h.tabIndex = h.dataset.act in map ? 0 : -1; });
     clearTimeout(hintTimer);
-    hintTimer = setTimeout(() => { const n = NEXT[id] && $(`[data-act="${NEXT[id]}"]`, sc); if (n && cur === id && !n.matches('input,textarea')) n.classList.add('hint-ring'); }, 1400);
+    hintTimer = setTimeout(() => { const s = NEXT(), n = s && $(s, scr); if (n && !n.classList.contains('dis')) n.classList.add('hint-ring'); }, 1500);
   }
-  function go(id, o = {}) {
-    if (!screens[id]) return;
-    clearTimeout(timer);
-    if (cur) screens[cur].classList.remove('active');
-    if (o.ret) R = o.ret; else if (id === 'login' || id === 'feedback') { if (cur && cur !== 'login' && cur !== 'feedback') R = cur; }
-    cur = id; screens[id].classList.add('active'); prep(id); markStep(id);
-    if (AUTO[id]) timer = setTimeout(() => { if (cur === id) go(AUTO[id].go); }, AUTO[id].ms);
-    if (id === 'feedback') { rating = 4; stars(); $$('.chp', screens.feedback).forEach((c) => c.classList.remove('on')); const t = $('.fb-cm', screens.feedback); if (t) t.value = ''; }
-    if (id === 'login') { const i = $('.lg-in', screens.login); i.value = ''; i.classList.remove('filled'); }
-    toast.classList.remove('on');
+  function paint() {
+    const ae = document.activeElement, had = ae && plugin.contains(ae) && ae.closest('[data-act]');
+    const key = had ? had.dataset.act : null;
+    plugin.innerHTML = E.render(S);
+    if (key) { const n = $(`[data-act="${key}"]`, plugin); if (n) n.focus({ preventScroll: true }); }
+    prep(plugin); markStep();
+  }
+  function go(v) {
+    clearTimeout(timer); toast.classList.remove('on');
+    view = v; $$('.scr', stage).forEach((s) => s.classList.toggle('active', s.id === 'scr-' + v));
+    if (v === 'plugin') paint(); else { prep(screens[v]); markStep(); }
+    if (v === 'loading') timer = setTimeout(() => { if (view === 'loading') go('consent'); }, 2400);
+    if (v === 'feedback') { rating = 4; stars(); $$('.chp', screens.feedback).forEach((c) => c.classList.remove('on')); const t = $('.fb-cm', screens.feedback); if (t) t.value = ''; }
+    if (v === 'login') { const i = $('.lg-in', screens.login); i.value = ''; i.classList.remove('filled'); }
   }
   function stars() {
     $$('.star', screens.feedback).forEach((b, i) => {
       const on = i < rating, img = $('img', b);
-      b.classList.toggle('off', !on); img.src = 'assets/' + (on ? 'i-star-1.svg' : 'i-star-off.svg');
-      img.setAttribute('alt', `${i + 1} star${i ? 's' : ''}`);
+      b.classList.toggle('off', !on); img.src = 'assets/' + (on ? 'i-star-1.svg' : 'i-star-off.svg'); img.alt = `${i + 1} star${i ? 's' : ''}`;
       b.style.left = (72.03 * i + (on ? 0 : 1.02)) + 'px'; b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
   }
 
   function act(el) {
-    const a = el.dataset.act, map = T[cur] || {};
-    if (cur === 'feedback' && /^star-(\d)$/.test(a)) { rating = +a.split('-')[1]; stars(); return; }
-    if (cur === 'feedback' && a === 'chip') { el.classList.toggle('on'); el.setAttribute('aria-pressed', el.classList.contains('on')); return; }
-    if (!(a in map)) { const k = a.split('-')[0]; say(MSG[k] !== undefined ? MSG[k] : MSG.default); return; }
-    let to = map[a];
-    if (to === '@R') to = R;
-    if (to === '@otp') {
-      const i = $('.lg-in', screens.login), v = i.value.replace(/\D/g, '');
-      if (v.length !== 10) { say('Enter a 10-digit mobile number'); i.focus(); return; }
-      to = 'feedback';
+    const a = el.dataset.act;
+    if (view === 'pdp') { if (a === 'tryon') { S = fresh(); go('loading'); } return; }
+    if (view === 'loading') { if (a === 'scrim') go('pdp'); return; }
+    if (view === 'consent') { if (a === 'accept') go('plugin'); else if (a === 'decline' || a === 'close' || a === 'scrim') go('pdp'); return; }
+    if (view === 'login') {
+      if (a === 'login-close' || a === 'scrim') return go('plugin');
+      if (a === 'otp') { const i = $('.lg-in', screens.login), v = i.value.replace(/\D/g, ''); if (v.length !== 10) { say('Enter a 10-digit mobile number'); i.focus(); return; } loggedIn = true; go('feedback'); }
+      return;
     }
-    go(to);
+    if (view === 'feedback') {
+      let m;
+      if ((m = /^star-(\d)$/.exec(a))) { rating = +m[1]; return stars(); }
+      if (a === 'chip') { el.classList.toggle('on'); el.setAttribute('aria-pressed', el.classList.contains('on')); return; }
+      if (a === 'stay' || a === 'scrim') return go('plugin');
+      if (a === 'submit') { S = fresh(); return go('pdp'); }
+      return;
+    }
+    pluginAct(a); if (view === 'plugin') paint();
   }
-  stage.addEventListener('click', (e) => { const el = e.target.closest('[data-act]'); if (el && stage.contains(el)) act(el); });
+  stage.addEventListener('click', (e) => {
+    if (e.target.closest('.sp')) { e.stopPropagation(); }
+    let el = e.target.closest('[data-act]');
+    if (!el && (e.target.classList.contains('scrim') || e.target.classList.contains('bd'))) el = { dataset: { act: 'scrim' }, classList: { toggle() {}, contains: () => false }, setAttribute() {} };
+    if (el && (el.dataset.act === 'scrim' || stage.contains(el))) { if (el.classList && el.classList.contains && el.classList.contains('dis')) return; act(el); }
+  });
   stage.addEventListener('keydown', (e) => {
     if (e.target.matches('input,textarea')) { if (e.key === 'Enter' && e.target.classList.contains('lg-in')) { e.preventDefault(); act($('.lg-otp', screens.login)); } return; }
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('[data-act]')) { e.preventDefault(); act(e.target); }
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('[data-act]')) { e.preventDefault(); if (!e.target.classList.contains('dis')) act(e.target); }
   });
-  stage.addEventListener('input', (e) => {
-    if (!e.target.classList.contains('lg-in')) return;
-    e.target.value = e.target.value.replace(/\D/g, ''); e.target.classList.toggle('filled', !!e.target.value);
+  stage.addEventListener('input', (e) => { if (!e.target.classList.contains('lg-in')) return; e.target.value = e.target.value.replace(/\D/g, ''); e.target.classList.toggle('filled', !!e.target.value); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (view === 'plugin' || view === 'consent' || view === 'login' || view === 'feedback' || view === 'loading') act({ dataset: { act: view === 'login' ? 'login-close' : view === 'feedback' ? 'stay' : view === 'consent' ? 'decline' : view === 'loading' ? 'scrim' : 'close' }, classList: { contains: () => false, toggle() {} }, setAttribute() {} });
   });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && cur && T[cur] && 'close' in T[cur]) act($('[data-act="close"]', screens[cur])); });
 
-  /* ---------- guide ---------- */
-  $$('#steps button').forEach((b) => b.addEventListener('click', () => { const t = ENTRY[b.dataset.step]; if (t) { R = t[1]; go(t[0], { ret: t[1] }); } }));
-  $('#restart').addEventListener('click', () => { R = 's1'; go('pdp'); });
+  /* ---------- guide (deck steps) ---------- */
+  const setFace = () => { S = fresh(); S.face = [{ c: 'earrings', v: 0 }, { c: 'necklace', v: 1 }, { c: 'nosepin', v: 1 }]; S.focus = 2; };
+  const setHand = () => { setFace(); S.hand = [{ c: 'bangle', v: 1 }, { c: 'ring', v: 1 }]; S.tab = 'hand'; S.focus = 1; };
+  const ENTRY = {
+    consent: () => go('consent'),
+    look: () => { S = fresh(); go('plugin'); },
+    add: () => { S = fresh(); enterAdd('necklace'); go('plugin'); },
+    set: () => { setFace(); go('plugin'); },
+    hand: () => { setHand(); go('plugin'); },
+    live: () => { setFace(); S.live = true; go('plugin'); },
+    cart: () => { setHand(); loggedIn = false; go('plugin'); go('login'); },
+    feedback: () => { setHand(); go('plugin'); go('feedback'); },
+  };
+  $$('#steps button').forEach((b) => b.addEventListener('click', () => { const f = ENTRY[b.dataset.step]; if (f) f(); }));
+  $('#restart').addEventListener('click', () => { S = fresh(); loggedIn = false; go('pdp'); });
   addEventListener('message', (e) => {
     const d = e.data;
     if (window.parent === window || e.source !== window.parent || !d || d.arivooProto !== KEY || !d.goto) return;
-    const t = ENTRY[d.goto]; if (t) go(t[0], { ret: t[1] });
+    const f = ENTRY[d.goto]; if (f) f();
   });
+  window.TRYON = { set(state, v) { S = Object.assign(fresh(), state); go(v || 'plugin'); }, get: () => S };   // used by the fidelity test
 
   /* ---------- fit ---------- */
-  const laptop = $('#laptop'), FW = 1684, FH = 1027;   // laptop frame around the 1512x941 screen
+  const laptop = $('#laptop'), FW = 1684, FH = 1027;
   function fit() {
-    const embed = document.documentElement.classList.contains('embed');
-    const narrow = innerWidth <= 860 && !embed;
-    const framed = !narrow;
+    const embed = document.documentElement.classList.contains('embed'), narrow = innerWidth <= 860 && !embed, framed = !narrow;
     laptop.classList.toggle('frameless', !framed);
     const w = framed ? FW : W, h = framed ? FH : H;
     const side = embed || narrow ? 0 : 308, mv = narrow ? 0 : embed ? 40 : 56, mh = narrow ? 0 : embed ? 56 : 40;
