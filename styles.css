@@ -1604,35 +1604,11 @@ body.deck-fs-page.deck-dark{background:var(--fs-bg-dark);}
    NABC case study: same deck theme as the other projects. Only the NABC-specific blocks (nb-*) live here;
    the app's own colours appear as content (palette swatches, UI samples), never as slide chrome.
    ========================================================================== */
-body.deck-fs-page{--nb-coral:#E05A47;--nb-yellow:#F4C542;--nb-gold:#C7A54F;--nb-green:#61892F;--nb-navy:#002147;--nb-off:#F9F7F3;--nb-ink:#2A3143;--nb-slate:#757C8F;}
 /* mood board */
 .nb-mood{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;padding:112px 44px 44px;width:100%;height:100%;box-sizing:border-box;align-content:center;}
 .nb-mood figure{margin:0;position:relative;border-radius:20px;overflow:hidden;height:204px;}
 .fs-panel .nb-mood img{width:100%;height:100%;max-height:none;max-width:none;object-fit:cover;display:block;}
 .nb-mood figcaption{position:absolute;left:12px;bottom:12px;padding:6px 12px;border-radius:40px;background:rgba(25,24,25,.78);color:#fff;font-size:var(--fs-14);line-height:1.2;}
-.nb-swatches{display:flex;flex-direction:column;gap:14px;}
-.nb-sw{display:grid;grid-template-columns:72px 1fr;gap:22px;align-items:center;}
-.nb-sw i{display:block;width:72px;height:72px;border-radius:16px;box-shadow:inset 0 0 0 1px rgba(25,24,25,.1);}
-.nb-sw b{display:block;font-weight:500;font-size:var(--fs-24);line-height:calc(30 / 24);}
-.nb-sw p{font-size:var(--fs-18t);line-height:calc(26 / 18);color:var(--fs-ink-2);}
-/* design language */
-.nb-dl{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;}
-.nb-dl li{border-radius:20px;overflow:hidden;background:#fff;}
-.nb-dl i{display:block;height:150px;}
-.nb-dl div{padding:16px 20px 20px;}
-.nb-dl b{display:block;font-weight:500;font-size:var(--fs-22);}
-.nb-dl span{display:block;margin-top:2px;font-family:var(--fs-mono);font-size:var(--fs-14);letter-spacing:.08em;text-transform:uppercase;color:var(--fs-ink-2);}
-.nb-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
-.nb-card{background:#fff;border-radius:var(--fs-r-card);padding:32px 36px;display:flex;flex-direction:column;gap:18px;}
-.nb-card h3{font-weight:500;font-size:var(--fs-24);line-height:calc(30 / 24);}
-.nb-type{display:flex;flex-direction:column;gap:6px;}
-.nb-type span{font-family:var(--fs-mono);font-size:var(--fs-14);letter-spacing:.08em;text-transform:uppercase;color:var(--fs-ink-2);}
-.nb-type b{font-size:var(--fs-32);line-height:1.2;color:var(--fs-ink);}
-.nb-btn{display:flex;align-items:center;justify-content:center;height:56px;border-radius:12px;background:var(--nb-coral);color:#fff;font:700 18px/1 Roboto,system-ui,sans-serif;}
-.nb-btn.out{background:#fff;color:var(--nb-coral);box-shadow:inset 0 0 0 1.5px var(--nb-coral);}
-.nb-field{height:56px;border-radius:12px;background:#FAFBFF;box-shadow:inset 0 0 0 1px #E4E7EE;display:flex;align-items:center;padding:0 18px;font:400 18px/1 Roboto,system-ui,sans-serif;color:var(--nb-slate);}
-.nb-chips{display:flex;flex-wrap:wrap;gap:12px;}
-.nb-chip{padding:8px 16px;border-radius:8px;font:500 16px/1.2 Poppins,system-ui,sans-serif;}
 /* roles */
 .nb-roles{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
 .nb-role{background:#fff;border-radius:28px;padding:44px 0 0 48px;display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:end;overflow:hidden;height:660px;}
@@ -1654,7 +1630,7 @@ body.deck-fs-page{--nb-coral:#E05A47;--nb-yellow:#F4C542;--nb-gold:#C7A54F;--nb-
 .nb-sl .fs-safe{padding:0 120px;}
 .nb-sl .fs-head{max-width:1500px;}
 @media (max-width:900px){
-  .nb-dl,.nb-3,.nb-roles{grid-template-columns:1fr;}
+  .nb-roles{grid-template-columns:1fr;}
   .nb-role{grid-template-columns:1fr;height:auto;padding:28px 24px 0;}.nb-role img{width:70%;justify-self:center;}
   .nb-mood{grid-template-columns:1fr 1fr;padding:20px;}.nb-mood figure{height:120px;}
   .nb-gal{flex-wrap:wrap;}.nb-gal li{flex:0 0 calc(50% - 7px);}
