@@ -1182,8 +1182,8 @@ body.deck-fs-page.deck-dark{background:var(--fs-bg-dark);}
 .fs-h28-34{font-weight:500;font-size:var(--fs-28);line-height:calc(34 / 28);}
 .fs-h26{font-weight:500;font-size:var(--fs-26);line-height:calc(34 / 26);}
 .fs-h24{font-weight:500;font-size:var(--fs-24);line-height:normal;}
-.fs-body-22{font-size:var(--fs-22);line-height:calc(32 / 22);color:var(--fs-ink-2);}
-.fs-body-20{font-size:var(--fs-20);line-height:calc(28 / 20);}
+.fs-body-22{font-size:var(--fs-22);line-height:calc(35 / 22);color:var(--fs-ink-2);}
+.fs-body-20{font-size:var(--fs-20);line-height:calc(31 / 20);}
 .fs-c-2{color:var(--fs-ink-2);}
 .fs-op-50{opacity:.5;} .fs-op-65{opacity:.65;} .fs-op-70{opacity:.7;}
 .fs-mono-16{font-family:var(--fs-mono);font-size:var(--fs-16);line-height:calc(24 / 16);letter-spacing:.08em;text-transform:uppercase;}
@@ -1308,7 +1308,7 @@ body.deck-fs-page.deck-dark{background:var(--fs-bg-dark);}
 .fs-cmp-list{display:flex;flex-direction:column;gap:16px;}
 .fs-cmp-list li{display:flex;align-items:center;gap:16px;}
 .fs-cmp-idx{font-family:var(--fs-mono);font-size:var(--fs-18);line-height:normal;color:var(--fs-mute);}
-.fs-cmp-txt{flex:1;font-size:var(--fs-22);line-height:calc(26 / 22);}
+.fs-cmp-txt{flex:1;font-size:var(--fs-22);line-height:calc(30 / 22);}
 .fs-cmp-time{font-family:var(--fs-mono);font-size:var(--fs-18);line-height:normal;color:var(--fs-grey-666);}
 .fs-cmp-dark .fs-cmp-mode,.fs-cmp-dark .fs-cmp-unit,.fs-cmp-dark .fs-cmp-time{color:var(--fs-grey-b3);}
 .fs-cmp-dark .fs-cmp-idx{color:var(--fs-idx);}
@@ -1360,8 +1360,6 @@ body.deck-fs-page.deck-dark{background:var(--fs-bg-dark);}
 .fs-s8.no-tl .fs-head{margin-bottom:64px;min-height:0;}
 .fs-s8.no-tl .fs-timeline{display:none;}
 .fs-s8.no-tl .fs-steps{margin-bottom:0;}
-.fs-vc .fs-safe{justify-content:center;padding-bottom:80px;}
-
 /* side panel with an image (same panel as the interface slide) */
 .fs-split .fs-safe{padding:0 0 0 89px;justify-content:center;gap:0;}
 .fs-split .fs-col{width:864px;gap:48px;}
@@ -1394,7 +1392,7 @@ body.deck-fs-page.deck-dark{background:var(--fs-bg-dark);}
 
 /* challenge / solution cards (comparison card with text) */
 .fs-cmp-grid.pairs{row-gap:24px;}
-.fs-cmp-body{font-size:var(--fs-28);line-height:calc(38 / 28);}
+.fs-cmp-body{font-size:var(--fs-28);line-height:calc(42 / 28);}
 
 /* closing slide variants */
 .fs-close-title.sm{font-size:var(--fs-72);line-height:calc(80 / 72);}
@@ -1433,10 +1431,10 @@ body.deck-fs-page.deck-dark{background:var(--fs-bg-dark);}
 .fs-jrn-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
 .fs-jc{display:flex;flex-direction:column;gap:14px;background:var(--fs-surface);border-radius:var(--fs-r-card);padding:32px 28px;}
 .fs-jc ul{display:flex;flex-direction:column;gap:6px;}
-.fs-jc li{font-size:var(--fs-20);line-height:calc(28 / 20);color:var(--fs-ink-2);}
+.fs-jc li{font-size:var(--fs-20);line-height:calc(31 / 20);color:var(--fs-ink-2);}
 .fs-jc li::before{content:"\2022\00a0\00a0";}
 .fs-jc-emotion{font-weight:500;font-size:var(--fs-24);line-height:normal;}
-.fs-jc-pain{margin-top:auto;background:var(--fs-bg-dark);color:var(--fs-on-dark);border-radius:var(--fs-r-callout-sm);padding:14px 18px;font-size:var(--fs-20);line-height:calc(28 / 20);}
+.fs-jc-pain{margin-top:auto;background:var(--fs-bg-dark);color:var(--fs-on-dark);border-radius:var(--fs-r-callout-sm);padding:14px 18px;font-size:var(--fs-20);line-height:calc(31 / 20);}
 .fs-jc-spacer{margin-top:auto;}
 .fs-jrn-line{display:flex;align-items:center;gap:20px;margin-top:8px;}
 .fs-jrn-line i{flex:1;height:2px;background:var(--fs-ink);border-radius:var(--fs-r-bar);}
@@ -1449,7 +1447,7 @@ body.deck-fs-page.deck-dark{background:var(--fs-bg-dark);}
 .fs-lcards{display:flex;flex-direction:column;gap:16px;}
 .fs-lcard{display:flex;flex-direction:column;gap:8px;background:var(--fs-surface);border-radius:var(--fs-r-card);padding:24px 28px;}
 .fs-lcard h3{font-family:var(--fs-sans);letter-spacing:normal;font-weight:500;font-size:var(--fs-28);line-height:calc(34 / 28);}
-.fs-lcard p{font-size:var(--fs-20);line-height:calc(28 / 20);color:var(--fs-ink-2);}
+.fs-lcard p{font-size:var(--fs-20);line-height:calc(31 / 20);color:var(--fs-ink-2);}
 .fs-lcard.dark{background:var(--fs-bg-dark);color:var(--fs-on-dark);}
 .fs-lcard.dark p{color:var(--fs-grey-b3);}
 .fs-split.has-cards .fs-col{gap:32px;}
@@ -1462,7 +1460,7 @@ body.deck-fs-page.deck-dark{background:var(--fs-bg-dark);}
 .fs-opts{display:flex;flex-direction:column;gap:16px;}
 .fs-opt{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;background:var(--fs-surface);border-radius:var(--fs-r-card);padding:22px 28px;}
 .fs-opt h3{font-family:var(--fs-sans);letter-spacing:normal;font-weight:500;font-size:var(--fs-24);line-height:calc(32 / 24);}
-.fs-opt p{margin-top:6px;font-size:var(--fs-20);line-height:calc(28 / 20);color:var(--fs-ink-2);}
+.fs-opt p{margin-top:6px;font-size:var(--fs-20);line-height:calc(31 / 20);color:var(--fs-ink-2);}
 .fs-opt.chosen{background:var(--fs-bg-dark);color:var(--fs-on-dark);}
 .fs-opt.chosen p{color:var(--fs-grey-b3);}
 .fs-verdict{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;border:2px solid var(--fs-grey-b3);color:var(--fs-grey-666);}
@@ -1493,6 +1491,11 @@ body.deck-fs-page.deck-dark{background:var(--fs-bg-dark);}
 .fs-flow-list{position:absolute;width:1px;height:1px;margin:0;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
 .fs-lcards.row{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
 .fs-lcards.row .fs-lcard{padding:20px 24px;}
+
+/* vertical-centering utility: added to individual slides whose content is short for its template.
+   Placed after every .fs-sN/.fs-jrn/.fs-flowsl/.fs-solve/etc rule above so it always wins regardless
+   of which template it is combined with (equal selector specificity, so source order decides). */
+.fs-vc .fs-safe{justify-content:center;padding-bottom:80px;}
 
 /* deck chrome on this page */
 @media (min-width:901px){
