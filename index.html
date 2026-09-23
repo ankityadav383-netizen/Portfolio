@@ -154,12 +154,11 @@
   <section class="thoughts" id="thoughts">
     <h2 class="section-heading">Thoughts</h2>
     <div class="thoughts-grid">
-      <a class="thought-card stan-surprise" id="stanOpen" href="https://www.figma.com/proto/6QnaHZ2rFU34qQOwCHlWMk/Ankit_Yadav_Stan?node-id=154-1848&starting-point-node-id=154%3A1848&scaling=scale-down&content-scaling=fixed&hide-ui=1" target="_blank" rel="noopener" role="button" aria-label="A surprise: open the Stan prototype and play">
-        <span class="sr-only">A surprise. Open the Stan onboarding prototype, tap through it, then tell me how it felt.</span>
-        <span class="ss-tag" aria-hidden="true"><i></i>Player 1 &middot; ready</span>
-        <span class="ss-type" id="stanType" aria-hidden="true">Psst. Wanna level up?</span>
-        <span class="ss-xp" aria-hidden="true"><b>+1 XP</b><b>+5 XP</b><b>+10 XP</b></span>
-        <span class="ss-start" aria-hidden="true">Press start <em>&#9654;</em></span>
+      <a class="thought-card stan-surprise" id="stanOpen" href="https://www.figma.com/proto/6QnaHZ2rFU34qQOwCHlWMk/Ankit_Yadav_Stan?node-id=154-1848&starting-point-node-id=154%3A1848&scaling=scale-down&content-scaling=fixed&hide-ui=1" target="_blank" rel="noopener" role="button" aria-label="Help me build this better: see how I fixed onboarding drop-off, then leave feedback">
+        <span class="sr-only">Help me build this better. See how I simplified onboarding and fixed first-day drop-off, then leave quick feedback.</span>
+        <span class="ss-tag" aria-hidden="true"><i></i>Open for feedback</span>
+        <span class="ss-type" id="stanType" aria-hidden="true">Help me build this better</span>
+        <span class="ss-start" aria-hidden="true">Give feedback <em>&#9654;</em></span>
       </a>
       <a class="thought-card" href="https://ankitproduct.framer.website/blog/how-can-designers-prepare-for-the-future" target="_blank" rel="noopener" style="background-image:url('https://framerusercontent.com/images/cjrFm5woVT8oYzDhaqAWlnmJ8.png?scale-down-to=1024&width=1122&height=1402')">
         <div class="thought-inner">
@@ -216,31 +215,23 @@
 <div class="stan-modal" id="stanModal" role="dialog" aria-modal="true" aria-labelledby="stanTitle" hidden>
   <div class="stan-panel">
     <button type="button" class="stan-x" id="stanClose" aria-label="Close">&times;</button>
-    <div class="stan-box" id="stanBox"></div>
+    <div class="stan-device"><img id="stanShot" src="assets/stan/screens/welcome.webp" alt=""></div>
     <section class="stan-step" id="stanPlay">
-      <p class="stan-eyebrow">Step 1 of 2</p>
-      <h3 id="stanTitle">Tap through it</h3>
-      <p>An animation-led onboarding for first-time users of a gaming-community app, built to keep the first minute engaging instead of overwhelming.</p>
-      <ul>
-        <li>Sign in with any details</li>
-        <li>Tap the Welcome card to unlock your avatar</li>
-        <li>Look around the clubs and games</li>
-      </ul>
-      <div class="stan-actions"><button type="button" id="stanNext">Done, let me judge it &rarr;</button></div>
-      <a class="stan-open" href="https://www.figma.com/proto/6QnaHZ2rFU34qQOwCHlWMk/Ankit_Yadav_Stan?node-id=154-1848&starting-point-node-id=154%3A1848&scaling=scale-down&content-scaling=fixed&hide-ui=1" target="_blank" rel="noopener">Open full screen &#8599;</a>
+      <p class="stan-eyebrow" id="stanStepLabel">Step 1 of 4</p>
+      <h3 id="stanTitle">Sign-up asked for too much</h3>
+      <p id="stanCaption">The old onboarding needed a form before anyone reached the app.</p>
+      <div class="stan-dots" id="stanDots" aria-hidden="true"></div>
+      <div class="stan-actions"><button type="button" id="stanNext">Next &rarr;</button></div>
     </section>
     <form class="stan-step stan-form" id="stanForm" novalidate hidden>
-      <p class="stan-eyebrow">Step 2 of 2</p>
-      <h3>Now judge it</h3>
+      <p class="stan-eyebrow">Quick feedback</p>
+      <h3>What do you think?</h3>
       <fieldset>
-        <legend>How did it feel?</legend>
+        <legend>Rate it</legend>
         <div class="stan-stars" id="stanStars" role="radiogroup" aria-label="Rating out of 5"></div>
       </fieldset>
-      <label>Your experience
-        <textarea id="stanExp" rows="3" maxlength="1200" placeholder="What worked, what confused you, what you liked..."></textarea>
-      </label>
-      <label>How would you solve the overwhelm?
-        <textarea id="stanIdea" rows="3" maxlength="1200" placeholder="Your idea for making a first day in a busy app feel easier..."></textarea>
+      <label>Feedback
+        <textarea id="stanExp" rows="3" maxlength="1200" placeholder="What worked, what didn't, anything I should change..."></textarea>
       </label>
       <label>Your email <span>(optional, for a reply)</span>
         <input id="stanEmail" type="email" autocomplete="email" placeholder="you@example.com">
@@ -249,7 +240,7 @@
       <p class="stan-msg" id="stanMsg" role="status" aria-live="polite"></p>
       <div class="stan-actions">
         <button type="submit" id="stanSend">Send to Ankit</button>
-        <button type="button" class="ghost" id="stanBack">&larr; Back to the prototype</button>
+        <button type="button" class="ghost" id="stanBack">&larr; Back</button>
         <a id="stanMail" href="mailto:ankit.yadav383@gmail.com" hidden>Email it instead</a>
       </div>
       <p class="stan-fine">Lands in my inbox (ankit.yadav383@gmail.com) through FormSubmit. Only what you type here is sent.</p>

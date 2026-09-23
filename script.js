@@ -208,33 +208,45 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   list.addEventListener('keydown', (e) => { if (e.key === ' ' || e.key.startsWith('Arrow')) e.stopPropagation(); });
 });
 
-// Stan: a Thoughts card opens the Figma prototype in a modal, then a short judge-and-feedback step that goes to the owner's inbox
+// Stan: a Thoughts card walks through how the onboarding problem was solved, then asks for quick feedback by email
 (() => {
   const open = document.getElementById('stanOpen'), modal = document.getElementById('stanModal');
   if (!open || !modal) return;
   const MAIL = 'ankit.yadav383@gmail.com';
-  const PROTO = 'https://embed.figma.com/proto/6QnaHZ2rFU34qQOwCHlWMk/Ankit_Yadav_Stan?node-id=154-1848&starting-point-node-id=154%3A1848&scaling=scale-down&content-scaling=fixed&hide-ui=1&embed-host=share';
-  const box = document.getElementById('stanBox'), play = document.getElementById('stanPlay'), form = document.getElementById('stanForm');
+  const STEPS = [
+    { img: 'assets/stan/screens/welcome.webp', title: 'Sign-up asked for too much', caption: 'The old onboarding needed a form before anyone reached the app.' },
+    { img: 'assets/stan/screens/sheet.webp', title: 'Truecaller cut it to one tap', caption: 'Swapped the form for Truecaller sign-in — no typing, no forms.' },
+    { img: 'assets/stan/screens/home1.webp', title: 'A minimal first dashboard', caption: 'Trimmed the home screen down to what a first-time user actually needs.' },
+    { img: 'assets/stan/screens/home2.webp', title: 'A reason to come back', caption: 'Tap-to-unlock a character adds a small game loop that pulls first-timers back.' },
+  ];
+  const shot = document.getElementById('stanShot'), stepLabel = document.getElementById('stanStepLabel'), stepTitle = document.getElementById('stanTitle'), caption = document.getElementById('stanCaption'), dotsWrap = document.getElementById('stanDots'), next = document.getElementById('stanNext');
+  const play = document.getElementById('stanPlay'), form = document.getElementById('stanForm');
   const stars = document.getElementById('stanStars'), msg = document.getElementById('stanMsg'), send = document.getElementById('stanSend'), mail = document.getElementById('stanMail');
-  let rating = 0, lastFocus = null;
+  let stepIndex = 0, rating = 0, lastFocus = null;
 
-  function show(step) { play.hidden = step !== 'play'; form.hidden = step !== 'form'; const t = step === 'play' ? document.getElementById('stanNext') : document.getElementById('stanExp'); if (t) t.focus({ preventScroll: true }); }
+  STEPS.forEach(() => { const d = document.createElement('span'); d.className = 'stan-dot'; dotsWrap.appendChild(d); });
+  const dots = dotsWrap.querySelectorAll('.stan-dot');
+  function renderStep() {
+    const s = STEPS[stepIndex];
+    shot.src = s.img; shot.alt = s.title;
+    stepLabel.textContent = 'Step ' + (stepIndex + 1) + ' of ' + STEPS.length;
+    stepTitle.textContent = s.title; caption.textContent = s.caption;
+    dots.forEach((d, i) => d.classList.toggle('on', i === stepIndex));
+    next.textContent = stepIndex === STEPS.length - 1 ? 'Rate it →' : 'Next →';
+  }
+  function show(step) { play.hidden = step !== 'play'; form.hidden = step !== 'form'; const t = step === 'play' ? next : document.getElementById('stanExp'); if (t) t.focus({ preventScroll: true }); }
   function openModal(e) {
     e.preventDefault(); lastFocus = document.activeElement; modal.hidden = false; document.body.classList.add('stan-lock');
-    if (!box.querySelector('iframe')) {
-      const f = document.createElement('iframe'); f.src = PROTO; f.title = 'Stan onboarding prototype: tap through it'; f.setAttribute('allow', 'fullscreen'); f.allowFullscreen = true; f.addEventListener('load', () => setTimeout(() => box.classList.add('ready'), 3500)); box.appendChild(f);
-    }
-    show('play'); document.getElementById('stanClose').focus({ preventScroll: true });
+    stepIndex = 0; renderStep(); show('play'); document.getElementById('stanClose').focus({ preventScroll: true });
   }
   function closeModal() {
     modal.hidden = true; document.body.classList.remove('stan-lock');
-    const f = box.querySelector('iframe'); if (f) f.remove(); box.classList.remove('ready');   // stop the video, next open starts fresh
     if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }
   // surprise card: teaser lines type themselves out, one after another (only while on screen, static if reduced motion)
   const typeEl = document.getElementById('stanType');
   if (typeEl && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const LINES = ['Psst. Wanna level up?', 'One tap. Sixty seconds.', 'Something is waiting inside.', 'Your first day starts here.'];
+    const LINES = ['Help me build this better.', 'A quick look at how I fixed onboarding.', 'Sixty seconds. Real feedback.', 'See it, then tell me what you think.'];
     let li = 0, ci = 0, dir = 1, tm = 0, run = false;
     const tick = () => {
       const line = LINES[li];
@@ -252,7 +264,9 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   document.getElementById('stanClose').addEventListener('click', closeModal);
   modal.addEventListener('mousedown', (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) closeModal(); });
-  document.getElementById('stanNext').addEventListener('click', () => show('form'));
+  next.addEventListener('click', () => {
+    if (stepIndex < STEPS.length - 1) { stepIndex++; renderStep(); } else show('form');
+  });
   document.getElementById('stanBack').addEventListener('click', () => show('play'));
 
   for (let i = 1; i <= 5; i++) {
@@ -264,11 +278,11 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     stars.querySelectorAll('button').forEach((x) => { x.classList.toggle('on', +x.dataset.v <= rating); x.setAttribute('aria-checked', +x.dataset.v === rating ? 'true' : 'false'); });
   });
   const val = (id) => document.getElementById(id).value.trim();
-  const payload = () => ({ rating: rating ? rating + ' / 5' : 'not given', experience: val('stanExp') || '(none)', how_to_solve_the_overwhelm: val('stanIdea') || '(none)', reply_email: val('stanEmail') || '(none)', source: 'Portfolio: Stan prototype card' });
+  const payload = () => ({ rating: rating ? rating + ' / 5' : 'not given', feedback: val('stanExp') || '(none)', reply_email: val('stanEmail') || '(none)', source: 'Portfolio: Stan prototype card' });
   const mailto = () => 'mailto:' + MAIL + '?subject=' + encodeURIComponent('Stan prototype feedback') + '&body=' + encodeURIComponent(Object.entries(payload()).map(([k, v]) => k.replace(/_/g, ' ') + ': ' + v).join('\n'));
   form.addEventListener('submit', async (e) => {
     e.preventDefault(); msg.className = 'stan-msg'; mail.hidden = true;
-    if (!rating && !val('stanExp') && !val('stanIdea')) { msg.className = 'stan-msg err'; msg.textContent = 'Add a rating or a line about your experience or your idea first.'; return; }
+    if (!rating && !val('stanExp')) { msg.className = 'stan-msg err'; msg.textContent = 'Add a rating or a line of feedback first.'; return; }
     if (document.getElementById('stanHoney').value) return;
     const em = val('stanEmail'); if (em && !/^\S+@\S+\.\S+$/.test(em)) { msg.className = 'stan-msg err'; msg.textContent = 'That email does not look right. Leave it empty if you prefer.'; return; }
     send.disabled = true; send.textContent = 'Sending...'; msg.textContent = '';
