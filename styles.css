@@ -144,6 +144,17 @@ a{text-decoration:none;color:inherit;}
   display:flex;
   flex-direction:column;
 }
+.lp-disk{
+  position:relative;
+  display:inline-block;
+  width:0.78em;
+  height:0.78em;
+  vertical-align:-0.09em;
+  border-radius:50%;
+  overflow:hidden;
+}
+.lp-disk-video{position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none;}
+.lp-disk-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;}
 .deco{
   position:absolute;
   z-index:2;

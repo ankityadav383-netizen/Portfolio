@@ -329,3 +329,46 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     }
   });
 })();
+
+// Hero "O": a green-screen vinyl disk video, chroma-keyed live on a small canvas (not baked into the
+// video file) so it works everywhere -- VP9's alpha channel doesn't survive re-encoding/transcoding
+// reliably across tools, but a plain green-background video always decodes fine in a <video> element.
+(() => {
+  const SIZE = 140;                    // internal render resolution; CSS scales the canvas up/down responsively
+  const KEY = [0, 178, 37];            // the exact green from the source video
+  const CORE = 70, SOFT = 150;         // squared-distance thresholds: solid cutoff, then a soft falloff band to hide fringing
+  document.querySelectorAll('.lp-disk').forEach((wrap) => {
+    const video = wrap.querySelector('.lp-disk-video'), canvas = wrap.querySelector('.lp-disk-canvas');
+    if (!video || !canvas) return;
+    canvas.width = SIZE; canvas.height = SIZE;
+    const ctx = canvas.getContext('2d');
+    const off = document.createElement('canvas'); off.width = SIZE; off.height = SIZE;
+    const octx = off.getContext('2d', { willReadFrequently: true });
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function keyFrame() {
+      octx.drawImage(video, 0, 0, SIZE, SIZE);
+      const frame = octx.getImageData(0, 0, SIZE, SIZE);
+      const d = frame.data;
+      for (let i = 0; i < d.length; i += 4) {
+        const r = d[i], g = d[i + 1], b = d[i + 2];
+        const dr = r - KEY[0], dg = g - KEY[1], db = b - KEY[2];
+        const dist = dr * dr + dg * dg + db * db;
+        if (dist < CORE) d[i + 3] = 0;
+        else if (dist < SOFT) d[i + 3] = Math.round(255 * (dist - CORE) / (SOFT - CORE));
+        // spill suppression: green-screen edge pixels are a green/subject blend, so even once they're
+        // past the alpha cutoff they still read visibly green -- clamp green to the red/blue average
+        // (a no-op on true grays/blacks/reds, which is everything else in this footage) to kill the fringe
+        const avgRB = (r + b) / 2;
+        if (g > avgRB) d[i + 1] = avgRB;
+      }
+      ctx.putImageData(frame, 0, 0);
+    }
+    function loop() { if (video.readyState >= 2) keyFrame(); if (!reduceMotion) requestAnimationFrame(loop); }
+    function start() { keyFrame(); if (!reduceMotion) requestAnimationFrame(loop); else video.pause(); }
+    // autoplay can finish loading (and fire 'loadeddata') before this script even runs, so check
+    // readyState directly instead of only listening for an event that may have already passed
+    if (video.readyState >= 2) start();
+    else video.addEventListener('loadeddata', start, { once: true });
+    if (!reduceMotion) video.play().catch(() => {});
+  });
+})();
