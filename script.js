@@ -223,7 +223,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   const play = document.getElementById('stanPlay'), form = document.getElementById('stanForm');
   const stepTitle = document.getElementById('stanTitle'), caption = document.getElementById('stanCaption'), stepLabel = document.getElementById('stanStepLabel'), dotsWrap = document.getElementById('stanDots');
   const stars = document.getElementById('stanStars'), msg = document.getElementById('stanMsg'), send = document.getElementById('stanSend'), mail = document.getElementById('stanMail');
-  let rating = 0, lastFocus = null, stepIndex = 0, revealArmed = false;
+  let rating = 0, lastFocus = null, stepIndex = -1, revealArmed = false;
 
   STEPS.forEach(() => { const d = document.createElement('span'); d.className = 'stan-dot'; dotsWrap.appendChild(d); });
   const dots = dotsWrap.querySelectorAll('.stan-dot');
@@ -231,32 +231,44 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   function flashLightning() {
     lightning.classList.remove('flash'); void lightning.offsetWidth; lightning.classList.add('flash');
   }
-  // fires exactly once per arm, precisely when playback crosses REVEAL_TIME -- reliable because it's our own
-  // local video (no network/embed-boot uncertainty), unlike the live Figma prototype this replaced
-  video.addEventListener('timeupdate', () => {
-    if (revealArmed && video.currentTime >= REVEAL_TIME) { revealArmed = false; flashLightning(); }
-  });
-  video.addEventListener('ended', () => { if (!play.hidden) show('form'); });
-  function activateStep(i) {
+  // which chapter a given playback position belongs to, so the caption tracks wherever the video actually
+  // is -- not just wherever "Next" last sent it. Chapter boundaries are the same seek points Next jumps to,
+  // so a manual jump and natural playback always agree on which chapter is showing.
+  function stepForTime(t) {
+    let idx = 0;
+    for (let i = 0; i < STEPS.length; i++) if (t >= STEPS[i].seek) idx = i;
+    return idx;
+  }
+  function renderStep(i) {
+    if (i === stepIndex) return;
     stepIndex = i;
     const s = STEPS[i];
     stepTitle.textContent = s.title; caption.textContent = s.caption;
     stepLabel.textContent = (i + 1) + ' / ' + STEPS.length;
     dots.forEach((d, idx) => d.classList.toggle('on', idx === i));
     next.textContent = i === STEPS.length - 1 ? 'Rate it →' : 'Next →';
-
-    revealArmed = !!s.reveal && s.seek < REVEAL_TIME;
-    video.currentTime = s.seek;
+    if (s.reveal) revealArmed = true;   // arm the moment we enter this chapter, by jump or by natural playback
+  }
+  // fires exactly once per arm, precisely when playback crosses REVEAL_TIME -- reliable because it's our own
+  // local video (no network/embed-boot uncertainty), unlike the live Figma prototype this replaced
+  video.addEventListener('timeupdate', () => {
+    renderStep(stepForTime(video.currentTime));
+    if (revealArmed && video.currentTime >= REVEAL_TIME) { revealArmed = false; flashLightning(); }
+  });
+  video.addEventListener('ended', () => { if (!play.hidden) show('form'); });
+  function seekToStep(i) {
+    video.currentTime = STEPS[i].seek;
     video.play().catch(() => {});
+    renderStep(i);
   }
   function show(step) { play.hidden = step !== 'play'; form.hidden = step !== 'form'; const t = step === 'play' ? next : document.getElementById('stanExp'); if (t) t.focus({ preventScroll: true }); }
   function openModal(e) {
     e.preventDefault(); lastFocus = document.activeElement; modal.hidden = false; document.body.classList.add('stan-lock');
-    activateStep(0); show('play'); document.getElementById('stanClose').focus({ preventScroll: true });
+    seekToStep(0); show('play'); document.getElementById('stanClose').focus({ preventScroll: true });
   }
   function closeModal() {
     modal.hidden = true; document.body.classList.remove('stan-lock');
-    video.pause(); revealArmed = false;   // stop the video, next open starts fresh
+    video.pause(); revealArmed = false; stepIndex = -1;   // stop the video, next open starts fresh
     if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }
   // surprise card: teaser lines type themselves out, one after another (only while on screen, static if reduced motion)
@@ -281,7 +293,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   modal.addEventListener('mousedown', (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) closeModal(); });
   next.addEventListener('click', () => {
-    if (stepIndex < STEPS.length - 1) activateStep(stepIndex + 1); else show('form');
+    if (stepIndex < STEPS.length - 1) seekToStep(stepIndex + 1); else show('form');
   });
   document.getElementById('stanBack').addEventListener('click', () => show('play'));
 
