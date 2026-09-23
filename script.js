@@ -209,7 +209,11 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
 });
 
 // Stan: a Thoughts card steps the real onboarding recording through 3 chapters on "Next", with a lightning flash timed exactly to the character reveal
+// LOCKED 2026-09-23: card shows a "Coming Soon" tag and isn't clickable. Flip this to false to reopen it -- everything
+// below is otherwise untouched and should still work as-is.
 (() => {
+  const LOCKED = true;
+  if (LOCKED) return;
   const open = document.getElementById('stanOpen'), modal = document.getElementById('stanModal');
   if (!open || !modal) return;
   const MAIL = 'ankit.yadav383@gmail.com';

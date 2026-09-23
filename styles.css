@@ -1787,3 +1787,9 @@ body.stan-lock{overflow:hidden;}
 @media (prefers-reduced-motion:reduce){
   .stan-surprise::before,.ss-tag i,.ss-type::after,.ss-start{animation:none;}
 }
+/* locked: card is a static "coming soon" announcement, not an interactive control */
+.stan-surprise.locked{cursor:default;pointer-events:none;opacity:.72;}
+.stan-surprise.locked::before{animation:none;}
+.stan-surprise.locked .ss-tag i{animation:none;background:rgba(255,255,255,.4);}
+.stan-surprise.locked .ss-type::after{display:none;}
+.stan-surprise.locked .ss-start{animation:none;background:rgba(255,255,255,.14);color:var(--cream);}
