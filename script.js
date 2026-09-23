@@ -394,6 +394,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   const svg = root.querySelector('.lp-arm-svg');
   const arm = root.querySelector('[data-lp-arm]');
   const disc = root.querySelector('[data-lp-disc]');
+  const audio = root.querySelector('[data-lp-audio]');
   const pctEl = root.querySelector('[data-lp-pct]');
   const hintEl = root.querySelector('[data-lp-hint-text]');
   const keyBtn = root.querySelector('[data-lp-key]');
@@ -502,6 +503,9 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     try { disc.playbackRate = 0.1; } catch (_) {}
     const p = disc.play();
     if (p && p.catch) p.catch(() => {});
+    try { audio.currentTime = 0; audio.volume = 0.55; } catch (_) {}
+    const ap = audio.play();
+    if (ap && ap.catch) ap.catch(() => {});
     ramp(0.1, 1, reduceMotion ? 1 : 900);
     t0 = performance.now();
     shown = 0;
@@ -534,20 +538,39 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     setTimeout(() => {
       root.classList.add('is-leaving');
       document.documentElement.classList.remove('lp-lock');
+      fadeAudioOut(700);
       setTimeout(() => {
         state = 'done';
         disc.pause();
+        audio.pause();
         root.hidden = true;
         window.dispatchEvent(new CustomEvent('lp:done'));
       }, 750);
     }, 1300);
   }
 
+  let fadeRaf = 0;
+  function fadeAudioOut(ms) {
+    cancelAnimationFrame(fadeRaf);
+    const startVol = audio.volume;
+    const t0f = performance.now();
+    const step = (now) => {
+      const k = Math.min(1, (now - t0f) / ms);
+      audio.volume = startVol * (1 - k);
+      if (k < 1) fadeRaf = requestAnimationFrame(step);
+    };
+    fadeRaf = requestAnimationFrame(step);
+  }
+
   function replay() {
     cancelAnimationFrame(raf);
     cancelAnimationFrame(rampRaf);
+    cancelAnimationFrame(fadeRaf);
     disc.pause();
     disc.currentTime = 0;
+    audio.pause();
+    audio.currentTime = 0;
+    audio.volume = 0.55;
     root.hidden = false;
     root.classList.remove('is-leaving', 'is-playing', 'has-touched');
     arm.classList.remove('is-tracking', 'is-dragging');
