@@ -222,6 +222,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   ];
   const urlFor = (node) => 'https://embed.figma.com/proto/' + FILE + '?node-id=' + node + '&starting-point-node-id=' + node.replace('-', '%3A') + '&scaling=scale-down&content-scaling=fixed&hide-ui=1&embed-host=share';
   const FRAME_DELAY = 1200; // safety margin after 'load' fires before trusting the frame has actually painted
+  const REVEAL_FLASH_DELAY = 2200; // extra buffer beyond FRAME_DELAY: Figma's embed does its own internal reload after 'load' fires, so the flash needs to wait longer than a normal frame swap or it fires over a still-blank screen
   const box = document.getElementById('stanBox'), next = document.getElementById('stanNext'), lightning = document.getElementById('stanLightning');
   const play = document.getElementById('stanPlay'), form = document.getElementById('stanForm');
   const stepTitle = document.getElementById('stanTitle'), caption = document.getElementById('stanCaption'), stepLabel = document.getElementById('stanStepLabel'), dotsWrap = document.getElementById('stanDots');
@@ -263,9 +264,10 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     dots.forEach((d, idx) => d.classList.toggle('on', idx === i));
     next.textContent = i === STEPS.length - 1 ? 'Rate it →' : 'Next →';
 
+    const cueLightning = () => { if (s.node === REVEAL_NODE) setTimeout(() => { if (stepIndex === i && !modal.hidden) flashLightning(); }, REVEAL_FLASH_DELAY); };
     const f = ensureFrame(s.node);
-    if (f.dataset.ready === 'true') { showFrame(f); if (s.node === REVEAL_NODE) flashLightning(); }
-    else f.readyPromise.then(() => { if (stepIndex === i) { showFrame(f); if (s.node === REVEAL_NODE) flashLightning(); } });
+    if (f.dataset.ready === 'true') { showFrame(f); cueLightning(); }
+    else f.readyPromise.then(() => { if (stepIndex === i) { showFrame(f); cueLightning(); } });
     if (i + 1 < STEPS.length) ensureFrame(STEPS[i + 1].node);   // quietly preload the next step now
   }
   function show(step) { play.hidden = step !== 'play'; form.hidden = step !== 'form'; const t = step === 'play' ? next : document.getElementById('stanExp'); if (t) t.focus({ preventScroll: true }); }
