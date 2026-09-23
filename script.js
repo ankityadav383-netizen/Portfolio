@@ -208,45 +208,34 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   list.addEventListener('keydown', (e) => { if (e.key === ' ' || e.key.startsWith('Arrow')) e.stopPropagation(); });
 });
 
-// Stan: a Thoughts card walks through how the onboarding problem was solved, then asks for quick feedback by email
+// Stan: a Thoughts card opens the real, animated Figma prototype in a modal, then asks for quick feedback by email
 (() => {
   const open = document.getElementById('stanOpen'), modal = document.getElementById('stanModal');
   if (!open || !modal) return;
   const MAIL = 'ankit.yadav383@gmail.com';
-  const STEPS = [
-    { img: 'assets/stan/screens/welcome.webp', title: 'Sign-up asked for too much', caption: 'The old onboarding needed a form before anyone reached the app.' },
-    { img: 'assets/stan/screens/sheet.webp', title: 'Truecaller cut it to one tap', caption: 'Swapped the form for Truecaller sign-in — no typing, no forms.' },
-    { img: 'assets/stan/screens/home1.webp', title: 'A minimal first dashboard', caption: 'Trimmed the home screen down to what a first-time user actually needs.' },
-    { img: 'assets/stan/screens/home2.webp', title: 'A reason to come back', caption: 'Tap-to-unlock a character adds a small game loop that pulls first-timers back.' },
-  ];
-  const shot = document.getElementById('stanShot'), stepLabel = document.getElementById('stanStepLabel'), stepTitle = document.getElementById('stanTitle'), caption = document.getElementById('stanCaption'), dotsWrap = document.getElementById('stanDots'), next = document.getElementById('stanNext');
+  const PROTO = 'https://embed.figma.com/proto/6QnaHZ2rFU34qQOwCHlWMk/Ankit_Yadav_Stan?node-id=154-1848&starting-point-node-id=154%3A1848&scaling=scale-down&content-scaling=fixed&hide-ui=1&embed-host=share';
+  const box = document.getElementById('stanBox'), next = document.getElementById('stanNext');
   const play = document.getElementById('stanPlay'), form = document.getElementById('stanForm');
   const stars = document.getElementById('stanStars'), msg = document.getElementById('stanMsg'), send = document.getElementById('stanSend'), mail = document.getElementById('stanMail');
-  let stepIndex = 0, rating = 0, lastFocus = null;
+  let rating = 0, lastFocus = null;
 
-  STEPS.forEach(() => { const d = document.createElement('span'); d.className = 'stan-dot'; dotsWrap.appendChild(d); });
-  const dots = dotsWrap.querySelectorAll('.stan-dot');
-  function renderStep() {
-    const s = STEPS[stepIndex];
-    shot.src = s.img; shot.alt = s.title;
-    stepLabel.textContent = (stepIndex + 1) + ' / ' + STEPS.length;
-    stepTitle.textContent = s.title; caption.textContent = s.caption;
-    dots.forEach((d, i) => d.classList.toggle('on', i === stepIndex));
-    next.textContent = stepIndex === STEPS.length - 1 ? 'Rate it →' : 'Next →';
-  }
   function show(step) { play.hidden = step !== 'play'; form.hidden = step !== 'form'; const t = step === 'play' ? next : document.getElementById('stanExp'); if (t) t.focus({ preventScroll: true }); }
   function openModal(e) {
     e.preventDefault(); lastFocus = document.activeElement; modal.hidden = false; document.body.classList.add('stan-lock');
-    stepIndex = 0; renderStep(); show('play'); document.getElementById('stanClose').focus({ preventScroll: true });
+    if (!box.querySelector('iframe')) {
+      const f = document.createElement('iframe'); f.src = PROTO; f.title = 'Stan onboarding prototype: tap through it'; f.setAttribute('allow', 'fullscreen'); f.allowFullscreen = true; f.addEventListener('load', () => setTimeout(() => box.classList.add('ready'), 3500)); box.appendChild(f);
+    }
+    show('play'); document.getElementById('stanClose').focus({ preventScroll: true });
   }
   function closeModal() {
     modal.hidden = true; document.body.classList.remove('stan-lock');
+    const f = box.querySelector('iframe'); if (f) f.remove(); box.classList.remove('ready');   // stop the animation, next open starts fresh
     if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }
   // surprise card: teaser lines type themselves out, one after another (only while on screen, static if reduced motion)
   const typeEl = document.getElementById('stanType');
   if (typeEl && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const LINES = ['Help me build this better.', 'A quick look at how I fixed onboarding.', 'Sixty seconds. Real feedback.', 'See it, then tell me what you think.'];
+    const LINES = ['Help me build this better.', 'The real prototype, animations and all.', 'Sixty seconds. Real feedback.', 'See it, then tell me what you think.'];
     let li = 0, ci = 0, dir = 1, tm = 0, run = false;
     const tick = () => {
       const line = LINES[li];
@@ -264,9 +253,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   document.getElementById('stanClose').addEventListener('click', closeModal);
   modal.addEventListener('mousedown', (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) closeModal(); });
-  next.addEventListener('click', () => {
-    if (stepIndex < STEPS.length - 1) { stepIndex++; renderStep(); } else show('form');
-  });
+  next.addEventListener('click', () => show('form'));
   document.getElementById('stanBack').addEventListener('click', () => show('play'));
 
   for (let i = 1; i <= 5; i++) {
