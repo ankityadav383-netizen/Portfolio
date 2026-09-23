@@ -1401,7 +1401,7 @@ body.deck-fs-page.deck-dark{background:var(--fs-bg-dark);}
 .fs-res-grid.rows{grid-template-columns:1fr;}
 .fs-res-cell{display:flex;}
 .fs-res-cell > a{flex:1;}
-.fs-res-link{justify-content:space-between;color:var(--fs-ink);transition:background .2s ease,color .2s ease;}
+.fs-res-link{color:var(--fs-ink);transition:background .2s ease,color .2s ease;}
 .fs-res-link:hover{background:var(--fs-bg-dark);color:var(--fs-on-dark);}
 .fs-res-linktitle{font-weight:500;font-size:var(--fs-40);line-height:calc(48 / 40);}
 .fs-pill{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;padding:12px 20px;border-radius:var(--fs-r-pill);background:var(--fs-surface);border:1px solid var(--line);color:var(--fs-ink);font:500 16px/1 var(--fs-sans);}
