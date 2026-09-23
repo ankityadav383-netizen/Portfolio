@@ -1834,23 +1834,6 @@ html.lp-lock, html.lp-lock body { overflow: hidden; }
 .lp-loader[hidden] { display: none; }
 .lp-loader.is-leaving .lp-deck { transform: scale(1.08); }
 
-.lp-top {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 22px 24px;
-  font-size: 15px;
-  letter-spacing: .02em;
-}
-.lp-brand { display: inline-flex; align-items: center; gap: 12px; }
-.lp-brand i {
-  width: 22px; height: 16px; border-radius: 2px;
-  background: linear-gradient(90deg, #ffd21e 0 33%, #ff4a1c 33% 70%, #b01cff 70%);
-}
-.lp-pct { font-variant-numeric: tabular-nums; }
-.lp-year { color: var(--lp-ink-soft); }
 
 .lp-stage { display: grid; justify-items: center; gap: clamp(28px, 6vmin, 56px); }
 
@@ -1976,7 +1959,6 @@ html.lp-lock, html.lp-lock body { overflow: hidden; }
 
 @media (max-width: 520px) {
   :root { --lp-size: min(86vw, 420px); }
-  .lp-top { padding: 16px; font-size: 13px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

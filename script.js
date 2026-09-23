@@ -424,7 +424,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     arm.setAttribute('filter', lifted ? 'url(#lpShadowLift)' : 'url(#lpShadow)');
   }
   const hint = (t) => { if (hintEl.textContent !== t) hintEl.textContent = t; };
-  const setPct = (p) => { pctEl.textContent = String(Math.round(p)).padStart(2, '0'); };
+  const setPct = (p) => { if (pctEl) pctEl.textContent = String(Math.round(p)).padStart(2, '0'); };
 
   function pointerAngle(e) {
     const pt = new DOMPoint(e.clientX, e.clientY).matrixTransform(svg.getScreenCTM().inverse());
