@@ -1876,12 +1876,8 @@ html.lp-lock, html.lp-lock body { overflow: hidden; }
   transform: translate(-50%, -50%);
   border-radius: 50%;
   overflow: hidden;
+  background: var(--lp-accent);
   pointer-events: none;
-}
-.lp-label img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  display: block;
 }
 
 .lp-spindle {
