@@ -220,35 +220,58 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     { node: '154-2990', title: 'A reason to come back', caption: 'Tap-to-unlock a character adds a small game loop that pulls first-timers back.' },
   ];
   const urlFor = (node) => 'https://embed.figma.com/proto/' + FILE + '?node-id=' + node + '&starting-point-node-id=' + node.replace('-', '%3A') + '&scaling=scale-down&content-scaling=fixed&hide-ui=1&embed-host=share';
+  const FRAME_DELAY = 1200; // safety margin after 'load' fires before trusting the frame has actually painted
   const box = document.getElementById('stanBox'), next = document.getElementById('stanNext');
   const play = document.getElementById('stanPlay'), form = document.getElementById('stanForm');
   const stepTitle = document.getElementById('stanTitle'), caption = document.getElementById('stanCaption'), stepLabel = document.getElementById('stanStepLabel'), dotsWrap = document.getElementById('stanDots');
   const stars = document.getElementById('stanStars'), msg = document.getElementById('stanMsg'), send = document.getElementById('stanSend'), mail = document.getElementById('stanMail');
-  let rating = 0, lastFocus = null, stepIndex = 0;
+  let rating = 0, lastFocus = null, stepIndex = 0, frames = {}, activeFrame = null;
 
   STEPS.forEach(() => { const d = document.createElement('span'); d.className = 'stan-dot'; dotsWrap.appendChild(d); });
   const dots = dotsWrap.querySelectorAll('.stan-dot');
-  function loadStep(i) {
+
+  // each frame is created once and left in the DOM (hidden) so the NEXT step can boot quietly in the background
+  // while the visitor is still reading the current one, instead of reloading Figma's whole player on every click
+  function ensureFrame(node) {
+    if (frames[node]) return frames[node];
+    const f = document.createElement('iframe');
+    f.className = 'stan-frame'; f.title = 'Stan onboarding prototype'; f.setAttribute('allow', 'fullscreen'); f.allowFullscreen = true;
+    f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
+    f.dataset.ready = 'false';
+    f.readyPromise = new Promise((resolve) => {
+      f.addEventListener('load', () => setTimeout(() => { f.dataset.ready = 'true'; resolve(f); }, FRAME_DELAY), { once: true });
+    });
+    f.src = urlFor(node);
+    box.appendChild(f);
+    frames[node] = f;
+    return f;
+  }
+  function showFrame(f) {
+    if (activeFrame && activeFrame !== f) { activeFrame.classList.remove('active'); activeFrame.tabIndex = -1; }
+    f.classList.add('active'); f.tabIndex = 0;
+    activeFrame = f;
+  }
+  function activateStep(i) {
     stepIndex = i;
     const s = STEPS[i];
-    box.classList.remove('ready');
-    let f = box.querySelector('iframe');
-    if (!f) { f = document.createElement('iframe'); f.title = 'Stan onboarding prototype'; f.setAttribute('allow', 'fullscreen'); f.allowFullscreen = true; box.appendChild(f); }
-    f.onload = () => setTimeout(() => box.classList.add('ready'), 2500);
-    f.src = urlFor(s.node);
     stepTitle.textContent = s.title; caption.textContent = s.caption;
     stepLabel.textContent = (i + 1) + ' / ' + STEPS.length;
     dots.forEach((d, idx) => d.classList.toggle('on', idx === i));
     next.textContent = i === STEPS.length - 1 ? 'Rate it →' : 'Next →';
+
+    const f = ensureFrame(s.node);
+    if (f.dataset.ready === 'true') showFrame(f);
+    else f.readyPromise.then(() => { if (stepIndex === i) showFrame(f); });
+    if (i + 1 < STEPS.length) ensureFrame(STEPS[i + 1].node);   // quietly preload the next step now
   }
   function show(step) { play.hidden = step !== 'play'; form.hidden = step !== 'form'; const t = step === 'play' ? next : document.getElementById('stanExp'); if (t) t.focus({ preventScroll: true }); }
   function openModal(e) {
     e.preventDefault(); lastFocus = document.activeElement; modal.hidden = false; document.body.classList.add('stan-lock');
-    loadStep(0); show('play'); document.getElementById('stanClose').focus({ preventScroll: true });
+    activateStep(0); show('play'); document.getElementById('stanClose').focus({ preventScroll: true });
   }
   function closeModal() {
     modal.hidden = true; document.body.classList.remove('stan-lock');
-    const f = box.querySelector('iframe'); if (f) f.remove(); box.classList.remove('ready');   // stop the animation, next open starts fresh
+    Object.values(frames).forEach((f) => f.remove()); frames = {}; activeFrame = null;   // stop every session, next open starts fresh
     if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }
   // surprise card: teaser lines type themselves out, one after another (only while on screen, static if reduced motion)
@@ -273,7 +296,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   modal.addEventListener('mousedown', (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) closeModal(); });
   next.addEventListener('click', () => {
-    if (stepIndex < STEPS.length - 1) loadStep(stepIndex + 1); else show('form');
+    if (stepIndex < STEPS.length - 1) activateStep(stepIndex + 1); else show('form');
   });
   document.getElementById('stanBack').addEventListener('click', () => show('play'));
 
