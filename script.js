@@ -229,7 +229,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   function renderStep() {
     const s = STEPS[stepIndex];
     shot.src = s.img; shot.alt = s.title;
-    stepLabel.textContent = 'Step ' + (stepIndex + 1) + ' of ' + STEPS.length;
+    stepLabel.textContent = (stepIndex + 1) + ' / ' + STEPS.length;
     stepTitle.textContent = s.title; caption.textContent = s.caption;
     dots.forEach((d, i) => d.classList.toggle('on', i === stepIndex));
     next.textContent = stepIndex === STEPS.length - 1 ? 'Rate it →' : 'Next →';

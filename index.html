@@ -217,10 +217,12 @@
     <button type="button" class="stan-x" id="stanClose" aria-label="Close">&times;</button>
     <div class="stan-device"><img id="stanShot" src="assets/stan/screens/welcome.webp" alt=""></div>
     <section class="stan-step" id="stanPlay">
-      <p class="stan-eyebrow" id="stanStepLabel">Step 1 of 4</p>
+      <div class="stan-progress">
+        <div class="stan-dots" id="stanDots" aria-hidden="true"></div>
+        <span class="stan-count" id="stanStepLabel">1 / 4</span>
+      </div>
       <h3 id="stanTitle">Sign-up asked for too much</h3>
       <p id="stanCaption">The old onboarding needed a form before anyone reached the app.</p>
-      <div class="stan-dots" id="stanDots" aria-hidden="true"></div>
       <div class="stan-actions"><button type="button" id="stanNext">Next &rarr;</button></div>
     </section>
     <form class="stan-step stan-form" id="stanForm" novalidate hidden>
