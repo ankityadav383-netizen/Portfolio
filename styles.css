@@ -1837,68 +1837,12 @@ html.lp-lock, html.lp-lock body { overflow: hidden; }
 
 .lp-stage { position: relative; z-index: 1; display: grid; justify-items: center; gap: clamp(28px, 6vmin, 56px); }
 
-/* ---------- scattered desk props ---------- */
-.lp-props {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  transition: opacity .5s ease;
-}
-.lp-loader.is-leaving .lp-props { opacity: 0; }
-
-.lp-prop { position: absolute; filter: drop-shadow(0 14px 20px rgba(0, 0, 0, .22)); }
-.lp-prop svg { display: block; width: 100%; height: 100%; }
-
-.lp-prop-cover {
-  left: 8%; top: 12%;
-  width: clamp(76px, 12vmin, 128px);
-  transform: rotate(-13deg);
-}
-.lp-cover-disc {
-  position: absolute;
-  right: -22%; bottom: -14%;
-  width: 92%; aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(circle at 34% 30%, #3a3a3a, #111 72%);
-  box-shadow: 0 10px 18px -6px rgba(0, 0, 0, .4);
-}
-.lp-cover-art {
-  position: relative;
-  width: 100%; aspect-ratio: 1;
-  border-radius: 8%;
-  overflow: hidden;
-  background: #111;
-  box-shadow: 0 16px 26px -10px rgba(0, 0, 0, .5), 0 2px 6px rgba(0, 0, 0, .3);
-}
-.lp-cover-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-.lp-prop-cup {
-  right: 10%; top: 16%;
-  width: clamp(58px, 9vmin, 98px);
-  transform: rotate(9deg);
-}
-
-.lp-prop-racket {
-  left: -4%; bottom: 6%;
-  width: clamp(110px, 17vmin, 190px);
-  transform: rotate(24deg);
-}
-
-.lp-prop-headphones {
-  right: -3%; bottom: 14%;
-  width: clamp(96px, 15vmin, 168px);
-  transform: rotate(-16deg);
-}
-
-.lp-prop-tools {
-  left: 14%; bottom: 8%;
-  width: clamp(78px, 12vmin, 132px);
-  transform: rotate(7deg);
-}
-
-@media (max-width: 760px) {
-  .lp-props { display: none; }
+/* desk-photo backdrop, focal point over its empty patch — desktop only */
+@media (min-width: 900px) {
+  .lp-loader {
+    background: url('assets/loader/desk-bg.webp') 52% 50% / cover no-repeat;
+  }
+  :root { --lp-size: min(24vw, 380px); }
 }
 
 /* ---------- deck ---------- */
