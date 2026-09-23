@@ -208,24 +208,43 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   list.addEventListener('keydown', (e) => { if (e.key === ' ' || e.key.startsWith('Arrow')) e.stopPropagation(); });
 });
 
-// Stan: a Thoughts card opens the real, animated Figma prototype in a modal, then asks for quick feedback by email
+// Stan: a Thoughts card steps the real, live Figma prototype through 3 real frames on "Next", each paired with why it was designed that way
 (() => {
   const open = document.getElementById('stanOpen'), modal = document.getElementById('stanModal');
   if (!open || !modal) return;
   const MAIL = 'ankit.yadav383@gmail.com';
-  const PROTO = 'https://embed.figma.com/proto/6QnaHZ2rFU34qQOwCHlWMk/Ankit_Yadav_Stan?node-id=154-1848&starting-point-node-id=154%3A1848&scaling=scale-down&content-scaling=fixed&hide-ui=1&embed-host=share';
+  const FILE = '6QnaHZ2rFU34qQOwCHlWMk/Ankit_Yadav_Stan';
+  const STEPS = [
+    { node: '154-1848', title: 'Sign-up asked for too much', caption: 'The old onboarding needed a form before anyone reached the app.' },
+    { node: '154-2648', title: 'Truecaller cut it to one tap', caption: 'Swapped the form for Truecaller sign-in and trimmed the home screen down to what a first-time user actually needs.' },
+    { node: '154-2990', title: 'A reason to come back', caption: 'Tap-to-unlock a character adds a small game loop that pulls first-timers back.' },
+  ];
+  const urlFor = (node) => 'https://embed.figma.com/proto/' + FILE + '?node-id=' + node + '&starting-point-node-id=' + node.replace('-', '%3A') + '&scaling=scale-down&content-scaling=fixed&hide-ui=1&embed-host=share';
   const box = document.getElementById('stanBox'), next = document.getElementById('stanNext');
   const play = document.getElementById('stanPlay'), form = document.getElementById('stanForm');
+  const stepTitle = document.getElementById('stanTitle'), caption = document.getElementById('stanCaption'), stepLabel = document.getElementById('stanStepLabel'), dotsWrap = document.getElementById('stanDots');
   const stars = document.getElementById('stanStars'), msg = document.getElementById('stanMsg'), send = document.getElementById('stanSend'), mail = document.getElementById('stanMail');
-  let rating = 0, lastFocus = null;
+  let rating = 0, lastFocus = null, stepIndex = 0;
 
+  STEPS.forEach(() => { const d = document.createElement('span'); d.className = 'stan-dot'; dotsWrap.appendChild(d); });
+  const dots = dotsWrap.querySelectorAll('.stan-dot');
+  function loadStep(i) {
+    stepIndex = i;
+    const s = STEPS[i];
+    box.classList.remove('ready');
+    let f = box.querySelector('iframe');
+    if (!f) { f = document.createElement('iframe'); f.title = 'Stan onboarding prototype'; f.setAttribute('allow', 'fullscreen'); f.allowFullscreen = true; box.appendChild(f); }
+    f.onload = () => setTimeout(() => box.classList.add('ready'), 2500);
+    f.src = urlFor(s.node);
+    stepTitle.textContent = s.title; caption.textContent = s.caption;
+    stepLabel.textContent = (i + 1) + ' / ' + STEPS.length;
+    dots.forEach((d, idx) => d.classList.toggle('on', idx === i));
+    next.textContent = i === STEPS.length - 1 ? 'Rate it →' : 'Next →';
+  }
   function show(step) { play.hidden = step !== 'play'; form.hidden = step !== 'form'; const t = step === 'play' ? next : document.getElementById('stanExp'); if (t) t.focus({ preventScroll: true }); }
   function openModal(e) {
     e.preventDefault(); lastFocus = document.activeElement; modal.hidden = false; document.body.classList.add('stan-lock');
-    if (!box.querySelector('iframe')) {
-      const f = document.createElement('iframe'); f.src = PROTO; f.title = 'Stan onboarding prototype: tap through it'; f.setAttribute('allow', 'fullscreen'); f.allowFullscreen = true; f.addEventListener('load', () => setTimeout(() => box.classList.add('ready'), 3500)); box.appendChild(f);
-    }
-    show('play'); document.getElementById('stanClose').focus({ preventScroll: true });
+    loadStep(0); show('play'); document.getElementById('stanClose').focus({ preventScroll: true });
   }
   function closeModal() {
     modal.hidden = true; document.body.classList.remove('stan-lock');
@@ -253,7 +272,9 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   document.getElementById('stanClose').addEventListener('click', closeModal);
   modal.addEventListener('mousedown', (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) closeModal(); });
-  next.addEventListener('click', () => show('form'));
+  next.addEventListener('click', () => {
+    if (stepIndex < STEPS.length - 1) loadStep(stepIndex + 1); else show('form');
+  });
   document.getElementById('stanBack').addEventListener('click', () => show('play'));
 
   for (let i = 1; i <= 5; i++) {
