@@ -371,6 +371,31 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     if (video.readyState >= 2) start();
     else video.addEventListener('loadeddata', start, { once: true });
     if (!reduceMotion) video.play().catch(() => {});
+
+    // doubles as the loudspeaker's play/pause control once the loader hands off the track to it
+    wrap.setAttribute('role', 'button');
+    wrap.setAttribute('tabindex', '0');
+    wrap.setAttribute('aria-pressed', 'true');
+    wrap.setAttribute('aria-label', 'O — pause the music');
+    function toggle() {
+      const audio = document.querySelector('[data-lp-audio]');
+      if (!audio) return;
+      if (audio.paused) {
+        audio.play().catch(() => {});
+        if (!reduceMotion) video.play().catch(() => {});
+        wrap.setAttribute('aria-pressed', 'true');
+        wrap.setAttribute('aria-label', 'O — pause the music');
+      } else {
+        audio.pause();
+        video.pause();
+        wrap.setAttribute('aria-pressed', 'false');
+        wrap.setAttribute('aria-label', 'O — play the music');
+      }
+    }
+    wrap.addEventListener('click', toggle);
+    wrap.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+    });
   });
 })();
 
@@ -538,34 +563,19 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     setTimeout(() => {
       root.classList.add('is-leaving');
       document.documentElement.classList.remove('lp-lock');
-      fadeAudioOut(700);
       setTimeout(() => {
         state = 'done';
         disc.pause();
-        audio.pause();
+        // audio keeps playing uninterrupted -- the hero disk takes over as its play/pause control
         root.hidden = true;
         window.dispatchEvent(new CustomEvent('lp:done'));
       }, 750);
     }, 1300);
   }
 
-  let fadeRaf = 0;
-  function fadeAudioOut(ms) {
-    cancelAnimationFrame(fadeRaf);
-    const startVol = audio.volume;
-    const t0f = performance.now();
-    const step = (now) => {
-      const k = Math.min(1, (now - t0f) / ms);
-      audio.volume = startVol * (1 - k);
-      if (k < 1) fadeRaf = requestAnimationFrame(step);
-    };
-    fadeRaf = requestAnimationFrame(step);
-  }
-
   function replay() {
     cancelAnimationFrame(raf);
     cancelAnimationFrame(rampRaf);
-    cancelAnimationFrame(fadeRaf);
     disc.pause();
     disc.currentTime = 0;
     audio.pause();
