@@ -1248,7 +1248,6 @@ body.deck-fs-page.deck-dark{background:var(--fs-bg-dark);}
 .fs-s1 .fs-safe{padding:140px 120px 96px;}
 .fs-s1 .fs-col{width:920px;}
 .fs-s1 .fs-eyebrow{color:var(--fs-mute);}
-.fs-waves{position:absolute;left:1076px;top:0;width:845px;height:1080px;pointer-events:none;overflow:visible;}
 .fs-rule{height:1px;}
 .fs-stats{display:flex;gap:64px;margin:0;}
 .fs-stat{display:flex;flex-direction:column-reverse;gap:8px;}
@@ -1569,7 +1568,6 @@ body.deck-fs-page.deck-dark{background:var(--fs-bg-dark);}
   .deck-fs .slide.fs .fs-safe{width:100%;height:auto;padding:164px 22px 110px;gap:28px;justify-content:flex-start;}
   .deck-fs .slide.fs .fs-col{width:100%;gap:28px;}
   .fs-head,.deck-fs .fs-s8 .fs-head{margin:0;}
-  .fs-waves{left:auto;right:-60px;top:0;width:auto;height:100%;opacity:.28;}
   .fs-stats{flex-wrap:wrap;gap:24px 40px;}
   .fs-photo-cards,.fs-goals,.fs-personas,.fs-findings,.fs-steps{grid-template-columns:1fr;gap:16px;}
   .fs-goals{gap:24px;}
