@@ -290,20 +290,17 @@ a{text-decoration:none;color:inherit;}
 .story-btn:hover{background:var(--ink);color:var(--cream);}
 
 @media (min-width:960px){
+  /* grid, not flex: the image sits in its own centre column so it stays on the true
+     midline of the row regardless of how much text is in the columns either side of it. */
   .intro-grid{
-    flex-direction:row;
-    align-items:flex-end;
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:end;
     gap:0;
   }
-  .intro-col-text{
-    flex:0 0 25.4%;
-  }
   .intro-image{
-    flex:0 0 33.9%;
     margin:0 3.8%;
-  }
-  .intro-col-body{
-    flex:0 0 30.5%;
+    justify-self:center;
   }
 }
 
