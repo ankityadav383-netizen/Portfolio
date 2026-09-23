@@ -213,7 +213,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   const open = document.getElementById('stanOpen'), modal = document.getElementById('stanModal');
   if (!open || !modal) return;
   const MAIL = 'ankit.yadav383@gmail.com';
-  const REVEAL_TIME = 23.0;   // seconds into onboarding.mp4 where the Skull Thorn character + its lightning bolt are fully visible
+  const REVEAL_TIME = 25.4;   // seconds into onboarding.mp4 where the Skull Thorn character + its lightning bolt are fully visible (re-sampled per recording -- this timestamp is specific to the current video file)
   const STEPS = [
     { seek: 0, title: 'Sign-up asked for too much', caption: 'The old onboarding needed a form before anyone reached the app.' },
     { seek: 16.5, title: 'Truecaller cut it to one tap', caption: 'Swapped the form for Truecaller sign-in and trimmed the home screen down to what a first-time user actually needs.' },
