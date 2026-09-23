@@ -391,7 +391,13 @@ a{text-decoration:none;color:inherit;}
   justify-content:space-between;
   flex-wrap:wrap;
   gap:16px;
-  margin-bottom:48px;
+  margin-bottom:32px;
+}
+.projects-head .section-heading{
+  /* the heading's own margin-bottom (used elsewhere to space it from following content)
+     would otherwise make align-items:center centre its margin box, not its text, and
+     visibly shift "Featured Projects" above the button's centre. */
+  margin-bottom:0;
 }
 .view-all{
   display:inline-flex;
