@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=fs53">
+<link rel="stylesheet" href="styles.css?v=fs54">
 </head>
 <body>
 
@@ -211,18 +211,23 @@
 </footer>
 
 
-<!-- STAN ONBOARDING VIDEO MODAL -->
-<div class="stan-modal" id="stanModal" role="dialog" aria-modal="true" aria-label="Stan onboarding walkthrough" hidden>
-  <button type="button" class="stan-x" id="stanClose" aria-label="Close">&times;</button>
-
-  <section class="stan-video-screen" id="stanPlay">
-    <div class="stan-glow" aria-hidden="true"></div>
-    <video class="stan-video" id="stanVideo" src="assets/stan/onboarding.mp4" poster="assets/stan/onboarding-poster.webp" muted playsinline preload="metadata"></video>
-    <button type="button" class="stan-skip" id="stanNext">Skip, share feedback &rarr;</button>
-  </section>
-
-  <div class="stan-panel" id="stanFormPanel" hidden>
-    <form class="stan-form" id="stanForm" novalidate>
+<!-- STAN PROTOTYPE MODAL -->
+<div class="stan-modal" id="stanModal" role="dialog" aria-modal="true" aria-labelledby="stanTitle" hidden>
+  <div class="stan-panel">
+    <button type="button" class="stan-x" id="stanClose" aria-label="Close">&times;</button>
+    <div class="stan-box" id="stanBox">
+      <div class="stan-lightning" id="stanLightning" aria-hidden="true"></div>
+    </div>
+    <section class="stan-step" id="stanPlay">
+      <div class="stan-progress">
+        <div class="stan-dots" id="stanDots" aria-hidden="true"></div>
+        <span class="stan-count" id="stanStepLabel">1 / 3</span>
+      </div>
+      <h3 id="stanTitle">Sign-up asked for too much</h3>
+      <p id="stanCaption">The old onboarding needed a form before anyone reached the app. This is the real, live prototype &mdash; watch it play out.</p>
+      <div class="stan-actions"><button type="button" id="stanNext">Next &rarr;</button></div>
+    </section>
+    <form class="stan-step stan-form" id="stanForm" novalidate hidden>
       <p class="stan-eyebrow">Quick feedback</p>
       <h3>What do you think?</h3>
       <fieldset>
@@ -239,7 +244,7 @@
       <p class="stan-msg" id="stanMsg" role="status" aria-live="polite"></p>
       <div class="stan-actions">
         <button type="submit" id="stanSend">Send to Ankit</button>
-        <button type="button" class="ghost" id="stanBack">&larr; Watch it again</button>
+        <button type="button" class="ghost" id="stanBack">&larr; Back to the prototype</button>
         <a id="stanMail" href="mailto:ankit.yadav383@gmail.com" hidden>Email it instead</a>
       </div>
       <p class="stan-fine">Lands in my inbox (ankit.yadav383@gmail.com) through FormSubmit. Only what you type here is sent.</p>

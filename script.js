@@ -208,38 +208,80 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   list.addEventListener('keydown', (e) => { if (e.key === ' ' || e.key.startsWith('Arrow')) e.stopPropagation(); });
 });
 
-// Stan: a Thoughts card opens the real onboarding recording full-screen, then asks for quick feedback by email
+// Stan: a Thoughts card steps the real, live Figma prototype through 3 real frames on "Next", with a lightning flash on the character-reveal step
 (() => {
   const open = document.getElementById('stanOpen'), modal = document.getElementById('stanModal');
   if (!open || !modal) return;
   const MAIL = 'ankit.yadav383@gmail.com';
-  const video = document.getElementById('stanVideo'), skip = document.getElementById('stanNext');
-  const playScreen = document.getElementById('stanPlay'), formPanel = document.getElementById('stanFormPanel'), form = document.getElementById('stanForm');
+  const FILE = '6QnaHZ2rFU34qQOwCHlWMk/Ankit_Yadav_Stan';
+  const REVEAL_NODE = '154-2990';   // the "Skull Thorn" unlock frame -- this is where the lightning flash fires
+  const STEPS = [
+    { node: '154-1848', title: 'Sign-up asked for too much', caption: 'The old onboarding needed a form before anyone reached the app.' },
+    { node: '154-2648', title: 'Truecaller cut it to one tap', caption: 'Swapped the form for Truecaller sign-in and trimmed the home screen down to what a first-time user actually needs.' },
+    { node: REVEAL_NODE, title: 'A reason to come back', caption: 'Tap-to-unlock a character adds a small game loop that pulls first-timers back.' },
+  ];
+  const urlFor = (node) => 'https://embed.figma.com/proto/' + FILE + '?node-id=' + node + '&starting-point-node-id=' + node.replace('-', '%3A') + '&scaling=scale-down&content-scaling=fixed&hide-ui=1&embed-host=share';
+  const FRAME_DELAY = 1200; // safety margin after 'load' fires before trusting the frame has actually painted
+  const box = document.getElementById('stanBox'), next = document.getElementById('stanNext'), lightning = document.getElementById('stanLightning');
+  const play = document.getElementById('stanPlay'), form = document.getElementById('stanForm');
+  const stepTitle = document.getElementById('stanTitle'), caption = document.getElementById('stanCaption'), stepLabel = document.getElementById('stanStepLabel'), dotsWrap = document.getElementById('stanDots');
   const stars = document.getElementById('stanStars'), msg = document.getElementById('stanMsg'), send = document.getElementById('stanSend'), mail = document.getElementById('stanMail');
-  let rating = 0, lastFocus = null;
+  let rating = 0, lastFocus = null, stepIndex = 0, frames = {}, activeFrame = null;
 
-  function show(step) {
-    playScreen.hidden = step !== 'play'; formPanel.hidden = step !== 'form';
-    if (step === 'play') skip.focus({ preventScroll: true });
-    else document.getElementById('stanExp').focus({ preventScroll: true });
+  STEPS.forEach(() => { const d = document.createElement('span'); d.className = 'stan-dot'; dotsWrap.appendChild(d); });
+  const dots = dotsWrap.querySelectorAll('.stan-dot');
+
+  function flashLightning() {
+    lightning.classList.remove('flash'); void lightning.offsetWidth; lightning.classList.add('flash');
   }
+  // each frame is created once and left in the DOM (hidden) so the NEXT step can boot quietly in the background
+  // while the visitor is still reading the current one, instead of reloading Figma's whole player on every click
+  function ensureFrame(node) {
+    if (frames[node]) return frames[node];
+    const f = document.createElement('iframe');
+    f.className = 'stan-frame'; f.title = 'Stan onboarding prototype'; f.setAttribute('allow', 'fullscreen'); f.allowFullscreen = true;
+    f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1;
+    f.dataset.ready = 'false';
+    f.readyPromise = new Promise((resolve) => {
+      f.addEventListener('load', () => setTimeout(() => { f.dataset.ready = 'true'; resolve(f); }, FRAME_DELAY), { once: true });
+    });
+    f.src = urlFor(node);
+    box.appendChild(f);
+    frames[node] = f;
+    return f;
+  }
+  function showFrame(f) {
+    if (activeFrame && activeFrame !== f) { activeFrame.classList.remove('active'); activeFrame.tabIndex = -1; }
+    f.classList.add('active'); f.tabIndex = 0;
+    activeFrame = f;
+  }
+  function activateStep(i) {
+    stepIndex = i;
+    const s = STEPS[i];
+    stepTitle.textContent = s.title; caption.textContent = s.caption;
+    stepLabel.textContent = (i + 1) + ' / ' + STEPS.length;
+    dots.forEach((d, idx) => d.classList.toggle('on', idx === i));
+    next.textContent = i === STEPS.length - 1 ? 'Rate it →' : 'Next →';
+
+    const f = ensureFrame(s.node);
+    if (f.dataset.ready === 'true') { showFrame(f); if (s.node === REVEAL_NODE) flashLightning(); }
+    else f.readyPromise.then(() => { if (stepIndex === i) { showFrame(f); if (s.node === REVEAL_NODE) flashLightning(); } });
+    if (i + 1 < STEPS.length) ensureFrame(STEPS[i + 1].node);   // quietly preload the next step now
+  }
+  function show(step) { play.hidden = step !== 'play'; form.hidden = step !== 'form'; const t = step === 'play' ? next : document.getElementById('stanExp'); if (t) t.focus({ preventScroll: true }); }
   function openModal(e) {
     e.preventDefault(); lastFocus = document.activeElement; modal.hidden = false; document.body.classList.add('stan-lock');
-    show('play'); video.currentTime = 0; video.play().catch(() => {});
-    document.getElementById('stanClose').focus({ preventScroll: true });
+    activateStep(0); show('play'); document.getElementById('stanClose').focus({ preventScroll: true });
   }
   function closeModal() {
     modal.hidden = true; document.body.classList.remove('stan-lock');
-    video.pause(); video.currentTime = 0;   // stop the video, next open starts fresh
+    Object.values(frames).forEach((f) => f.remove()); frames = {}; activeFrame = null;   // stop every session, next open starts fresh
     if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }
-  video.addEventListener('ended', () => show('form'));
-  skip.addEventListener('click', () => { video.pause(); show('form'); });
-  document.getElementById('stanBack').addEventListener('click', () => { show('play'); video.currentTime = 0; video.play().catch(() => {}); });
   // surprise card: teaser lines type themselves out, one after another (only while on screen, static if reduced motion)
   const typeEl = document.getElementById('stanType');
   if (typeEl && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const LINES = ['Help me build this better.', 'Watch the whole onboarding.', 'Sixty seconds. Real feedback.', 'See it, then tell me what you think.'];
+    const LINES = ['Help me build this better.', 'The real prototype, animations and all.', 'Sixty seconds. Real feedback.', 'See it, then tell me what you think.'];
     let li = 0, ci = 0, dir = 1, tm = 0, run = false;
     const tick = () => {
       const line = LINES[li];
@@ -257,6 +299,10 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   document.getElementById('stanClose').addEventListener('click', closeModal);
   modal.addEventListener('mousedown', (e) => { if (e.target === modal) closeModal(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hidden) closeModal(); });
+  next.addEventListener('click', () => {
+    if (stepIndex < STEPS.length - 1) activateStep(stepIndex + 1); else show('form');
+  });
+  document.getElementById('stanBack').addEventListener('click', () => show('play'));
 
   for (let i = 1; i <= 5; i++) {
     const b = document.createElement('button'); b.type = 'button'; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', 'false'); b.setAttribute('aria-label', i + (i === 1 ? ' star' : ' stars')); b.dataset.v = i;
