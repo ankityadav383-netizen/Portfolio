@@ -16,20 +16,29 @@ if (navPill && navBtn && navDropdown) {
   });
 }
 
-// Wrap words in the statement section for scroll-reveal highlight (homepage only)
+// Statement section: pinned (position:sticky) while the words fill in one by one on scroll,
+// then releases back to normal scrolling. Scrolling back up empties it out the same way, since
+// the fill is driven purely by scroll position, not by a direction/step counter.
 const statementEl = document.getElementById('statementText');
-if (statementEl) {
+const statementSection = document.getElementById('statementSection');
+if (statementEl && statementSection) {
   const words = statementEl.textContent.trim().split(/\s+/);
   statementEl.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(' ');
   const wordSpans = statementEl.querySelectorAll('.word');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function updateStatementHighlight() {
-    const rect = statementEl.getBoundingClientRect();
-    const vh = window.innerHeight;
-    // progress: 0 when section bottom hits viewport bottom, 1 when section top hits viewport top
-    const start = vh * 0.85;
-    const end = vh * 0.25;
-    let progress = 1 - (rect.top - end) / (start - end);
+    let progress;
+    if (reduceMotion) {
+      // no pin/scroll-jack for reduced motion: fill in as the (normal-height) section passes through
+      const rect = statementEl.getBoundingClientRect();
+      const vh = window.innerHeight;
+      progress = 1 - (rect.top - vh * 0.25) / (vh * 0.85 - vh * 0.25);
+    } else {
+      const rect = statementSection.getBoundingClientRect();
+      const scrollable = statementSection.offsetHeight - window.innerHeight;
+      progress = scrollable > 0 ? -rect.top / scrollable : (rect.top < window.innerHeight / 2 ? 1 : 0);
+    }
     progress = Math.max(0, Math.min(1, progress));
     const activeCount = Math.round(progress * wordSpans.length);
     wordSpans.forEach((span, i) => {

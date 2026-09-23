@@ -307,9 +307,16 @@ a{text-decoration:none;color:inherit;}
   }
 }
 
-/* STATEMENT */
+/* STATEMENT: the section is tall so the sticky pin has room to sit still while the
+   text fills in; once scrolled through, it releases and the page continues normally. */
 .statement{
-  min-height:100vh;
+  position:relative;
+  height:220vh;
+}
+.statement-pin{
+  position:sticky;
+  top:0;
+  height:100vh;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -330,6 +337,13 @@ a{text-decoration:none;color:inherit;}
 }
 .statement .word.active{
   color:var(--ink);
+}
+@media (max-width:720px){
+  .statement{height:180vh;}
+}
+@media (prefers-reduced-motion:reduce){
+  .statement{height:auto;}
+  .statement-pin{position:static;height:auto;min-height:100vh;}
 }
 
 /* JOURNEY */
