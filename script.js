@@ -341,6 +341,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     const video = wrap.querySelector('.lp-disk-video'), canvas = wrap.querySelector('.lp-disk-canvas');
     if (!video || !canvas) return;
     canvas.width = SIZE; canvas.height = SIZE;
+    video.playbackRate = 0.35;   // source footage spins much faster than feels right at this size
     const ctx = canvas.getContext('2d');
     const off = document.createElement('canvas'); off.width = SIZE; off.height = SIZE;
     const octx = off.getContext('2d', { willReadFrequently: true });
