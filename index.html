@@ -1,15 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="lp-lock">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ankit — Product Designer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=fs65">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=fs66">
 </head>
 <body>
+
+<!-- ===== LP LOADER: drag the tonearm onto the record to enter the site ===== -->
+<div class="lp-loader" id="lpLoader" role="dialog" aria-modal="true" aria-label="Loading">
+  <header class="lp-top">
+    <span class="lp-brand"><i></i>/ LOADING / <span class="lp-pct" data-lp-pct>00</span>%</span>
+    <span class="lp-year">2026</span>
+  </header>
+
+  <div class="lp-stage">
+    <div class="lp-deck">
+      <div class="lp-platter">
+        <video class="lp-disc" data-lp-disc src="assets/loader/lp.mp4" poster="assets/loader/lp-poster.jpg"
+               muted loop playsinline preload="auto"></video>
+      </div>
+      <div class="lp-spindle"></div>
+      <span class="lp-led"></span>
+
+      <svg class="lp-arm-svg" viewBox="0 0 1000 1000" aria-hidden="true">
+        <defs>
+          <filter id="lpShadow" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="6" dy="10" stdDeviation="6" flood-color="#000" flood-opacity=".35"/>
+          </filter>
+          <filter id="lpShadowLift" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="16" dy="26" stdDeviation="12" flood-color="#000" flood-opacity=".3"/>
+          </filter>
+          <filter id="lpShadowBase" x="-40%" y="-40%" width="180%" height="180%">
+            <feDropShadow dx="4" dy="8" stdDeviation="8" flood-color="#000" flood-opacity=".22"/>
+          </filter>
+          <linearGradient id="lpCap" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#ffffff"/>
+            <stop offset="1" stop-color="#e3e3e3"/>
+          </linearGradient>
+        </defs>
+
+        <!-- arm rest (cradle) -->
+        <rect x="908" y="770" width="34" height="58" rx="12" fill="#e4e4e4" filter="url(#lpShadowBase)"/>
+
+        <!-- tonearm: drawn in its on-record pose (19deg), rotated by JS -->
+        <g class="lp-arm" data-lp-arm filter="url(#lpShadow)">
+          <path d="M858 137 L813 188 L752 244 Q745 252 745 265 L737 670 Q736 684 727 694 L694 714"
+                fill="none" stroke="#2f2f2f" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M858 137 L813 188 L752 244 Q745 252 745 265 L737 670 Q736 684 727 694 L694 714"
+                fill="none" stroke="#d8d8d8" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M813 188 L752 244 Q745 252 745 265 L737 670"
+                fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" transform="translate(-1.5 -1)"/>
+          <g transform="translate(647 752) rotate(-40)">
+            <rect class="lp-headshell" x="-64" y="-26" width="128" height="52" rx="14" fill="url(#lpCap)" stroke="#d5d5d5" stroke-width="1.5"/>
+            <rect x="-48" y="-10" width="56" height="20" rx="6" fill="#ebebeb"/>
+          </g>
+          <!-- pulsing nudge on the headshell -->
+          <circle class="lp-nudge" cx="647" cy="752" r="60" fill="none" stroke="#e8123f" stroke-width="4"/>
+          <!-- generous invisible hit area (stroke + headshell) -->
+          <path class="lp-arm-hit" d="M813 188 L752 244 Q745 252 745 265 L737 670 Q736 684 727 694 L694 714"
+                fill="none" stroke="transparent" stroke-width="70" stroke-linecap="round"/>
+          <circle class="lp-arm-hit fill" cx="647" cy="752" r="80" fill="transparent"/>
+        </g>
+
+        <!-- pivot base sits above the arm -->
+        <g filter="url(#lpShadowBase)">
+          <circle cx="858" cy="137" r="62" fill="url(#lpCap)"/>
+          <circle cx="858" cy="137" r="46" fill="none" stroke="#e1e1e1" stroke-width="3"/>
+          <circle cx="858" cy="137" r="44" fill="#f4f4f4"/>
+        </g>
+      </svg>
+
+      <!-- keyboard / screen-reader control -->
+      <button class="lp-sr" data-lp-key>Drop the needle to enter the site</button>
+    </div>
+
+    <p class="lp-hint" data-lp-hint aria-live="polite">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 10M5 5v5h5"/></svg>
+      <span data-lp-hint-text>Drag the needle onto the record</span>
+    </p>
+  </div>
+</div>
+<!-- ===== /LP LOADER ===== -->
 
 <nav class="navpill" id="navPill">
   <div class="navpill-top">
@@ -253,6 +329,6 @@
   </div>
 </div>
 
-<script src="script.js?v=fs64"></script>
+<script src="script.js?v=fs65"></script>
 </body>
 </html>

@@ -373,3 +373,191 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     if (!reduceMotion) video.play().catch(() => {});
   });
 })();
+
+/* ============ LP LOADER: the site loads while the record spins.
+ * The visitor drags the tonearm onto the vinyl to start it; the loader finishes
+ * once the needle has played for MIN_SPIN_MS *and* the page has fully loaded.
+ * Emits `lp:done` on window when it has faded out. ============ */
+(function () {
+  const root = document.getElementById('lpLoader');
+  if (!root) return;
+
+  const MIN_SPIN_MS = 3200;
+  const PIVOT = { x: 858, y: 137 };  // deck units (svg viewBox 0..1000)
+  const CENTER = { x: 500, y: 500 };
+  const ARM_LEN = 648;               // pivot -> stylus
+  const DRAWN_AT = 19;               // angle the arm is drawn at in the svg
+  const REST = -3;                   // parked on the cradle
+  const R_OUTER = 395;               // first groove
+  const R_INNER = 165;               // just outside the label
+
+  const svg = root.querySelector('.lp-arm-svg');
+  const arm = root.querySelector('[data-lp-arm]');
+  const disc = root.querySelector('[data-lp-disc]');
+  const pctEl = root.querySelector('[data-lp-pct]');
+  const hintEl = root.querySelector('[data-lp-hint-text]');
+  const keyBtn = root.querySelector('[data-lp-key]');
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // distance from record centre to the stylus at a given arm angle
+  const stylusDist = (deg) => {
+    const r = (deg * Math.PI) / 180;
+    return Math.hypot(PIVOT.x - ARM_LEN * Math.sin(r) - CENTER.x, PIVOT.y + ARM_LEN * Math.cos(r) - CENTER.y);
+  };
+  let ENTER = 0, INNER = 0;
+  for (let a = 0; a < 60; a += 0.1) {
+    const d = stylusDist(a);
+    if (!ENTER && d <= R_OUTER) ENTER = a;
+    if (d <= R_INNER) { INNER = a; break; }
+  }
+  const MAX = INNER;
+
+  let state = 'idle';     // idle | dragging | playing | finishing | done
+  let angle = REST;
+  let grabOffset = 0;
+  let pageLoaded = document.readyState === 'complete';
+  window.addEventListener('load', () => { pageLoaded = true; });
+
+  function setArm(deg, lifted) {
+    angle = deg;
+    arm.style.transform = `rotate(${deg - DRAWN_AT}deg)` + (lifted ? ' scale(1.025)' : '');
+    arm.setAttribute('filter', lifted ? 'url(#lpShadowLift)' : 'url(#lpShadow)');
+  }
+  const hint = (t) => { if (hintEl.textContent !== t) hintEl.textContent = t; };
+  const setPct = (p) => { pctEl.textContent = String(Math.round(p)).padStart(2, '0'); };
+
+  function pointerAngle(e) {
+    const pt = new DOMPoint(e.clientX, e.clientY).matrixTransform(svg.getScreenCTM().inverse());
+    return (Math.atan2(-(pt.x - PIVOT.x), pt.y - PIVOT.y) * 180) / Math.PI;
+  }
+
+  // playbackRate ramp = motor spin-up / spin-down
+  let rampRaf = 0;
+  function ramp(from, to, ms, done) {
+    cancelAnimationFrame(rampRaf);
+    const t0 = performance.now();
+    const step = (now) => {
+      const k = Math.min(1, (now - t0) / ms);
+      const e = 1 - Math.pow(1 - k, 3);
+      try { disc.playbackRate = Math.max(0.1, from + (to - from) * e); } catch (_) {}
+      if (k < 1) rampRaf = requestAnimationFrame(step); else if (done) done();
+    };
+    rampRaf = requestAnimationFrame(step);
+  }
+
+  /* ---------- drag ---------- */
+  root.querySelectorAll('.lp-arm-hit').forEach((el) => el.addEventListener('pointerdown', onDown));
+
+  function onDown(e) {
+    if (state !== 'idle') return;
+    e.preventDefault();
+    state = 'dragging';
+    root.classList.add('has-touched');
+    arm.classList.add('is-dragging');
+    grabOffset = angle - pointerAngle(e);
+    setArm(angle, true);
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+    window.addEventListener('pointercancel', onUp);
+  }
+
+  function onMove(e) {
+    const a = Math.min(MAX, Math.max(REST, pointerAngle(e) + grabOffset));
+    setArm(a, true);
+    hint(a >= ENTER ? 'Release to drop the needle' : 'Keep going — onto the vinyl');
+  }
+
+  function onUp() {
+    window.removeEventListener('pointermove', onMove);
+    window.removeEventListener('pointerup', onUp);
+    window.removeEventListener('pointercancel', onUp);
+    arm.classList.remove('is-dragging');
+    if (angle >= ENTER) {
+      startPlay(angle);
+    } else {
+      state = 'idle';
+      setArm(REST, false);
+      hint('Drag the needle onto the record');
+    }
+  }
+
+  /* ---------- keyboard ---------- */
+  keyBtn.addEventListener('click', () => {
+    if (state !== 'idle') return;
+    state = 'dragging';
+    root.classList.add('has-touched');
+    setArm(ENTER + 3, true);
+    setTimeout(() => startPlay(ENTER + 3), reduceMotion ? 50 : 750);
+  });
+
+  /* ---------- play / load ---------- */
+  let raf = 0, t0 = 0, shown = 0, dropAt = 0;
+
+  function startPlay(at) {
+    state = 'playing';
+    dropAt = at;
+    setArm(at, false);            // needle drops (shadow tightens)
+    root.classList.add('is-playing');
+    hint('Loading — spinning up');
+    try { disc.playbackRate = 0.1; } catch (_) {}
+    const p = disc.play();
+    if (p && p.catch) p.catch(() => {});
+    ramp(0.1, 1, reduceMotion ? 1 : 900);
+    t0 = performance.now();
+    shown = 0;
+    // let the drop transition settle before the arm starts tracking inward
+    setTimeout(() => { if (state === 'playing') arm.classList.add('is-tracking'); }, 350);
+    raf = requestAnimationFrame(tick);
+  }
+
+  function tick(now) {
+    const t = (now - t0) / MIN_SPIN_MS;
+    const cap = pageLoaded ? 100 : 92;
+    const goal = Math.min(cap, t * 100);
+    shown += (goal - shown) * 0.12;
+    if (goal >= 100 && shown > 99.4) shown = 100;
+    setPct(shown);
+    if (arm.classList.contains('is-tracking')) {
+      setArm(dropAt + (Math.max(dropAt, MAX - 1.5) - dropAt) * (shown / 100), false);
+    }
+    if (shown < 60) hint('Loading — spinning up');
+    else if (shown < 100) hint(pageLoaded ? 'Almost there' : 'Waiting for the page');
+    if (shown >= 100) return finish();
+    raf = requestAnimationFrame(tick);
+  }
+
+  function finish() {
+    state = 'finishing';
+    setPct(100);
+    hint('Enjoy the record');
+    // needle stays in the groove and the record keeps spinning through the fade
+    setTimeout(() => {
+      root.classList.add('is-leaving');
+      document.documentElement.classList.remove('lp-lock');
+      setTimeout(() => {
+        state = 'done';
+        disc.pause();
+        root.hidden = true;
+        window.dispatchEvent(new CustomEvent('lp:done'));
+      }, 750);
+    }, 1300);
+  }
+
+  function replay() {
+    cancelAnimationFrame(raf);
+    cancelAnimationFrame(rampRaf);
+    disc.pause();
+    disc.currentTime = 0;
+    root.hidden = false;
+    root.classList.remove('is-leaving', 'is-playing', 'has-touched');
+    arm.classList.remove('is-tracking', 'is-dragging');
+    document.documentElement.classList.add('lp-lock');
+    setArm(REST, false);
+    setPct(0);
+    hint('Drag the needle onto the record');
+    state = 'idle';
+  }
+
+  setArm(REST, false);
+  window.LPLoader = { replay, get state() { return state; } };
+})();
