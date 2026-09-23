@@ -147,9 +147,9 @@ a{text-decoration:none;color:inherit;}
 .lp-disk{
   position:relative;
   display:inline-block;
-  width:0.78em;
-  height:0.78em;
-  vertical-align:-0.09em;
+  width:0.92em;
+  height:0.92em;
+  vertical-align:-0.11em;
   border-radius:50%;
   overflow:hidden;
 }
