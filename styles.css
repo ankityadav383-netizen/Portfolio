@@ -1686,6 +1686,11 @@ body.page-nabc .fs-panel .nb-mood img{max-height:none;}
 @media (max-width:900px){.fs-panel.nb-photo{min-height:340px;padding-bottom:0;}.fs-panel.nb-photo img{margin:0;max-height:none;}}
 body.page-nabc .fs-panel.nb-photo img{max-height:none;}
 
+/* generic: a single photograph filling the panel edge to edge, no letterboxing */
+.fs-panel.full-bleed{padding:0;}
+.fs-panel.full-bleed img{position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;border-radius:0;object-fit:cover;}
+@media (max-width:900px){.fs-panel.full-bleed{min-height:340px;padding-bottom:0;}.fs-panel.full-bleed img{margin:0;max-height:none;}}
+
 /* RICE: static screens swapped by the step list (no prototype available) */
 .fs-panel .rc-shot{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .25s ease,visibility 0s .25s;}
 .fs-panel .rc-shot.on{opacity:1;visibility:visible;transition:opacity .25s ease;}
