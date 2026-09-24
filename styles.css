@@ -172,12 +172,17 @@ a{text-decoration:none;color:inherit;}
   right:9%;
   top:50%;
 }
-/* slow, endless spin -- opposite directions and different speeds so they never move in lockstep */
-.sparkle-1{animation:deco-spin 22s linear infinite;}
-.bolt-1{animation:deco-spin 30s linear infinite reverse;}
-@keyframes deco-spin{to{transform:rotate(360deg);}}
-html.lp-lock .deco{animation-play-state:paused;}  /* nothing to see behind the loader */
-@media (prefers-reduced-motion:reduce){.sparkle-1,.bolt-1{animation:none;}}
+/* the star and bolt are toys: grab them, throw them, they bounce around the hero (see script.js) */
+.hero .deco{
+  cursor:grab;
+  touch-action:none;
+  -webkit-user-select:none;user-select:none;
+  -webkit-user-drag:none;
+  transition:scale .18s ease, filter .18s ease;
+  will-change:transform;
+}
+.hero .deco:hover{scale:1.07;}
+.hero .deco.is-held{cursor:grabbing;scale:1.16;filter:drop-shadow(0 16px 20px rgba(0,0,0,.28));}
 .hero-portrait{
   margin-top:36px;
   width:clamp(140px, 10.4vw, 210px);

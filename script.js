@@ -330,6 +330,116 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   });
 })();
 
+// Hero star & bolt: pick them up, throw them, and they bounce around the hero (which is a viewport-sized box).
+(() => {
+  const hero = document.querySelector('.hero');
+  const toys = hero ? [...hero.querySelectorAll('.deco')] : [];
+  if (!toys.length) return;
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const FRICTION = 1.4;     // velocity lost per second (exponential)
+  const BOUNCE = 0.74;      // energy kept on hitting a wall or the other toy
+  const STOP = 14;          // px/s below which a toy is considered at rest
+  const MAX_V = 3600;
+  const T = toys.map((el) => { el.draggable = false; return { el, x: 0, y: 0, w: 0, h: 0, vx: 0, vy: 0, held: false, placed: false, s: [], pvx: 0, pvy: 0 }; });
+  let raf = 0, last = 0;
+  const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+  const bounds = () => ({ W: hero.clientWidth, H: hero.clientHeight });
+  const render = (t) => { t.el.style.transform = `translate(${t.x}px, ${t.y}px)`; };
+
+  // switch a toy from its CSS-percentage spot to explicit pixel coordinates, at exactly where it sits now
+  function place(t) {
+    if (t.placed) return;
+    const r = t.el.getBoundingClientRect(), h = hero.getBoundingClientRect();
+    t.w = r.width; t.h = r.height; t.x = r.left - h.left; t.y = r.top - h.top;
+    Object.assign(t.el.style, { left: '0px', top: '0px', right: 'auto', bottom: 'auto' });
+    t.placed = true; render(t);
+  }
+
+  function collide(a, b) {
+    const ra = Math.min(a.w, a.h) * 0.36, rb = Math.min(b.w, b.h) * 0.36;
+    const dx = (b.x + b.w / 2) - (a.x + a.w / 2), dy = (b.y + b.h / 2) - (a.y + a.h / 2);
+    const dist = Math.hypot(dx, dy) || 0.001, min = ra + rb;
+    if (dist >= min) return;
+    const nx = dx / dist, ny = dy / dist, push = min - dist;
+    if (a.held || b.held) {                               // a held toy shoves the other one away
+      const [h, o] = a.held ? [a, b] : [b, a], sign = a.held ? 1 : -1;
+      o.x += nx * push * sign; o.y += ny * push * sign;
+      o.vx = clamp(o.vx + (h.pvx * 0.9), -MAX_V, MAX_V); o.vy = clamp(o.vy + (h.pvy * 0.9), -MAX_V, MAX_V);
+      return;
+    }
+    a.x -= nx * push / 2; a.y -= ny * push / 2; b.x += nx * push / 2; b.y += ny * push / 2;
+    const rel = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;   // equal masses: swap the normal components
+    if (rel < 0) {
+      const j = -(1 + BOUNCE) * rel / 2;
+      a.vx -= j * nx; a.vy -= j * ny; b.vx += j * nx; b.vy += j * ny;
+    }
+  }
+
+  function step(now) {
+    const dt = Math.min(0.033, (now - last) / 1000 || 0.016); last = now;
+    const { W, H } = bounds();
+    let moving = false;
+    T.forEach((t) => {
+      if (!t.placed || t.held) { if (t.held) moving = true; return; }
+      const damp = Math.exp(-FRICTION * dt);
+      t.vx *= damp; t.vy *= damp;
+      t.x += t.vx * dt; t.y += t.vy * dt;
+      if (t.x < 0) { t.x = 0; t.vx = Math.abs(t.vx) * BOUNCE; } else if (t.x > W - t.w) { t.x = W - t.w; t.vx = -Math.abs(t.vx) * BOUNCE; }
+      if (t.y < 0) { t.y = 0; t.vy = Math.abs(t.vy) * BOUNCE; } else if (t.y > H - t.h) { t.y = H - t.h; t.vy = -Math.abs(t.vy) * BOUNCE; }
+      if (Math.hypot(t.vx, t.vy) < STOP) { t.vx = t.vy = 0; } else moving = true;
+    });
+    if (T.length > 1 && T[0].placed && T[1].placed) { collide(T[0], T[1]); if (T[0].vx || T[0].vy || T[1].vx || T[1].vy) moving = true; }
+    T.forEach((t) => { if (t.placed) { t.x = clamp(t.x, 0, Math.max(0, W - t.w)); t.y = clamp(t.y, 0, Math.max(0, H - t.h)); render(t); } });
+    raf = moving ? requestAnimationFrame(step) : 0;
+  }
+  const wake = () => { if (!raf) { last = performance.now(); raf = requestAnimationFrame(step); } };
+
+  T.forEach((t) => {
+    const el = t.el;
+    el.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return;
+      e.preventDefault();
+      place(t);
+      el.setPointerCapture(e.pointerId);
+      const h = hero.getBoundingClientRect();
+      t.held = true; t.vx = t.vy = t.pvx = t.pvy = 0;
+      t.ox = e.clientX - h.left - t.x; t.oy = e.clientY - h.top - t.y;
+      t.s = [{ t: e.timeStamp, x: e.clientX, y: e.clientY }];
+      el.classList.add('is-held');
+      wake();
+    });
+    el.addEventListener('pointermove', (e) => {
+      if (!t.held) return;
+      const h = hero.getBoundingClientRect(), { W, H } = bounds(), prev = t.s[t.s.length - 1];
+      t.x = clamp(e.clientX - h.left - t.ox, 0, Math.max(0, W - t.w));
+      t.y = clamp(e.clientY - h.top - t.oy, 0, Math.max(0, H - t.h));
+      const dtm = Math.max(1, e.timeStamp - prev.t);
+      t.pvx = (e.clientX - prev.x) / dtm * 1000; t.pvy = (e.clientY - prev.y) / dtm * 1000;
+      t.s.push({ t: e.timeStamp, x: e.clientX, y: e.clientY });
+      while (t.s.length > 2 && e.timeStamp - t.s[0].t > 110) t.s.shift();
+      render(t);
+    });
+    const release = (e) => {
+      if (!t.held) return;
+      t.held = false; el.classList.remove('is-held');
+      try { el.releasePointerCapture(e.pointerId); } catch (_) {}
+      const a = t.s[0], b = t.s[t.s.length - 1], dtm = b.t - a.t;
+      // a pause before letting go means "just drop it", not a throw
+      const still = e.timeStamp - b.t > 90;
+      if (reduceMotion || dtm < 8 || still) { t.vx = t.vy = 0; }
+      else {
+        t.vx = clamp((b.x - a.x) / dtm * 1000 * 1.1, -MAX_V, MAX_V);
+        t.vy = clamp((b.y - a.y) / dtm * 1000 * 1.1, -MAX_V, MAX_V);
+      }
+      t.pvx = t.pvy = 0;
+      wake();
+    };
+    el.addEventListener('pointerup', release);
+    el.addEventListener('pointercancel', release);
+  });
+  window.addEventListener('resize', () => { if (T.some((t) => t.placed)) wake(); });
+})();
+
 // Hero "O": the same vinyl clip the loader uses, played directly -- no chroma-key canvas needed
 // here since the disk fills the frame edge-to-edge and the container's circular clip hides the
 // green corners outside it. Sharper than the old low-res chroma-keyed canvas, especially on retina.
