@@ -1857,10 +1857,29 @@ html.lp-flying .lp-disk { opacity: 0; transition: none; }
 
 /* desk-photo backdrop, focal point over its empty patch — desktop only */
 @media (min-width: 900px) {
-  .lp-loader {
-    background: var(--lp-bg) url('assets/loader/desk-bg.webp') 52% 50% / cover no-repeat;
+  /* the photo is its own layer so it can fade in once decoded, instead of snapping in over the plain gray */
+  .lp-loader::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('assets/loader/desk-bg.webp') 52% 50% / cover no-repeat;
+    opacity: 0;
+    transition: opacity 1.1s ease;
   }
+  .lp-loader.is-ready::before { opacity: 1; }
   :root { --lp-size: min(24vw, 380px); }
+}
+
+/* ---------- intro: nothing is shown until its assets are decoded, then it eases in together ---------- */
+.lp-loader:not(.is-ready) .lp-stage { opacity: 0; animation: lp-failsafe 0s 4s forwards; } /* shows anyway if the script never marks it ready */
+@keyframes lp-failsafe { to { opacity: 1; } }
+.lp-loader.is-ready .lp-stage { animation: lp-rise 1.05s cubic-bezier(.2, .75, .2, 1) backwards; }
+.lp-loader.is-ready .lp-hint { animation: lp-fade .7s ease .6s backwards; }
+@keyframes lp-rise { from { opacity: 0; transform: translateY(24px) scale(.965); } }
+@keyframes lp-fade { from { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .lp-loader::before { transition: none; }
+  .lp-loader.is-ready .lp-stage, .lp-loader.is-ready .lp-hint { animation: none; }
 }
 
 /* ---------- deck ---------- */

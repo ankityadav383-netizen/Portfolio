@@ -399,6 +399,22 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   const keyBtn = root.querySelector('[data-lp-key]');
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* ---------- intro: reveal only once everything it shows is ready, so nothing pops in piecemeal ---------- */
+  (function intro() {
+    const decode = (src) => new Promise((res) => {
+      const im = new Image();
+      im.src = src;
+      (im.decode ? im.decode() : new Promise((r) => { im.onload = r; im.onerror = r; })).then(res, res);
+    });
+    const wide = matchMedia('(min-width: 900px)').matches;
+    const font = document.fonts && document.fonts.load ? document.fonts.load('400 13px "JetBrains Mono"').catch(() => {}) : 0;
+    const loaded = document.readyState === 'complete' ? 0 : new Promise((r) => window.addEventListener('load', r, { once: true }));
+    const assets = Promise.all([decode('assets/loader/lp-poster.jpg'), wide ? decode('assets/loader/desk-bg.webp') : 0, font, loaded]);
+    // never hold the screen hostage on a slow connection
+    Promise.race([assets, new Promise((r) => setTimeout(r, 1800))])
+      .then(() => requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('is-ready'))));
+  })();
+
   // distance from record centre to the stylus at a given arm angle
   const stylusDist = (deg) => {
     const r = (deg * Math.PI) / 180;
