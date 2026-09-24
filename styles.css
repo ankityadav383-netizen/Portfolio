@@ -2069,17 +2069,11 @@ html.lp-flying .lp-disk { opacity: 0; transition: none; }
 .lp-gate-btn:active { transform: scale(.97); }
 .lp-gate-btn svg { width: 16px; height: 16px; }
 .lp-gate-btn.is-done { background: var(--lp-accent); }
-.lp-gate-skip {
-  min-height: 44px; padding: 0 12px;
-  border: 0; background: none; cursor: pointer;
-  font: 500 13.5px/1 'Inter', system-ui, sans-serif; color: var(--lp-ink-soft);
-  text-decoration: underline; text-underline-offset: 3px;
-}
 .lp-gate-tip {
   margin: -4px 0 0;
   font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: #6f6f6f;
 }
-.lp-loader.is-gate.is-muted .lp-gate-tip::after { content: ' · paused'; color: var(--lp-accent); }
+.lp-loader.is-gate.is-muted .lp-gate-tip { color: var(--lp-accent); }
 @media (prefers-reduced-motion: reduce) {
   .lp-loader.is-gate .lp-gate { animation: none; }
   .lp-loader.is-gate .lp-deck { transition: none; }

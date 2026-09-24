@@ -558,11 +558,9 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   const gateEl = root.querySelector('[data-lp-gate]');
   const copyBtn = root.querySelector('[data-lp-copy]');
   const copyLabel = root.querySelector('[data-lp-copy-label]');
-  const skipBtn = root.querySelector('[data-lp-continue]');
   const platterEl = root.querySelector('.lp-platter');
-  let gateSkipped = false;
-  try { gateSkipped = sessionStorage.getItem('lp-continue') === '1'; } catch (_) {}
-  const gateMode = !!gateEl && matchMedia('(max-width: 899px)').matches && !gateSkipped;
+  const tipEl = root.querySelector('.lp-gate-tip');
+  const gateMode = !!gateEl && matchMedia('(max-width: 899px)').matches;
 
   function showGate() {
     state = 'gate';
@@ -584,16 +582,12 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
       copyBtn.classList.toggle('is-done', ok);
       setTimeout(() => { copyLabel.textContent = 'Copy link'; copyBtn.classList.remove('is-done'); }, 2600);
     });
-    skipBtn.addEventListener('click', () => {
-      try { sessionStorage.setItem('lp-continue', '1'); } catch (_) {}
-      state = 'finishing';
-      if (!flyToHero()) fadeOut();
-    });
     platterEl.addEventListener('click', () => {
       if (state !== 'gate') return;
       if (audio.paused) { audio.play().catch(() => {}); disc.play().catch(() => {}); }
       else { audio.pause(); disc.pause(); }
       root.classList.toggle('is-muted', audio.paused);
+      if (tipEl) tipEl.textContent = audio.paused ? 'Paused \u2014 tap the record to play' : 'Tap the record to pause the music';
     });
   }
 
