@@ -153,6 +153,7 @@ a{text-decoration:none;color:inherit;}
   border-radius:50%;
   overflow:hidden;
   cursor:pointer;
+  transition:opacity .22s ease;
 }
 .lp-disk-video{display:block;width:102%;height:102%;margin:-1%;object-fit:cover;}
 .deco{
@@ -1818,7 +1819,10 @@ html.lp-lock, html.lp-lock body { overflow: hidden; }
 
 .lp-loader {
   position: fixed;
-  inset: 0;
+  /* 100vw (not right:0) so the loader is the same size with or without the page scrollbar -- unlocking
+     scroll at lift-off then can't nudge the deck */
+  inset: 0 auto 0 0;
+  width: 100vw;
   z-index: 9999;
   display: grid;
   place-items: center;
@@ -1846,7 +1850,7 @@ html.lp-lock, html.lp-lock body { overflow: hidden; }
   pointer-events: none;
   will-change: transform;
 }
-html.lp-flying .lp-disk { opacity: 0; }
+html.lp-flying .lp-disk { opacity: 0; transition: none; }
 
 
 .lp-stage { position: relative; z-index: 1; display: grid; justify-items: center; gap: clamp(28px, 6vmin, 56px); }
@@ -1854,7 +1858,7 @@ html.lp-flying .lp-disk { opacity: 0; }
 /* desk-photo backdrop, focal point over its empty patch — desktop only */
 @media (min-width: 900px) {
   .lp-loader {
-    background: url('assets/loader/desk-bg.webp') 52% 50% / cover no-repeat;
+    background: var(--lp-bg) url('assets/loader/desk-bg.webp') 52% 50% / cover no-repeat;
   }
   :root { --lp-size: min(24vw, 380px); }
 }

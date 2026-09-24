@@ -339,7 +339,11 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     if (!video) return;
     video.playbackRate = 0.35;   // source footage spins much faster than feels right at this size
     const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // the loader fully covers the hero, so decoding this video underneath it only steals frames from the
+    // loader (halved its frame rate) -- hold it until the record lands
+    const loader = document.getElementById('lpLoader');
     if (reduceMotion) video.pause();
+    else if (loader && !loader.hidden) window.addEventListener('lp:done', () => video.play().catch(() => {}), { once: true });
     else video.play().catch(() => {});
 
     // doubles as the loudspeaker's play/pause control once the loader hands off the track to it
@@ -570,6 +574,9 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     document.body.appendChild(fly);
 
     const html = document.documentElement;
+    // unlock scroll now, behind the still-opaque loader: the scrollbar's layout shift and repaint happen where
+    // nobody can see them, and the flight then tracks the hero's final position live
+    html.classList.remove('lp-lock');
     html.classList.add('lp-flying');
     root.classList.add('is-flying', 'is-leaving');
     arm.classList.remove('is-tracking');
@@ -581,14 +588,20 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     let synced = false;
 
     function land() {
-      heroVideo.currentTime = disc.currentTime;
+      // hero takes over via a short crossfade so any leftover phase difference between the two videos never shows as a pop
+      if (Math.abs(heroVideo.currentTime - disc.currentTime) > 0.05) heroVideo.currentTime = disc.currentTime;
+      heroVideo.play().catch(() => {});
       html.classList.remove('lp-flying');
-      platter.append(disc, label);
-      deck.insertBefore(spindle, spindleNext);
-      spindle.style.width = '';
-      spindle.style.opacity = '';
-      fly.remove();
-      done();
+      fly.style.transition = 'opacity .22s ease';
+      fly.style.opacity = '0';
+      setTimeout(() => {
+        platter.append(disc, label);
+        deck.insertBefore(spindle, spindleNext);
+        spindle.style.width = '';
+        spindle.style.opacity = '';
+        fly.remove();
+        done();
+      }, 240);
     }
     function step(now) {
       const k = Math.min(1, (now - t0f) / DUR), e = ease(k);
@@ -601,7 +614,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
       fly.style.boxShadow = `0 ${8 + 26 * lift}px ${18 + 30 * lift}px -6px rgba(0,0,0,${(0.45 * (1 - e) + 0.3 * lift).toFixed(3)})`;
       spindle.style.opacity = String(1 - e);
       try { disc.playbackRate = START_RATE + (END_RATE - START_RATE) * e; } catch (_) {}
-      if (!synced && k > 0.8) { heroVideo.currentTime = disc.currentTime; synced = true; }
+      if (!synced && k > 0.6) { heroVideo.currentTime = disc.currentTime; heroVideo.play().catch(() => {}); synced = true; }
       if (k < 1) requestAnimationFrame(step); else land();
     }
     requestAnimationFrame(step);
