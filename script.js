@@ -550,7 +550,51 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     setPct(100);
     hint('Enjoy the record');
     // needle stays in the groove and the record keeps spinning, then it lifts off and lands in the hero "O"
-    setTimeout(() => { if (!flyToHero()) fadeOut(); }, 1300);
+    setTimeout(() => { if (gateMode) showGate(); else if (!flyToHero()) fadeOut(); }, 1300);
+  }
+
+  /* ---------- phones: stay on the record + music, and ask them to open it on a laptop ---------- */
+  const PORTFOLIO_URL = 'https://bluesdesign.lol/';
+  const gateEl = root.querySelector('[data-lp-gate]');
+  const copyBtn = root.querySelector('[data-lp-copy]');
+  const copyLabel = root.querySelector('[data-lp-copy-label]');
+  const skipBtn = root.querySelector('[data-lp-continue]');
+  const platterEl = root.querySelector('.lp-platter');
+  let gateSkipped = false;
+  try { gateSkipped = sessionStorage.getItem('lp-continue') === '1'; } catch (_) {}
+  const gateMode = !!gateEl && matchMedia('(max-width: 899px)').matches && !gateSkipped;
+
+  function showGate() {
+    state = 'gate';
+    hint('');
+    root.classList.add('is-gate');
+  }
+  function copyFallback() {
+    const ta = document.createElement('textarea');
+    ta.value = PORTFOLIO_URL; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;opacity:0;top:0';
+    document.body.appendChild(ta); ta.select();
+    let ok = false; try { ok = document.execCommand('copy'); } catch (_) {}
+    ta.remove(); return ok;
+  }
+  if (gateEl) {
+    copyBtn.addEventListener('click', async () => {
+      let ok = false;
+      try { await navigator.clipboard.writeText(PORTFOLIO_URL); ok = true; } catch (_) { ok = copyFallback(); }
+      copyLabel.textContent = ok ? 'Link copied — see you on desktop' : PORTFOLIO_URL;
+      copyBtn.classList.toggle('is-done', ok);
+      setTimeout(() => { copyLabel.textContent = 'Copy link'; copyBtn.classList.remove('is-done'); }, 2600);
+    });
+    skipBtn.addEventListener('click', () => {
+      try { sessionStorage.setItem('lp-continue', '1'); } catch (_) {}
+      state = 'finishing';
+      if (!flyToHero()) fadeOut();
+    });
+    platterEl.addEventListener('click', () => {
+      if (state !== 'gate') return;
+      if (audio.paused) { audio.play().catch(() => {}); disc.play().catch(() => {}); }
+      else { audio.pause(); disc.pause(); }
+      root.classList.toggle('is-muted', audio.paused);
+    });
   }
 
   function done() {
