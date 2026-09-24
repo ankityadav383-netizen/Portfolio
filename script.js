@@ -336,73 +336,102 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   const toys = hero ? [...hero.querySelectorAll('.deco')] : [];
   if (!toys.length) return;
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const FRICTION = 1.4;     // velocity lost per second (exponential)
-  const BOUNCE = 0.74;      // energy kept on hitting a wall or the other toy
-  const STOP = 14;          // px/s below which a toy is considered at rest
-  const MAX_V = 3600;
-  const T = toys.map((el) => { el.draggable = false; return { el, x: 0, y: 0, w: 0, h: 0, vx: 0, vy: 0, held: false, placed: false, s: [], pvx: 0, pvy: 0 }; });
+  const FRICTION = 1.6;     // share of velocity lost per second (exponential)
+  const BOUNCE = 0.7;       // energy kept on hitting a wall or the other toy
+  const STOP = 22;          // px/s below which a toy is at rest
+  const REST_BOUNCE = 60;   // impacts slower than this don't bounce at all (kills endless micro-bounces)
+  const MAX_V = 3400;
+  const T = toys.map((el) => { el.draggable = false; return { el, x: 0, y: 0, w: 0, h: 0, vx: 0, vy: 0, held: false, placed: false, s: [] }; });
   let raf = 0, last = 0;
   const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
   const bounds = () => ({ W: hero.clientWidth, H: hero.clientHeight });
-  const render = (t) => { t.el.style.transform = `translate(${t.x}px, ${t.y}px)`; };
+  const dpr = () => window.devicePixelRatio || 1;
+  const render = (t) => {
+    const d = dpr();   // whole device pixels, so a resting toy never shimmers between sub-pixel positions
+    // the individual `translate` property (not `transform`): the hover/held `scale` must not multiply the position
+    t.el.style.translate = `${Math.round(t.x * d) / d}px ${Math.round(t.y * d) / d}px`;
+  };
+  const fit = (t) => { const { W, H } = bounds(); t.x = clamp(t.x, 0, Math.max(0, W - t.w)); t.y = clamp(t.y, 0, Math.max(0, H - t.h)); };
 
-  // switch a toy from its CSS-percentage spot to explicit pixel coordinates, at exactly where it sits now
+  // switch a toy from its CSS-percentage spot to explicit pixel coordinates -- using layout metrics, so the
+  // hover/held scale can't inflate the size or make the toy jump when it's first picked up
   function place(t) {
     if (t.placed) return;
-    const r = t.el.getBoundingClientRect(), h = hero.getBoundingClientRect();
-    t.w = r.width; t.h = r.height; t.x = r.left - h.left; t.y = r.top - h.top;
+    t.w = t.el.offsetWidth; t.h = t.el.offsetHeight; t.x = t.el.offsetLeft; t.y = t.el.offsetTop;
     Object.assign(t.el.style, { left: '0px', top: '0px', right: 'auto', bottom: 'auto' });
     t.placed = true; render(t);
   }
 
-  function collide(a, b) {
+  // two free toys: push them apart (gradually, never a teleport) and bounce. Held toys pass straight through.
+  function collide(a, b, dt) {
     const ra = Math.min(a.w, a.h) * 0.36, rb = Math.min(b.w, b.h) * 0.36;
-    const dx = (b.x + b.w / 2) - (a.x + a.w / 2), dy = (b.y + b.h / 2) - (a.y + a.h / 2);
+    let dx = (b.x + b.w / 2) - (a.x + a.w / 2), dy = (b.y + b.h / 2) - (a.y + a.h / 2);
     const dist = Math.hypot(dx, dy) || 0.001, min = ra + rb;
-    if (dist >= min) return;
-    const nx = dx / dist, ny = dy / dist, push = min - dist;
-    if (a.held || b.held) {                               // a held toy shoves the other one away
-      const [h, o] = a.held ? [a, b] : [b, a], sign = a.held ? 1 : -1;
-      o.x += nx * push * sign; o.y += ny * push * sign;
-      o.vx = clamp(o.vx + (h.pvx * 0.9), -MAX_V, MAX_V); o.vy = clamp(o.vy + (h.pvy * 0.9), -MAX_V, MAX_V);
-      return;
-    }
+    if (dist >= min) return false;
+    const nx = dx / dist, ny = dy / dist;
+    const push = Math.min(min - dist, 700 * dt + 0.5);     // limited per frame so separation reads as a shove, not a snap
     a.x -= nx * push / 2; a.y -= ny * push / 2; b.x += nx * push / 2; b.y += ny * push / 2;
-    const rel = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;   // equal masses: swap the normal components
+    fit(a); fit(b);                                        // a toy against a wall can't give way...
+    dx = (b.x + b.w / 2) - (a.x + a.w / 2); dy = (b.y + b.h / 2) - (a.y + a.h / 2);
+    const left = min - (Math.hypot(dx, dy) || 0.001);
+    if (left > 0) { const m = Math.min(left, 700 * dt); b.x += nx * m; b.y += ny * m; fit(b); }   // ...so the other one takes the rest
+    const rel = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;   // closing speed along the contact normal
     if (rel < 0) {
-      const j = -(1 + BOUNCE) * rel / 2;
+      const j = (Math.abs(rel) < REST_BOUNCE ? 1 : 1 + BOUNCE) * -rel / 2;
       a.vx -= j * nx; a.vy -= j * ny; b.vx += j * nx; b.vy += j * ny;
     }
+    return true;
   }
 
   function step(now) {
-    const dt = Math.min(0.033, (now - last) / 1000 || 0.016); last = now;
+    if (!last) last = now;
+    const dt = clamp((now - last) / 1000, 0.001, 0.033); last = now;
     const { W, H } = bounds();
     let moving = false;
     T.forEach((t) => {
-      if (!t.placed || t.held) { if (t.held) moving = true; return; }
+      if (!t.placed) return;
+      if (t.held) { moving = true; return; }
       const damp = Math.exp(-FRICTION * dt);
       t.vx *= damp; t.vy *= damp;
       t.x += t.vx * dt; t.y += t.vy * dt;
-      if (t.x < 0) { t.x = 0; t.vx = Math.abs(t.vx) * BOUNCE; } else if (t.x > W - t.w) { t.x = W - t.w; t.vx = -Math.abs(t.vx) * BOUNCE; }
-      if (t.y < 0) { t.y = 0; t.vy = Math.abs(t.vy) * BOUNCE; } else if (t.y > H - t.h) { t.y = H - t.h; t.vy = -Math.abs(t.vy) * BOUNCE; }
-      if (Math.hypot(t.vx, t.vy) < STOP) { t.vx = t.vy = 0; } else moving = true;
+      if (t.x < 0) { t.x = 0; t.vx = t.vx < -REST_BOUNCE ? -t.vx * BOUNCE : 0; }
+      else if (t.x > W - t.w) { t.x = Math.max(0, W - t.w); t.vx = t.vx > REST_BOUNCE ? -t.vx * BOUNCE : 0; }
+      if (t.y < 0) { t.y = 0; t.vy = t.vy < -REST_BOUNCE ? -t.vy * BOUNCE : 0; }
+      else if (t.y > H - t.h) { t.y = Math.max(0, H - t.h); t.vy = t.vy > REST_BOUNCE ? -t.vy * BOUNCE : 0; }
+      if (Math.hypot(t.vx, t.vy) < STOP) t.vx = t.vy = 0; else moving = true;
     });
-    if (T.length > 1 && T[0].placed && T[1].placed) { collide(T[0], T[1]); if (T[0].vx || T[0].vy || T[1].vx || T[1].vy) moving = true; }
-    T.forEach((t) => { if (t.placed) { t.x = clamp(t.x, 0, Math.max(0, W - t.w)); t.y = clamp(t.y, 0, Math.max(0, H - t.h)); render(t); } });
+    if (T.length > 1 && T[0].placed && T[1].placed && !T[0].held && !T[1].held) {
+      if (collide(T[0], T[1], dt)) moving = true;
+    }
+    T.forEach((t) => { if (t.placed) { fit(t); render(t); } });
     raf = moving ? requestAnimationFrame(step) : 0;
   }
-  const wake = () => { if (!raf) { last = performance.now(); raf = requestAnimationFrame(step); } };
+  const wake = () => { if (!raf) { last = 0; raf = requestAnimationFrame(step); } };
+
+  const drop = (t, e) => {
+    if (!t.held) return;
+    t.held = false; t.el.classList.remove('is-held');
+    if (e) { try { t.el.releasePointerCapture(e.pointerId); } catch (_) {} }
+    const a = t.s[0], b = t.s[t.s.length - 1], dtm = b.t - a.t;
+    const still = e ? e.timeStamp - b.t > 90 : true;      // a pause before letting go means "just drop it", not a throw
+    if (reduceMotion || still || dtm < 8) { t.vx = t.vy = 0; }
+    else {
+      t.vx = clamp((b.x - a.x) / dtm * 1000 * 1.1, -MAX_V, MAX_V);
+      t.vy = clamp((b.y - a.y) / dtm * 1000 * 1.1, -MAX_V, MAX_V);
+      if (Math.hypot(t.vx, t.vy) < STOP * 2) t.vx = t.vy = 0;
+    }
+    wake();
+  };
 
   T.forEach((t) => {
     const el = t.el;
     el.addEventListener('pointerdown', (e) => {
-      if (e.button !== 0) return;
+      if (e.button !== 0 || t.held) return;
       e.preventDefault();
-      place(t);
+      T.forEach(place);    // every toy joins the physics at the first touch, so they always collide with each other
       el.setPointerCapture(e.pointerId);
       const h = hero.getBoundingClientRect();
-      t.held = true; t.vx = t.vy = t.pvx = t.pvy = 0;
+      t.held = true; t.vx = t.vy = 0;
       t.ox = e.clientX - h.left - t.x; t.oy = e.clientY - h.top - t.y;
       t.s = [{ t: e.timeStamp, x: e.clientX, y: e.clientY }];
       el.classList.add('is-held');
@@ -410,33 +439,19 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     });
     el.addEventListener('pointermove', (e) => {
       if (!t.held) return;
-      const h = hero.getBoundingClientRect(), { W, H } = bounds(), prev = t.s[t.s.length - 1];
-      t.x = clamp(e.clientX - h.left - t.ox, 0, Math.max(0, W - t.w));
-      t.y = clamp(e.clientY - h.top - t.oy, 0, Math.max(0, H - t.h));
-      const dtm = Math.max(1, e.timeStamp - prev.t);
-      t.pvx = (e.clientX - prev.x) / dtm * 1000; t.pvy = (e.clientY - prev.y) / dtm * 1000;
+      const h = hero.getBoundingClientRect();
+      t.x = e.clientX - h.left - t.ox; t.y = e.clientY - h.top - t.oy; fit(t);
       t.s.push({ t: e.timeStamp, x: e.clientX, y: e.clientY });
       while (t.s.length > 2 && e.timeStamp - t.s[0].t > 110) t.s.shift();
       render(t);
     });
-    const release = (e) => {
-      if (!t.held) return;
-      t.held = false; el.classList.remove('is-held');
-      try { el.releasePointerCapture(e.pointerId); } catch (_) {}
-      const a = t.s[0], b = t.s[t.s.length - 1], dtm = b.t - a.t;
-      // a pause before letting go means "just drop it", not a throw
-      const still = e.timeStamp - b.t > 90;
-      if (reduceMotion || dtm < 8 || still) { t.vx = t.vy = 0; }
-      else {
-        t.vx = clamp((b.x - a.x) / dtm * 1000 * 1.1, -MAX_V, MAX_V);
-        t.vy = clamp((b.y - a.y) / dtm * 1000 * 1.1, -MAX_V, MAX_V);
-      }
-      t.pvx = t.pvy = 0;
-      wake();
-    };
-    el.addEventListener('pointerup', release);
-    el.addEventListener('pointercancel', release);
+    el.addEventListener('pointerup', (e) => drop(t, e));
+    el.addEventListener('pointercancel', (e) => drop(t, e));
+    el.addEventListener('lostpointercapture', (e) => drop(t, e));
   });
+  // never leave a toy stuck "held" if the pointer is released somewhere we can't see
+  window.addEventListener('blur', () => T.forEach((t) => drop(t, null)));
+  document.addEventListener('visibilitychange', () => { if (document.hidden) T.forEach((t) => drop(t, null)); });
   window.addEventListener('resize', () => { if (T.some((t) => t.placed)) wake(); });
 })();
 

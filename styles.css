@@ -178,8 +178,7 @@ a{text-decoration:none;color:inherit;}
   touch-action:none;
   -webkit-user-select:none;user-select:none;
   -webkit-user-drag:none;
-  transition:scale .18s ease, filter .18s ease;
-  will-change:transform;
+  transition:scale .18s ease;
 }
 .hero .deco:hover{scale:1.07;}
 .hero .deco.is-held{cursor:grabbing;scale:1.16;filter:drop-shadow(0 16px 20px rgba(0,0,0,.28));}
