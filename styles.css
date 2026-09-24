@@ -2008,10 +2008,18 @@ html.lp-flying .lp-disk { opacity: 0; transition: none; }
   font-size: 13px;
   letter-spacing: .08em;
   text-transform: uppercase;
-  color: var(--lp-ink-soft);
+  font-weight: 600;
+  /* a solid dark pill so it reads on any part of the desk photo, not just on flat gray */
+  color: #fff;
+  background: rgba(17, 17, 17, .86);
+  padding: 11px 20px 11px 16px;
+  border-radius: 999px;
+  box-shadow: 0 10px 24px -10px rgba(0, 0, 0, .55), 0 0 0 1px rgba(255, 255, 255, .06) inset;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
   min-height: 1.4em;
 }
-.lp-hint svg { width: 16px; height: 16px; }
+.lp-hint svg { width: 16px; height: 16px; color: var(--lp-accent); flex: none; }
 
 @media (max-width: 520px) {
   :root { --lp-size: min(86vw, 420px); }
