@@ -1833,6 +1833,20 @@ html.lp-lock, html.lp-lock body { overflow: hidden; }
 .lp-loader.is-leaving { opacity: 0; visibility: hidden; }
 .lp-loader[hidden] { display: none; }
 .lp-loader.is-leaving .lp-deck { transform: scale(1.08); }
+.lp-loader.is-flying .lp-deck { transform: none; }
+
+/* the record in flight from the loader to the hero "O" */
+.lp-fly {
+  position: fixed;
+  z-index: 10000;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #0d0d0d;
+  transform-origin: 0 0;
+  pointer-events: none;
+  will-change: transform;
+}
+html.lp-flying .lp-disk { opacity: 0; }
 
 
 .lp-stage { position: relative; z-index: 1; display: grid; justify-items: center; gap: clamp(28px, 6vmin, 56px); }

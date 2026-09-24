@@ -529,18 +529,83 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     state = 'finishing';
     setPct(100);
     hint('Enjoy the record');
-    // needle stays in the groove and the record keeps spinning through the fade
-    setTimeout(() => {
-      root.classList.add('is-leaving');
-      document.documentElement.classList.remove('lp-lock');
-      setTimeout(() => {
-        state = 'done';
-        disc.pause();
-        // audio keeps playing uninterrupted -- the hero disk takes over as its play/pause control
-        root.hidden = true;
-        window.dispatchEvent(new CustomEvent('lp:done'));
-      }, 750);
-    }, 1300);
+    // needle stays in the groove and the record keeps spinning, then it lifts off and lands in the hero "O"
+    setTimeout(() => { if (!flyToHero()) fadeOut(); }, 1300);
+  }
+
+  function done() {
+    state = 'done';
+    disc.pause();
+    // audio keeps playing uninterrupted -- the hero disk takes over as its play/pause control
+    root.hidden = true;
+    document.documentElement.classList.remove('lp-lock');
+    window.dispatchEvent(new CustomEvent('lp:done'));
+  }
+
+  function fadeOut() {
+    root.classList.add('is-leaving');
+    document.documentElement.classList.remove('lp-lock');
+    setTimeout(done, 750);
+  }
+
+  // The record leaves the deck and shrinks/moves into the hero "O" (measured live so it lands exactly)
+  function flyToHero() {
+    const heroDisk = document.querySelector('.lp-disk');
+    const heroVideo = heroDisk && heroDisk.querySelector('.lp-disk-video');
+    const platter = root.querySelector('.lp-platter');
+    const label = root.querySelector('.lp-label');
+    const spindle = root.querySelector('.lp-spindle');
+    if (reduceMotion || !heroVideo || !platter || !label || !spindle) return false;
+    const from = platter.getBoundingClientRect();
+    const first = heroDisk.getBoundingClientRect();
+    if (!first.width || first.bottom < 0 || first.top > innerHeight) return false;
+
+    const deck = platter.parentNode, spindleNext = spindle.nextSibling;
+    const fly = document.createElement('div');
+    fly.className = 'lp-fly';
+    Object.assign(fly.style, { left: from.left + 'px', top: from.top + 'px', width: from.width + 'px', height: from.height + 'px' });
+    // moving (not cloning) the live nodes keeps the video playing without a restart
+    fly.append(disc, label, spindle);
+    spindle.style.width = '6%';
+    document.body.appendChild(fly);
+
+    const html = document.documentElement;
+    html.classList.add('lp-flying');
+    root.classList.add('is-flying', 'is-leaving');
+    arm.classList.remove('is-tracking');
+    setArm(REST, false);            // needle lifts back to its cradle
+
+    const DUR = 1100, START_RATE = disc.playbackRate || 1, END_RATE = heroVideo.playbackRate || 0.35;
+    const ease = (k) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
+    const t0f = performance.now();
+    let synced = false;
+
+    function land() {
+      heroVideo.currentTime = disc.currentTime;
+      html.classList.remove('lp-flying');
+      platter.append(disc, label);
+      deck.insertBefore(spindle, spindleNext);
+      spindle.style.width = '';
+      spindle.style.opacity = '';
+      fly.remove();
+      done();
+    }
+    function step(now) {
+      const k = Math.min(1, (now - t0f) / DUR), e = ease(k);
+      const to = heroDisk.getBoundingClientRect();
+      const x = from.left + (to.left - from.left) * e;
+      const y = from.top + (to.top - from.top) * e;
+      const s = (from.width + (to.width - from.width) * e) / from.width;
+      fly.style.transform = `translate(${x - from.left}px, ${y - from.top}px) scale(${s})`;
+      const lift = Math.sin(Math.PI * e);
+      fly.style.boxShadow = `0 ${8 + 26 * lift}px ${18 + 30 * lift}px -6px rgba(0,0,0,${(0.45 * (1 - e) + 0.3 * lift).toFixed(3)})`;
+      spindle.style.opacity = String(1 - e);
+      try { disc.playbackRate = START_RATE + (END_RATE - START_RATE) * e; } catch (_) {}
+      if (!synced && k > 0.8) { heroVideo.currentTime = disc.currentTime; synced = true; }
+      if (k < 1) requestAnimationFrame(step); else land();
+    }
+    requestAnimationFrame(step);
+    return true;
   }
 
   function replay() {
@@ -552,7 +617,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     audio.currentTime = 0;
     audio.volume = 0.55;
     root.hidden = false;
-    root.classList.remove('is-leaving', 'is-playing', 'has-touched');
+    root.classList.remove('is-leaving', 'is-flying', 'is-playing', 'has-touched');
     arm.classList.remove('is-tracking', 'is-dragging');
     document.documentElement.classList.add('lp-lock');
     setArm(REST, false);
