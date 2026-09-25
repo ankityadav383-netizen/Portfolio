@@ -2113,3 +2113,8 @@ html.lp-flying .lp-disk { opacity: 0; transition: none; }
 .lp-sound-toast svg{width:16px;height:16px;color:#e8123f;flex:none;}
 @keyframes lp-toast-in{from{opacity:0;transform:translate(-50%,12px);}}
 @media (prefers-reduced-motion:reduce){.lp-sound-toast{animation:none;}}
+
+/* AI Attendance deck: one heading style and one safe-area padding across slides */
+.deck-arivoo .slide:not(.fs-s1):not(.fs-s9):not(.fs-s12) .fs-safe{padding:140px 120px 72px;}
+.deck-arivoo .fs-s9 .fs-safe{padding-left:120px;}
+.deck-arivoo .fs-s11 .fs-spacer{display:none;}
