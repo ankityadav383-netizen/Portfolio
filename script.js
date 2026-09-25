@@ -865,18 +865,30 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   const gateMode = !!gateEl && (matchMedia('(max-width: 899px)').matches || /Android|iPhone|iPod|Mobi/i.test(navigator.userAgent));
 
   const musicOn = () => !audio.paused && !audio.muted;
-  const updateTip = () => { const paused = !musicOn(); if (tipEl) tipEl.textContent = paused ? 'Paused \u2014 tap the record to play' : 'Tap the record to pause the music'; root.classList.toggle('is-muted', paused); };
+  const updateTip = () => { const paused = !musicOn(); if (tipEl) tipEl.textContent = paused ? (audio.dataset.userPaused ? 'Paused \u2014 tap the record to play' : 'Tap the record to play the music') : 'Tap the record to stop the music'; root.classList.toggle('is-muted', paused); };
   audio.addEventListener('playing', updateTip); audio.addEventListener('pause', updateTip);
+  audio.addEventListener('ended', () => { if (state === 'gate') { stopRecord(); updateTip(); } });
   function enterGateDirect() {
     state = 'gate';
-    root.classList.add('has-touched', 'is-playing', 'is-gate');   // small deck from the first paint; LED on; no drag cue
+    root.classList.add('has-touched', 'is-gate');                  // small deck from the first paint; no drag cue
     keyBtn.hidden = true;
-    setArm(ENTER + 3, false);                                      // needle already resting on the record
+    setArm(REST, false);                                           // needle parked on its cradle
+    disc.pause();                                                  // the record is still until the visitor starts it
+    hint('');
+    updateTip();
+  }
+  // the phone screen's record is a manual player: needle down + spinning + music, or needle up + still + silent
+  function startRecord() {
+    root.classList.add('is-playing');
+    setArm(ENTER + 3, false);
     try { disc.playbackRate = 0.1; } catch (_) {}
     const p = disc.play(); if (p && p.catch) p.catch(() => {});
-    ramp(0.1, 1, reduceMotion ? 1 : 900);
-    hint('');
-    updateTip();                                                   // "Paused - tap the record to play": music is the visitor's choice
+    ramp(0.1, 1, reduceMotion ? 1 : 600);
+  }
+  function stopRecord() {
+    root.classList.remove('is-playing');
+    setArm(REST, false);
+    disc.pause();
   }
   function showGate() {
     state = 'gate';
@@ -901,8 +913,8 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     });
     platterEl.addEventListener('click', () => {
       if (state !== 'gate') return;
-      if (!musicOn()) { delete audio.dataset.userPaused; audio.muted = false; audio.play().catch(() => {}); disc.play().catch(() => {}); }
-      else { audio.dataset.userPaused = '1'; audio.pause(); disc.pause(); }
+      if (!musicOn()) { delete audio.dataset.userPaused; audio.muted = false; audio.play().catch(() => {}); startRecord(); }
+      else { audio.dataset.userPaused = '1'; audio.pause(); stopRecord(); }
     });
   }
 
