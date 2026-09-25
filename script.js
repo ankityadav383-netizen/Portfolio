@@ -479,8 +479,9 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     function toggle() {
       const audio = document.querySelector('[data-lp-audio]');
       if (!audio) return;
-      if (audio.paused) {
+      if (audio.paused || audio.muted) {
         delete audio.dataset.userPaused;
+        audio.muted = false;
         audio.play().catch(() => {});
         if (!reduceMotion) video.play().catch(() => {});
         wrap.setAttribute('aria-pressed', 'true');
@@ -504,7 +505,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     const audioEl = document.querySelector('[data-lp-audio]');
     if (audioEl) {
       const sync = () => {
-        const paused = audioEl.paused;
+        const paused = audioEl.paused || audioEl.muted;
         wrap.classList.toggle('is-paused', paused);
         wrap.setAttribute('aria-pressed', String(!paused));
         wrap.setAttribute('aria-label', 'O \u2014 ' + (paused ? 'play' : 'pause') + ' the music');
@@ -801,9 +802,9 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   }
   audio.addEventListener('playing', () => { if (wantMusic) showPrompt(false); });
   ['pointerdown', 'pointerup', 'mousedown', 'keydown', 'touchend', 'click'].forEach((type) => window.addEventListener(type, (e) => {
-    if (active()) { if (!wantMusic) showPrompt(false); prime(); }          // the sound is unlocked: drop the "click for sound" chip
-    if (!wantMusic || !audio.paused || audio.dataset.userPaused) return;
-    if (e.target && e.target.closest && e.target.closest('.lp-disk, .lp-platter')) return;   // the hero disk / the record on the phone screen toggle the music themselves
+    const onDisk = !!(e.target && e.target.closest && e.target.closest('.lp-disk, .lp-platter'));   // the hero disk / the record on the phone screen toggle the music themselves
+    if (active()) { if (!wantMusic) showPrompt(false); if (!onDisk) prime(); }   // the sound is unlocked: drop the "click for sound" chip
+    if (onDisk || !wantMusic || !audio.paused || audio.dataset.userPaused) return;
     const pr = audio.play();
     if (pr && pr.then) pr.then(() => showPrompt(false)).catch(() => {});
   }, { capture: true, passive: true }));
@@ -860,10 +861,23 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   const copyLabel = root.querySelector('[data-lp-copy-label]');
   const platterEl = root.querySelector('.lp-platter');
   const tipEl = root.querySelector('.lp-gate-tip');
-  const gateMode = !!gateEl && matchMedia('(max-width: 899px)').matches;
+  // phones (and any narrow window) get the "made for desktop" screen straight away -- no intro, no autoplayed music
+  const gateMode = !!gateEl && (matchMedia('(max-width: 899px)').matches || /Android|iPhone|iPod|Mobi/i.test(navigator.userAgent));
 
-  const updateTip = () => { if (tipEl) tipEl.textContent = audio.paused ? 'Paused \u2014 tap the record to play' : 'Tap the record to pause the music'; root.classList.toggle('is-muted', audio.paused); };
+  const musicOn = () => !audio.paused && !audio.muted;
+  const updateTip = () => { const paused = !musicOn(); if (tipEl) tipEl.textContent = paused ? 'Paused \u2014 tap the record to play' : 'Tap the record to pause the music'; root.classList.toggle('is-muted', paused); };
   audio.addEventListener('playing', updateTip); audio.addEventListener('pause', updateTip);
+  function enterGateDirect() {
+    state = 'gate';
+    root.classList.add('has-touched', 'is-playing', 'is-gate');   // small deck from the first paint; LED on; no drag cue
+    keyBtn.hidden = true;
+    setArm(ENTER + 3, false);                                      // needle already resting on the record
+    try { disc.playbackRate = 0.1; } catch (_) {}
+    const p = disc.play(); if (p && p.catch) p.catch(() => {});
+    ramp(0.1, 1, reduceMotion ? 1 : 900);
+    hint('');
+    updateTip();                                                   // "Paused - tap the record to play": music is the visitor's choice
+  }
   function showGate() {
     state = 'gate';
     updateTip();
@@ -887,7 +901,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     });
     platterEl.addEventListener('click', () => {
       if (state !== 'gate') return;
-      if (audio.paused) { delete audio.dataset.userPaused; audio.play().catch(() => {}); disc.play().catch(() => {}); }
+      if (!musicOn()) { delete audio.dataset.userPaused; audio.muted = false; audio.play().catch(() => {}); disc.play().catch(() => {}); }
       else { audio.dataset.userPaused = '1'; audio.pause(); disc.pause(); }
     });
   }
@@ -998,5 +1012,6 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
 
   setArm(REST, false);
   hint(HINT_IDLE);
+  if (gateMode) enterGateDirect();
   window.LPLoader = { replay, get state() { return state; } };
 })();
