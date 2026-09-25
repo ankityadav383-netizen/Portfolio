@@ -587,25 +587,6 @@ a{text-decoration:none;color:inherit;}
   margin:0;
   opacity:0.85;
 }
-.blog-cta{
-  display:flex;
-  align-items:flex-start;
-  min-height:420px;
-  background:var(--near-black);
-  color:var(--cream);
-  border-radius:24px;
-  padding:36px 28px;
-  transition:transform .35s ease;
-}
-.blog-cta:hover{transform:translateY(-6px);}
-/* three cards + this tile: let the tile span the row instead of sitting alone in a fourth column */
-@media (min-width:901px){.thoughts-grid .blog-cta{grid-column:1/-1;min-height:0;align-items:center;padding:30px 36px;}.thoughts-grid .blog-cta span{font-size:clamp(22px,2.1vw,30px);}}
-.blog-cta span{
-  font-family:'Archivo','Archivo Placeholder',sans-serif;
-  font-weight:600;
-  font-size:clamp(24px,2.4vw,34px);
-  line-height:1.3;
-}
 
 /* FOOTER */
 footer{
