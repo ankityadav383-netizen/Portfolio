@@ -27,6 +27,9 @@ body{
   overflow-x:hidden;
 }
 
+/* landing page only */
+body.page-home{background:#dbf3fa;}
+
 h1,h2,h3{
   font-family:'Archivo','Archivo Placeholder',sans-serif;
   margin:0;
