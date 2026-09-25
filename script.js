@@ -484,17 +484,64 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
         if (!reduceMotion) video.play().catch(() => {});
         wrap.setAttribute('aria-pressed', 'true');
         wrap.setAttribute('aria-label', 'O — pause the music');
+        wrap.title = 'Pause music'; wrap.classList.remove('is-paused');
       } else {
         audio.pause();
         video.pause();
         wrap.setAttribute('aria-pressed', 'false');
         wrap.setAttribute('aria-label', 'O — play the music');
+        wrap.title = 'Play music'; wrap.classList.add('is-paused');
       }
     }
     wrap.addEventListener('click', toggle);
     wrap.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
     });
+    wrap.title = 'Pause music';
+
+    /* Scroll-linked dock: past a little scroll, the "O" leaves the headline and travels to a fixed spot in the
+       bottom-right corner, so the music can be stopped from anywhere; scrolling back up sends it home again. */
+    const spacer = document.createElement('span');          // holds the O's place in the headline while the disk is away
+    spacer.className = 'lp-disk-spacer'; spacer.hidden = true;
+    wrap.before(spacer);
+    const DOCK = 68, MARGIN = 24;
+    const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+    const ease = (k) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
+    let docked = false, natural = 0;
+    function undock() {
+      if (!docked) return;
+      docked = false;
+      spacer.before(wrap);                                  // back into the headline (moved, not cloned: the video keeps playing)
+      wrap.classList.remove('is-docked');
+      wrap.style.cssText = '';
+      spacer.hidden = true;
+    }
+    function dockUpdate() {
+      const vh = window.innerHeight, y = window.scrollY;
+      const S0 = vh * 0.13, S1 = vh * 0.58;
+      const p = clamp((y - S0) / (S1 - S0), 0, 1);
+      if (p <= 0) { undock(); return; }
+      if (!docked) {
+        const r = wrap.getBoundingClientRect();
+        natural = r.width;
+        spacer.style.width = r.width + 'px'; spacer.style.height = r.height + 'px'; spacer.hidden = false;
+        wrap.classList.add('is-docked');
+        wrap.style.width = r.width + 'px'; wrap.style.height = r.height + 'px';
+        document.body.appendChild(wrap);                    // out of the hero's stacking context so nothing scrolls over it
+        docked = true;
+      }
+      const home = spacer.getBoundingClientRect();          // where the O would be if it hadn't left
+      const e = ease(p), cw = document.documentElement.clientWidth;
+      const tx = cw - MARGIN - DOCK, ty = vh - MARGIN - DOCK;
+      const x = home.left + (tx - home.left) * e, yy = home.top + (ty - home.top) * e;
+      wrap.style.transform = `translate(${x}px, ${yy}px) scale(${1 + (DOCK / natural - 1) * e})`;
+      wrap.style.setProperty('--dock', e.toFixed(3));
+    }
+    let dockRaf = 0;
+    const queue = () => { if (!dockRaf) dockRaf = requestAnimationFrame(() => { dockRaf = 0; dockUpdate(); }); };
+    window.addEventListener('scroll', dockUpdate, { passive: true });
+    window.addEventListener('resize', queue);
+    dockUpdate();
   });
 })();
 

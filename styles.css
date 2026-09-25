@@ -156,6 +156,21 @@ a{text-decoration:none;color:inherit;}
   transition:opacity .22s ease;
 }
 .lp-disk-video{display:block;width:102%;height:102%;margin:-1%;object-fit:cover;}
+/* the O's placeholder in the headline while the disk is docked in the corner */
+.lp-disk-spacer{display:inline-block;width:.92em;height:.92em;vertical-align:-0.11em;}
+.lp-disk-spacer[hidden]{display:none;}
+.lp-disk.is-docked{
+  position:fixed;left:0;top:0;margin:0;z-index:90;transform-origin:0 0;
+  --dock:0;
+  box-shadow:0 calc(10px*var(--dock)) calc(26px*var(--dock)) rgba(0,0,0,calc(.38*var(--dock))), 0 0 0 calc(4px*var(--dock)) rgba(250,247,243,.96);
+}
+/* paused: a scrim + play triangle so it still reads as a button once it's stopped spinning */
+.lp-disk.is-docked.is-paused::after{content:'';position:absolute;inset:0;border-radius:50%;background:rgba(0,0,0,.45);}
+.lp-disk.is-docked.is-paused::before{
+  content:'';position:absolute;z-index:1;left:50%;top:50%;
+  border-style:solid;border-width:20px 0 20px 34px;border-color:transparent transparent transparent #fff;
+  transform:translate(-36%,-50%);
+}
 .deco{
   position:absolute;
   z-index:2;
