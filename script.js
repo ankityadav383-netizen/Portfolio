@@ -618,9 +618,61 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     } else {
       state = 'idle';
       setArm(REST, false);
-      hint('Drag the needle onto the record');
+      prog = shownProg = 0;
+      hint(HINT_IDLE);
     }
   }
+
+  /* ---------- scroll: scrolling (or swiping up) sweeps the needle onto the record ---------- */
+  const SCROLL_END = ENTER + 3;                 // arm angle with the stylus over the groove
+  const coarse = matchMedia('(pointer: coarse)').matches;
+  const HINT_IDLE = coarse ? 'Swipe up to drop the needle' : 'Scroll to drop the needle';
+  const HINT_ALMOST = 'Keep going \u2014 almost on the record';
+  let prog = 0, shownProg = 0, sweepRaf = 0;
+  const ready = () => root.classList.contains('is-ready');
+
+  function addProg(d) {
+    if (state !== 'idle' || !ready()) return;
+    prog = Math.min(1, Math.max(0, prog + d));
+    root.classList.add('has-touched');
+    arm.classList.add('is-dragging');          // no CSS easing: the scroll itself is the animation
+    if (!sweepRaf) sweepRaf = requestAnimationFrame(sweep);
+  }
+  function sweep() {
+    sweepRaf = 0;
+    if (state !== 'idle') return;
+    shownProg += (prog - shownProg) * (reduceMotion ? 1 : 0.18);
+    if (Math.abs(prog - shownProg) < 0.002) shownProg = prog;
+    setArm(REST + (SCROLL_END - REST) * shownProg, shownProg < 1);
+    hint(shownProg > 0.55 ? HINT_ALMOST : HINT_IDLE);
+    if (shownProg >= 1) {                       // needle is on the groove: drop it and start the record
+      arm.classList.remove('is-dragging');
+      state = 'dragging';
+      startPlay(SCROLL_END);
+      return;
+    }
+    if (shownProg !== prog) sweepRaf = requestAnimationFrame(sweep);
+  }
+  window.addEventListener('wheel', (e) => {
+    if (state !== 'idle') return;
+    e.preventDefault();
+    const unit = e.deltaMode === 1 ? 32 : e.deltaMode === 2 ? 600 : 1;   // lines / pages -> px
+    addProg((e.deltaY * unit) / 700);
+  }, { passive: false });
+  let touchY = null;
+  window.addEventListener('touchstart', (e) => { touchY = e.touches.length === 1 ? e.touches[0].clientY : null; }, { passive: true });
+  window.addEventListener('touchmove', (e) => {
+    if (touchY === null || state !== 'idle') return;
+    const y = e.touches[0].clientY;
+    addProg((touchY - y) / 300);                // finger up = forward
+    touchY = y;
+  }, { passive: true });
+  window.addEventListener('touchend', () => { touchY = null; }, { passive: true });
+  window.addEventListener('keydown', (e) => {
+    if (state !== 'idle') return;
+    const step = { ArrowDown: 0.1, ArrowUp: -0.1, PageDown: 0.4, PageUp: -0.4 }[e.key];
+    if (step) { e.preventDefault(); addProg(step); }
+  });
 
   /* ---------- keyboard ---------- */
   keyBtn.addEventListener('click', () => {
@@ -814,10 +866,12 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     document.documentElement.classList.add('lp-lock');
     setArm(REST, false);
     setPct(0);
-    hint('Drag the needle onto the record');
+    prog = shownProg = 0; cancelAnimationFrame(sweepRaf); sweepRaf = 0;
+    hint(HINT_IDLE);
     state = 'idle';
   }
 
   setArm(REST, false);
+  hint(HINT_IDLE);
   window.LPLoader = { replay, get state() { return state; } };
 })();
