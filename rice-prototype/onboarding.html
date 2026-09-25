@@ -1,0 +1,70 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RICE Smart onboarding prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="proto.css?v=1"></head><body>
+<div class="stage"><div class="phone" id="phone">
+
+<section class="scr on" id="splash"><img class="shot" src="assets/onb-splash.webp" alt="RICE Smart splash screen"><div class="hs" data-go="signin" style="inset:0;border-radius:0" role="button" aria-label="Continue"></div><div class="hint">Tap to continue</div></section>
+
+<section class="scr" id="signin"><img class="shot" src="assets/onb-signin.webp" alt="Sign in options: phone number, Google or Facebook">
+  <div class="hs" data-go="phone" style="left:8.7%;top:27.2%;width:81.7%;height:6.6%" role="button" aria-label="Sign in with phone number"></div>
+  <div class="hs" data-tip="Google sign-in is not part of this demo" style="left:8.7%;top:35.4%;width:81.7%;height:6.6%" role="button" aria-label="Sign in with Google"></div>
+  <div class="hs" data-tip="Facebook sign-in is not part of this demo" style="left:8.7%;top:43.6%;width:81.7%;height:6.6%" role="button" aria-label="Sign in with Facebook"></div></section>
+
+<section class="scr" id="phoneS"><img class="shot" src="assets/onb-phone.webp" alt="Enter your phone number">
+  <input class="ov" id="num" type="tel" inputmode="numeric" maxlength="10" placeholder="Phone Number" aria-label="Phone number" style="left:23%;top:35.4%;width:70%;height:5.8%;background:#fff;padding-left:2px">
+  <div class="btn dis" id="cont" style="position:absolute;left:9.6%;top:53.8%;width:81.4%;height:6.3%;font-size:14px" role="button">Continue</div>
+  <div class="hint" id="numhint" style="bottom:auto;top:62%">Type any 10 digits to continue</div></section>
+
+<section class="scr" id="otp"><img class="shot" src="assets/onb-otp.webp" alt="OTP verification">
+  <div class="hs" data-go="details" style="left:9.6%;top:39.6%;width:81.4%;height:6.2%" role="button" aria-label="Submit"></div></section>
+
+<section class="scr" id="details"><img class="shot" src="assets/onb-details.webp" alt="Personal details">
+  <div class="hs" data-go="exam" style="left:66%;top:73.2%;width:26%;height:5%" role="button" aria-label="Next"></div></section>
+
+<section class="scr" id="exam"><img class="shot" id="examImg" src="assets/onb-exam.webp" alt="Choose the exam you are preparing for">
+  <div class="hs" id="bank" style="left:11%;top:35%;width:24%;height:12%" role="button" aria-label="Banking"></div>
+  <div class="hs" id="examNext" style="left:66%;top:69.5%;width:26%;height:5%" role="button" aria-label="Next"></div></section>
+
+<section class="scr" id="done"><div class="sb"><span>9:41</span><i></i></div>
+  <div class="body" style="justify-content:center;align-items:center;text-align:center;gap:16px">
+    <div class="ic"><svg><use href="#ok"/></svg></div>
+    <h2 style="font-size:28px;font-weight:700">You&rsquo;re all set</h2>
+    <p style="color:var(--mute);font-size:15px;line-height:1.5;max-width:300px">Your exam is saved, and your location was picked up automatically, so there was nothing to type.</p>
+    <div class="btn" data-go="splash" style="width:100%;margin-top:8px">Go to home</div>
+    <div style="color:var(--mute);font-size:12px">This ends the demo. Home is not part of this prototype.</div>
+  </div></section>
+
+<div class="toast" id="toast"></div>
+</div></div>
+<svg width="0" height="0" style="position:absolute"><defs><symbol id="ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol></defs></svg>
+<script src="engine.js?v=1"></script>
+<script>
+(function(){
+  var $=RP.$;
+  function go(id,step){RP.show(id);RP.mark(step||id);}
+  var steps={
+    splash:function(){go('splash','splash')},
+    signin:function(){go('signin','signin')},
+    phone:function(){go('phoneS','phone')},
+    otp:function(){go('otp','otp')},
+    details:function(){go('details','details')},
+    exam:function(){$('#examImg').src='assets/onb-exam.webp';go('exam','exam')},
+    done:function(){go('done','done')}
+  };
+  RP.setup('rice-onb',steps);
+  document.addEventListener('click',function(e){
+    var g=e.target.closest('[data-go]'); if(g){steps[g.dataset.go]();return;}
+    var t=e.target.closest('[data-tip]'); if(t)RP.toast(t.dataset.tip);
+  });
+  var num=$('#num'),cont=$('#cont');
+  num.addEventListener('input',function(){num.value=num.value.replace(/\D/g,'');var ok=num.value.length===10;cont.classList.toggle('dis',!ok);$('#numhint').textContent=ok?'':'Type any 10 digits to continue';});
+  cont.addEventListener('click',function(){if(num.value.length===10)steps.otp();});
+  num.addEventListener('keydown',function(e){if(e.key==='Enter'&&num.value.length===10)steps.otp();});
+  var picked=false;
+  $('#bank').addEventListener('click',function(){picked=!picked;$('#examImg').src=picked?'assets/onb-exam-on.webp':'assets/onb-exam.webp';});
+  $('#examNext').addEventListener('click',function(){steps.done();});
+  // start
+  RP.mark('splash');
+})();
+</script></body></html>

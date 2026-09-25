@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Manrope:wght@500;600;700&family=42dot+Sans:wght@400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=fs121">
+<link rel="stylesheet" href="styles.css?v=fs122">
 </head>
 <body class="deck-page deck-fs-page">
 
@@ -142,13 +142,17 @@
     </div>
   </section>
 
-  <section class="slide fs fs-s2" data-theme="light" aria-label="Onboarding: the redesigned flow">
+  <section class="slide fs fs-split has-cards has-proto" data-theme="light" aria-label="Onboarding: the redesigned flow">
+    <div class="fs-panel">
+      <iframe data-src="rice-prototype/onboarding.html?embed" title="RICE Smart onboarding: interactive prototype" loading="lazy"></iframe>
+      <a class="fs-panel-link" href="rice-prototype/onboarding.html" target="_blank" rel="noopener">Open full prototype &#8599;</a>
+    </div>
     <div class="fs-stage">
       <div class="fs-safe">
         <div class="fs-col">
-          <div class="fs-head"><p class="fs-eyebrow">Onboarding &middot; After</p><h2 class="fs-title">The redesigned flow</h2></div>
-          <figure class="rice-shot"><img src="assets/rice/onboarding-after.webp" alt="Six screens of the redesigned RICE Smart onboarding: splash, sign-in options, phone number, OTP, personal details and exam selection" width="2400" height="839"></figure>
-          <p class="fs-lead-30">The location, education and language steps are gone. Location now comes from the phone&rsquo;s GPS automatically.</p>
+          <div class="fs-head"><p class="fs-eyebrow">Onboarding &middot; After</p><h2 class="fs-title fs-title-64">The redesigned flow</h2></div>
+          <ol class="fs-psteps" data-proto-steps="rice-onb"><li><button type="button" class="fs-pstep" data-step="splash" aria-current="step"><span class="fs-pstep-n">01</span><span class="fs-pstep-b"><span class="fs-pstep-t">Splash</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>A single tap moves on to sign-in.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="signin"><span class="fs-pstep-n">02</span><span class="fs-pstep-b"><span class="fs-pstep-t">Sign in</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Phone number, Google or Facebook on one screen.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="phone"><span class="fs-pstep-n">03</span><span class="fs-pstep-b"><span class="fs-pstep-t">Phone number</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Type any 10 digits; Continue switches on when the number is complete.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="otp"><span class="fs-pstep-n">04</span><span class="fs-pstep-b"><span class="fs-pstep-t">OTP</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Four digits and one Submit button.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="details"><span class="fs-pstep-n">05</span><span class="fs-pstep-b"><span class="fs-pstep-t">About you</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Name, gender and date of birth on one card.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="exam"><span class="fs-pstep-n">06</span><span class="fs-pstep-b"><span class="fs-pstep-t">Exam</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Pick the exam you are preparing for. Tap Banking, then Next.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="done"><span class="fs-pstep-n">07</span><span class="fs-pstep-b"><span class="fs-pstep-t">All set</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>No location, education or language step. Location comes from GPS automatically.</span></span></span></span></button></li></ol>
+          <p class="fs-mono-16 fs-hint">Tap through the phone, or pick a step to jump there.</p>
         </div>
       </div>
     </div>
@@ -200,13 +204,17 @@
     </div>
   </section>
 
-  <section class="slide fs fs-s2" data-theme="light" aria-label="Chatbot: the redesigned screens">
+  <section class="slide fs fs-split has-cards has-proto" data-theme="light" aria-label="Chatbot: the redesigned screens">
+    <div class="fs-panel">
+      <iframe data-src="rice-prototype/chatbot.html?embed" title="Ask RiceBot: interactive prototype" loading="lazy"></iframe>
+      <a class="fs-panel-link" href="rice-prototype/chatbot.html" target="_blank" rel="noopener">Open full prototype &#8599;</a>
+    </div>
     <div class="fs-stage">
       <div class="fs-safe">
         <div class="fs-col">
-          <div class="fs-head"><p class="fs-eyebrow">Chatbot &middot; Redesign</p><h2 class="fs-title">Ask RiceBot, redesigned</h2></div>
-          <figure class="rice-shot"><img src="assets/rice/chatbot-after.webp" alt="Six redesigned RiceBot screens: recent questions, choosing a course, choosing a subject, an answer, a repeated question redirecting to the earlier chat, and a rating sheet" width="2400" height="839"></figure>
-          <p class="fs-lead-30">Same colours, type and pill buttons as the new onboarding. The questions shown are sample content.</p>
+          <div class="fs-head"><p class="fs-eyebrow">Chatbot &middot; Redesign</p><h2 class="fs-title fs-title-64">Ask RiceBot, redesigned</h2></div>
+          <ol class="fs-psteps" data-proto-steps="rice-bot"><li><button type="button" class="fs-pstep" data-step="home" aria-current="step"><span class="fs-pstep-n">01</span><span class="fs-pstep-b"><span class="fs-pstep-t">My questions</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Recent doubts, filtered by course or searched. Start a new one from the top card.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="course"><span class="fs-pstep-n">02</span><span class="fs-pstep-b"><span class="fs-pstep-t">Choose the course</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>WBCS or PSC Pro, before anything is typed.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="subject"><span class="fs-pstep-n">03</span><span class="fs-pstep-b"><span class="fs-pstep-t">Choose the subject</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>A plain list of subjects. Tap one to continue.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="ask"><span class="fs-pstep-n">04</span><span class="fs-pstep-b"><span class="fs-pstep-t">Ask</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Type a question or tap a suggestion. The answers shown are sample content.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="answer"><span class="fs-pstep-n">05</span><span class="fs-pstep-b"><span class="fs-pstep-t">Answer</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>A short answer with Helpful, Ask a follow-up and End chat.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="repeat"><span class="fs-pstep-n">06</span><span class="fs-pstep-b"><span class="fs-pstep-t">Asked before</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>A repeated question opens the earlier chat. Try typing the Directive Principles question.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="rating"><span class="fs-pstep-n">07</span><span class="fs-pstep-b"><span class="fs-pstep-t">Rating</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Stars and quick reasons when the chat ends.</span></span></span></span></button></li></ol>
+          <p class="fs-mono-16 fs-hint">Tap through the phone, or pick a step to jump there.</p>
         </div>
       </div>
     </div>
@@ -231,13 +239,17 @@
     </div>
   </section>
 
-  <section class="slide fs fs-s2" data-theme="light" aria-label="Self quiz: the redesigned screens">
+  <section class="slide fs fs-split has-cards has-proto" data-theme="light" aria-label="Self quiz: the redesigned screens">
+    <div class="fs-panel">
+      <iframe data-src="rice-prototype/quiz.html?embed" title="Self Quiz: interactive prototype" loading="lazy"></iframe>
+      <a class="fs-panel-link" href="rice-prototype/quiz.html" target="_blank" rel="noopener">Open full prototype &#8599;</a>
+    </div>
     <div class="fs-stage">
       <div class="fs-safe">
         <div class="fs-col">
-          <div class="fs-head"><p class="fs-eyebrow">Self Quiz &middot; Redesign</p><h2 class="fs-title">Create, share, compare</h2></div>
-          <figure class="rice-shot"><img src="assets/rice/quiz-after.webp" alt="Six redesigned Self Quiz screens: quiz list, create a quiz, quiz ready with a share code, a question, the score summary, and a leaderboard among friends" width="2400" height="839"></figure>
-          <p class="fs-lead-30">Rebuilt on the same tokens as the onboarding and chatbot. Questions, names and scores are sample content.</p>
+          <div class="fs-head"><p class="fs-eyebrow">Self Quiz &middot; Redesign</p><h2 class="fs-title fs-title-64">Create, share, compare</h2></div>
+          <ol class="fs-psteps" data-proto-steps="rice-quiz"><li><button type="button" class="fs-pstep" data-step="list" aria-current="step"><span class="fs-pstep-n">01</span><span class="fs-pstep-b"><span class="fs-pstep-t">Your quizzes</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Start, Resume or see a Result. Join takes a code (demo code 156554).</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="create"><span class="fs-pstep-n">02</span><span class="fs-pstep-b"><span class="fs-pstep-t">Create</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Name it, pick subjects and topics. The demo quiz always has 5 sample questions.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="ready"><span class="fs-pstep-n">03</span><span class="fs-pstep-b"><span class="fs-pstep-t">Quiz ready</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Details and a share code, then Start now.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="question"><span class="fs-pstep-n">04</span><span class="fs-pstep-b"><span class="fs-pstep-t">Take the quiz</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>A timer, progress bar and four options. Skip or continue.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="summary"><span class="fs-pstep-n">05</span><span class="fs-pstep-b"><span class="fs-pstep-t">Summary</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>Score, correct, wrong, skipped, accuracy and time, worked out from your answers.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="board"><span class="fs-pstep-n">06</span><span class="fs-pstep-b"><span class="fs-pstep-t">Who did better</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>You ranked against friends, sample names.</span></span></span></span></button></li><li><button type="button" class="fs-pstep" data-step="solution"><span class="fs-pstep-n">07</span><span class="fs-pstep-b"><span class="fs-pstep-t">Solutions</span><span class="fs-pstep-x"><span class="fs-pstep-d"><span>The right answer and a one-line explanation for each question.</span></span></span></span></button></li></ol>
+          <p class="fs-mono-16 fs-hint">Tap through the phone, or pick a step to jump there.</p>
         </div>
       </div>
     </div>
@@ -267,6 +279,6 @@
   <button class="deck-btn deck-next" aria-label="Next slide">&rarr;</button>
 </div>
 
-<script src="script.js?v=fs121"></script>
+<script src="script.js?v=fs122"></script>
 </body>
 </html>

@@ -1,0 +1,145 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Self Quiz prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="proto.css?v=1"></head><body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="back" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+<symbol id="plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="doc" viewBox="0 0 24 24"><path d="M7 3h8l4 4v14H7z"/><path d="M9.5 12l2 2 3.5-4M9.5 17h6"/></symbol>
+</defs></svg>
+<div class="stage"><div class="phone" id="phone">
+
+<section class="scr on" id="list"><div class="sb"><span>9:41</span><i></i></div>
+  <div class="hd"><svg class="bk"><use href="#back"/></svg><b>Your Quiz</b></div>
+  <div class="body" id="qlist"></div>
+  <div class="bar"><div class="two" style="width:100%"><div class="btn ghost" id="joinBtn" role="button">Join</div><div class="btn" id="createBtn" role="button"><svg><use href="#plus"/></svg>Create</div></div></div></section>
+
+<section class="scr" id="create"><div class="sb"><span>9:41</span><i></i></div>
+  <div class="hd"><svg class="bk" data-go="list"><use href="#back"/></svg><b>Create Quiz</b></div>
+  <div class="body" style="overflow-y:auto">
+    <div><div class="lbl">Quiz name</div><div class="fld"><input id="qname" value="WBCS Mix 1" style="border:0;outline:0;font:400 15px Roboto;width:100%;background:transparent"></div></div>
+    <div><div class="lbl">Course</div><div class="fld">WBCS <span>⌄</span></div></div>
+    <div><div class="lbl">Subjects (pick at least one)</div><div class="chips" id="subj"></div></div>
+    <div><div class="lbl">Topics</div><div class="chips" id="tops"></div></div>
+    <div class="two"><div style="flex:1"><div class="lbl">Questions</div><div class="fld">5</div></div><div style="flex:1"><div class="lbl">Duration</div><div class="fld">5 min</div></div></div>
+    <div style="font-size:12px;color:var(--mute);margin-top:-6px">The demo quiz uses 5 sample questions, whatever you pick.</div>
+  </div>
+  <div class="bar"><div class="btn" id="gen" role="button">Generate quiz</div></div></section>
+
+<section class="scr" id="ready"><div class="sb"><span>9:41</span><i></i></div>
+  <div class="hd"><svg class="bk" data-go="list"><use href="#back"/></svg><b>Quiz info</b></div>
+  <div class="body"><div class="ic"><svg><use href="#doc"/></svg></div>
+    <div style="text-align:center;font-size:14px;color:var(--mute)">Your quiz is ready</div>
+    <div class="info"><h3 id="iname">WBCS Mix 1</h3><div class="row"><span>Duration</span><b>5 min</b></div><div class="row"><span>Questions</span><b>5</b></div><div class="row"><span>Subjects</span><b id="isubj" style="text-align:right;max-width:220px"></b></div></div>
+    <div><div class="lbl">Share the quiz with your friends and learn together</div><div class="code"><div class="fld">156554</div><span class="pill" id="share">Share</span></div></div></div>
+  <div class="bar"><div class="btn" id="startNow" role="button">Start now</div></div></section>
+
+<section class="scr" id="q"><div class="sb"><span>9:41</span><i></i></div>
+  <div class="hd"><svg class="bk" id="qquit"><use href="#back"/></svg><b id="qtitle">WBCS Mix 1</b></div>
+  <div class="body"><div style="display:flex;align-items:center"><b id="qn" style="font-size:15px"></b><span class="timer" id="timer">5:00</span></div>
+    <div class="prog"><i id="pbar"></i></div><div class="qtxt" id="qtxt"></div><div id="opts" style="display:flex;flex-direction:column;gap:12px"></div></div>
+  <div class="bar"><div class="two" style="width:100%"><div class="btn ghost" id="skip" role="button">Skip</div><div class="btn dis" id="next" role="button">Next</div></div></div></section>
+
+<section class="scr" id="summary"><div class="sb"><span>9:41</span><i></i></div>
+  <div class="hd"><svg class="bk" data-go="list"><use href="#back"/></svg><b>Quiz Summary</b></div>
+  <div class="body"><div class="score"><div><h2><span id="sc" style="font-size:40px;color:var(--ink);font-weight:700"></span><span>/5</span></h2><p id="msg"></p></div><div class="ring" id="ring"><i id="pct"></i></div></div>
+    <div class="grid3"><div class="stat"><b id="cor"></b><small>Correct</small></div><div class="stat"><b id="wr"></b><small>Wrong</small></div><div class="stat"><b id="sk"></b><small>Skipped</small></div></div>
+    <div class="grid3"><div class="stat"><b id="pc2"></b><small>Percentage</small></div><div class="stat"><b id="acc"></b><small>Accuracy</small></div><div class="stat"><b id="tt"></b><small>Time taken</small></div></div></div>
+  <div class="bar"><div class="two" style="width:100%"><div class="btn ghost" data-go="board" role="button">Leaderboard</div><div class="btn" data-go="solution" role="button">View solution</div></div></div></section>
+
+<section class="scr" id="board"><div class="sb"><span>9:41</span><i></i></div>
+  <div class="hd"><svg class="bk" data-go="summary"><use href="#back"/></svg><b>Who did better</b></div>
+  <div class="body"><div class="chips"><span class="chip on">This quiz</span><span class="chip" data-tip="Friends view is not part of this demo">Friends</span></div><div id="lb" style="display:flex;flex-direction:column;gap:12px"></div><div style="color:var(--mute);font-size:13px;text-align:center">Quiz code 156554</div></div>
+  <div class="bar"><div class="two" style="width:100%"><div class="btn ghost" id="share2" role="button">Share quiz</div><div class="btn" data-go="solution" role="button">View solution</div></div></div></section>
+
+<section class="scr" id="solution"><div class="sb"><span>9:41</span><i></i></div>
+  <div class="hd"><svg class="bk" data-go="summary"><use href="#back"/></svg><b>Solutions</b></div>
+  <div class="body" id="sols" style="overflow-y:auto"></div></section>
+
+<div class="dim" id="dim"></div>
+<div class="sheet" id="join"><div class="grab"></div><h3>Join a quiz</h3><p>Enter the 6-digit code your friend shared.</p>
+  <div class="codein"><input id="code" inputmode="numeric" maxlength="6" placeholder="······" aria-label="Quiz code"></div><div class="err" id="err"></div>
+  <div class="btn dis" id="joinGo" role="button">Join</div><div style="text-align:center;color:var(--mute);font-size:12px;margin-top:10px">Demo code: 156554</div></div>
+<div class="toast" id="toast"></div>
+</div></div>
+<script src="engine.js?v=1"></script>
+<script>
+(function(){
+  var $=RP.$,$$=RP.$$;
+  var QS=[
+   {q:'Which Article of the Constitution abolishes untouchability?',o:['Article 14','Article 15','Article 17','Article 21'],a:2,e:'Article 17 abolishes untouchability and forbids its practice in any form.'},
+   {q:'Who founded the Asiatic Society of Bengal?',o:['Warren Hastings','Sir William Jones','Raja Ram Mohan Roy','Lord Cornwallis'],a:1,e:'Sir William Jones founded the Asiatic Society in Calcutta in 1784.'},
+   {q:'Which river is called the Sorrow of Bengal?',o:['Damodar','Hooghly','Teesta','Ajay'],a:0,e:'The Damodar, because of its frequent floods.'},
+   {q:'The Directive Principles of State Policy are in which Part of the Constitution?',o:['Part II','Part III','Part IV','Part V'],a:2,e:'Part IV, Articles 36 to 51.'},
+   {q:'Which social reformer campaigned against Sati, which was abolished in 1829?',o:['Ishwar Chandra Vidyasagar','Raja Ram Mohan Roy','Debendranath Tagore','Keshab Chandra Sen'],a:1,e:'Raja Ram Mohan Roy campaigned against it; the ban came in 1829 under Governor-General William Bentinck.'}
+  ];
+  var SUBJ=['Constitution','Geography','History (IH)','Bengali','Economics'],TOPS=['Fundamental Rights','Rivers of Bengal','Bengal Renaissance','Directive Principles'];
+  var FRIENDS=[['Chandrashekhar',4],['Ankit',3],['Sumit',2]];
+  var st={name:'WBCS Mix 1',subj:{Constitution:1,Geography:1,'History (IH)':1},tops:{'Fundamental Rights':1,'Rivers of Bengal':1,'Bengal Renaissance':1},i:0,ans:[],sel:null,t0:0,left:300,tick:null,res:null,quizzes:[
+    {n:'Constitution Basics',by:'You',s:'5 questions · 5 min',st:'start'},{n:'Bengal History Mix',by:'Sumit',s:'2 of 5 answered · 5 min',st:'resume'},{n:'Geography Sprint',by:'You',s:'Marks scored 4/5',st:'result'},{n:'Rivers of Bengal',by:'Ankit',s:'Marks scored 3/5',st:'result'}]};
+  function go(id,step){RP.show(id);RP.mark(step||id);if(id!=='q'&&st.tick){clearInterval(st.tick);st.tick=null}}
+  // list
+  function renderList(){$('#qlist').innerHTML=st.quizzes.map(function(x,i){return '<div class="qc" data-i="'+i+'"><div class="m"><h4>'+x.n+'</h4><small>Created by '+x.by+'</small><small>'+x.s+'</small></div><span class="pill'+(x.st==='result'?' g':'')+'">'+({start:'Start',resume:'Resume',result:'Result'})[x.st]+'</span></div>'}).join('')}
+  $('#qlist').addEventListener('click',function(e){var c=e.target.closest('.qc');if(!c)return;var x=st.quizzes[+c.dataset.i];
+    if(x.st==='result'){st.res=st.res||{score:+x.s.match(/(\d)\/5/)[1],cor:+x.s.match(/(\d)\/5/)[1],wr:5-x.s.match(/(\d)\/5/)[1],sk:0,time:'4:10',fake:true};showSummary(st.res.fake?{score:+x.s.match(/(\d)\/5/)[1],time:'4:10',fake:true}:st.res)}
+    else{st.name=x.n;startQuiz(x.st==='resume')}});
+  function showSummary(r){
+    var attempted,cor=r.score;
+    if(r.fake){r.cor=cor;r.wr=5-cor;r.sk=0;attempted=5}else{attempted=r.cor+r.wr}
+    $('#sc').textContent=r.cor;$('#cor').textContent=r.cor;$('#wr').textContent=r.wr;$('#sk').textContent=r.sk;
+    var p=Math.round(r.cor/5*100);$('#pc2').textContent=p+'%';$('#pct').textContent=p+'%';$('#acc').textContent=attempted?Math.round(r.cor/attempted*100)+'%':'0%';$('#tt').textContent=r.time;
+    $('#ring').style.background='conic-gradient(var(--p) 0 '+p+'%,#f8d9d9 0)';$('#msg').textContent=r.cor>=4?'Great work, Sumit':r.cor>=3?'Nice work, Sumit':'Keep practising, Sumit';
+    st.shown=r;go('summary')}
+  // create
+  function chips(el,list,map){el.innerHTML=list.map(function(x){return '<span class="chip'+(map[x]?' on':'')+'" data-v="'+x+'">'+x+(map[x]?' ✕':'')+'</span>'}).join('')}
+  function drawChips(){chips($('#subj'),SUBJ,st.subj);chips($('#tops'),TOPS,st.tops)}
+  $('#subj').onclick=function(e){var c=e.target.closest('.chip');if(!c)return;var v=c.dataset.v;st.subj[v]=st.subj[v]?0:1;drawChips()};
+  $('#tops').onclick=function(e){var c=e.target.closest('.chip');if(!c)return;var v=c.dataset.v;st.tops[v]=st.tops[v]?0:1;drawChips()};
+  $('#createBtn').onclick=function(){go('create');drawChips()};
+  $('#gen').onclick=function(){var s=SUBJ.filter(function(x){return st.subj[x]});if(!s.length){RP.toast('Pick at least one subject');return}
+    st.name=($('#qname').value||'My quiz').trim();readyScreen(s)};
+  function readyScreen(s){$('#iname').textContent=st.name;$('#isubj').textContent=(s||SUBJ.filter(function(x){return st.subj[x]})).join(', ');go('ready')}
+  $('#share').onclick=function(){RP.toast('Quiz code 156554 copied')};$('#share2').onclick=$('#share').onclick;
+  // take quiz
+  function startQuiz(resume){st.i=resume?2:0;st.ans=resume?[0,1]:[];st.sel=null;st.left=300;st.t0=Date.now();$('#qtitle').textContent=st.name;draw();go('q','question');
+    clearInterval(st.tick);st.tick=setInterval(function(){st.left=Math.max(0,300-Math.floor((Date.now()-st.t0)/1000));var m=Math.floor(st.left/60),s=st.left%60;$('#timer').textContent=m+':'+(s<10?'0':'')+s;if(st.left===0)finish()},500)}
+  $('#startNow').onclick=function(){startQuiz(false)};
+  function draw(){var x=QS[st.i];$('#qn').textContent='Question '+(st.i+1)+' of 5';$('#pbar').style.width=((st.i+1)/5*100)+'%';$('#qtxt').textContent=x.q;st.sel=null;
+    $('#opts').innerHTML=x.o.map(function(o,i){return '<div class="ans" data-i="'+i+'"><i>'+'ABCD'[i]+'</i>'+o+'</div>'}).join('');$('#next').classList.add('dis');$('#next').textContent=st.i===4?'Submit':'Next'}
+  $('#opts').addEventListener('click',function(e){var a=e.target.closest('.ans');if(!a)return;st.sel=+a.dataset.i;$$('.ans',$('#opts')).forEach(function(n){n.classList.toggle('on',n===a)});$('#next').classList.remove('dis')});
+  function adv(v){st.ans[st.i]=v;if(st.i===4)finish();else{st.i++;draw()}}
+  $('#next').onclick=function(){if(st.sel!==null)adv(st.sel)};$('#skip').onclick=function(){adv(-1)};
+  $('#qquit').onclick=function(){go('list')};
+  function finish(){clearInterval(st.tick);st.tick=null;var cor=0,wr=0,sk=0;for(var i=0;i<5;i++){var v=st.ans[i];if(v===undefined||v===-1)sk++;else if(v===QS[i].a)cor++;else wr++}
+    var used=300-st.left||Math.max(1,Math.floor((Date.now()-st.t0)/1000));var mm=Math.floor(used/60),ss=used%60;
+    st.res={score:cor,cor:cor,wr:wr,sk:sk,time:mm+':'+(ss<10?'0':'')+ss};var q=st.quizzes[0];if(st.name===q.n||1){}
+    showSummary(st.res)}
+  // board
+  function board(){var r=st.shown||st.res||{score:3},me=r.cor!==undefined?r.cor:r.score;var rows=FRIENDS.map(function(f){return {n:f[0],s:f[1]}});rows.push({n:'You',s:me,me:1});
+    rows.sort(function(a,b){return b.s-a.s||(b.me?1:-1)});
+    $('#lb').innerHTML=rows.map(function(x,i){return '<div class="lb'+(x.me?' you':'')+'"><span class="r">'+(i+1)+'</span><span class="n">'+x.n+'</span><b>'+x.s+'/5</b></div>'}).join('');go('board')}
+  function solutions(){var r=st.res;$('#sols').innerHTML=QS.map(function(x,i){var v=r&&r.fake!==true&&st.ans?st.ans[i]:undefined;var yours=(v===undefined||v===-1)?'Skipped':x.o[v];var ok=v===x.a;
+    return '<div class="sol"><b>'+(i+1)+'. '+x.q+'</b><small>Correct answer: <span class="ok">'+x.o[x.a]+'</span></small><small>Your answer: <span class="'+(ok?'ok':(v===undefined||v===-1?'':'no'))+'">'+yours+'</span></small><small style="margin-top:4px">'+x.e+'</small></div>'}).join('');go('solution')}
+  document.addEventListener('click',function(e){var g=e.target.closest('[data-go]');if(g){var k=g.dataset.go;if(k==='board')board();else if(k==='solution')solutions();else if(k==='list'){renderList();go('list')}else go(k);return}
+    var t=e.target.closest('[data-tip]');if(t)RP.toast(t.dataset.tip)});
+  // join sheet
+  var code=$('#code');
+  function shut(){$('#dim').classList.remove('open');$('#join').classList.remove('open')}
+  $('#joinBtn').onclick=function(){code.value='';$('#err').textContent='';$('#joinGo').classList.add('dis');$('#dim').classList.add('open');$('#join').classList.add('open')};
+  $('#dim').onclick=shut;
+  code.oninput=function(){code.value=code.value.replace(/\D/g,'');$('#joinGo').classList.toggle('dis',code.value.length!==6);$('#err').textContent=''};
+  $('#joinGo').onclick=function(){if(code.value.length!==6)return;if(code.value==='156554'){shut();st.name='WBCS Mix 1';readyScreen();RP.toast('Joined WBCS Mix 1')}else $('#err').textContent='No quiz found for that code.'};
+  code.onkeydown=function(e){if(e.key==='Enter')$('#joinGo').click()};
+  // steps for the slide
+  RP.setup('rice-quiz',{
+    list:function(){shut();renderList();go('list')},
+    create:function(){shut();drawChips();go('create')},
+    ready:function(){shut();readyScreen()},
+    question:function(){shut();st.name='WBCS Mix 1';startQuiz(false)},
+    summary:function(){shut();st.res={score:4,cor:4,wr:1,sk:0,time:'3:42'};st.ans=[2,1,0,0,1];showSummary(st.res)},
+    board:function(){shut();if(!st.res||st.res.fake){st.res={score:4,cor:4,wr:1,sk:0,time:'3:42'};st.ans=[2,1,0,0,1]}st.shown=st.res;board()},
+    solution:function(){shut();if(!st.res||st.res.fake){st.res={score:4,cor:4,wr:1,sk:0,time:'3:42'};st.ans=[2,1,0,0,1]}solutions()}
+  });
+  renderList();drawChips();RP.mark('list');
+})();
+</script></body></html>

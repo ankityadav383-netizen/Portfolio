@@ -1,0 +1,120 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ask RiceBot prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="proto.css?v=1"></head><body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="back" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+<symbol id="spark" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></symbol>
+<symbol id="plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="srch" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/></symbol>
+<symbol id="send" viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-3-6.5z"/></symbol>
+<symbol id="star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9L3.5 9.7l5.9-.8z"/></symbol>
+</defs></svg>
+<div class="stage"><div class="phone" id="phone">
+
+<section class="scr on" id="home"><div class="sb"><span>9:41</span><i></i></div>
+  <div class="hd"><svg class="bk"><use href="#back"/></svg><b>Ask RiceBot</b></div>
+  <div class="body">
+    <div class="hero"><h2>Hi Sumit</h2><p>Stuck on a doubt? Ask RiceBot, any time.</p><div class="btn" id="askNew" role="button"><svg><use href="#plus"/></svg>Ask a new doubt</div></div>
+    <div class="search"><svg><use href="#srch"/></svg><input id="q" placeholder="Search your questions" style="border:0;outline:0;font:400 15px Roboto;flex:1;background:transparent"></div>
+    <div class="chips" id="filters"><span class="chip" data-f="all">All</span><span class="chip on" data-f="WBCS">WBCS</span><span class="chip" data-f="PSC Pro">PSC Pro</span></div>
+    <div class="sec"><b>Recently asked</b><span id="cnt"></span></div>
+    <div id="list" style="display:flex;flex-direction:column;gap:14px"></div>
+  </div></section>
+
+<section class="scr" id="chat"><div class="sb"><span>9:41</span><i></i></div>
+  <div class="hd"><svg class="bk" id="chatBack"><use href="#back"/></svg><div class="av"><svg><use href="#spark"/></svg></div><b>Ask RiceBot</b><span class="sp" id="ctx"></span></div>
+  <div class="body"><div class="msgs" id="msgs" style="overflow-y:auto"></div></div>
+  <div class="bar" id="bar"><div class="inp"><input id="txt" placeholder="Write your question" autocomplete="off"></div><div class="send off" id="send" role="button" aria-label="Send"><svg><use href="#send"/></svg></div></div>
+</section>
+
+<div class="dim" id="dim"></div>
+<div class="sheet" id="rate"><div class="grab"></div><h3>How well did I solve your doubt?</h3><p>Your rating helps RiceBot get better.</p>
+  <div class="stars" id="stars"><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg></div>
+  <div class="chips" id="why"><span class="chip">Clear answer</span><span class="chip">Too short</span><span class="chip">Off topic</span></div>
+  <div class="btn dis" id="submit" role="button">Submit</div></div>
+<div class="toast" id="toast"></div>
+</div></div>
+<script src="engine.js?v=1"></script>
+<script>
+(function(){
+  var $=RP.$,$$=RP.$$;
+  var HIST=[
+    {c:'WBCS',s:'Constitution',q:'What are the Directive Principles of State Policy?',a:'Part IV, Articles 36 to 51. Courts cannot enforce them, but they guide governance.',full:'They are guidelines for the government, listed in Part IV of the Constitution (Articles 36 to 51).',pts:['Borrowed from the Irish Constitution','Not enforceable by any court','Aim: a welfare state with social and economic justice']},
+    {c:'PSC Pro',s:'History (IH)',q:'Who founded the Asiatic Society of Bengal?',a:'Sir William Jones founded it in Calcutta in 1784.',full:'Sir William Jones founded the Asiatic Society in Calcutta in 1784.',pts:['It studied the history, languages and culture of Asia']},
+    {c:'WBCS',s:'Geography',q:'Which river is called the Sorrow of Bengal?',a:'The Damodar, because of its frequent floods.',full:'The Damodar, because its floods used to devastate parts of Bengal.',pts:['Dams built under the Damodar Valley Corporation now control it']}
+  ];
+  var NEWQ=[
+    {m:/equal|article\s*14/i,q:'Which Articles cover the Right to Equality?',full:'The Right to Equality is covered by Articles 14 to 18 of the Constitution.',pts:['Article 14: equality before the law','Article 17: abolition of untouchability']},
+    {m:/governor|warren|hastings/i,q:'Who was the first Governor-General of Bengal?',full:'Warren Hastings, appointed under the Regulating Act of 1773.',pts:['The Regulating Act of 1773 created the post']}
+  ];
+  var st={course:'WBCS',subject:'Constitution',filter:'WBCS',rating:0,ended:false};
+  var msgs=$('#msgs'),txt=$('#txt'),send=$('#send');
+  function esc(s){return s.replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})}
+  function scroll(){msgs.scrollTop=msgs.scrollHeight}
+  function bot(html,cls){var d=document.createElement('div');d.className='bot '+(cls||'');d.innerHTML='<div class="who">RiceBot</div>'+html;msgs.appendChild(d);scroll();return d}
+  function me(t){var d=document.createElement('div');d.className='me';d.textContent=t;msgs.appendChild(d);scroll()}
+  function note(t){var d=document.createElement('div');d.className='end';d.textContent=t;msgs.appendChild(d)}
+  function opts(list,cls,fn,wrap){var d=document.createElement('div');d.className=wrap||'opts';list.forEach(function(x){var o=document.createElement('span');o.className='opt '+(cls||'');o.textContent=x;o.setAttribute('role','button');o.onclick=function(){fn(x,o,d)};d.appendChild(o)});msgs.appendChild(d);scroll();return d}
+  function setInput(on,ph){send.classList.toggle('off',!on);txt.disabled=!on;txt.placeholder=ph;if(!on)txt.value=''}
+  function ctx(){$('#ctx').textContent=st.ended||st.subject?st.course+' · '+st.subject:''}
+  function reset(){msgs.innerHTML='';st.ended=false;$('#ctx').textContent='';$('#bar').style.display='flex'}
+  // home
+  function renderList(){
+    var f=st.filter,q=$('#q').value.toLowerCase(),n=0,h='';
+    HIST.forEach(function(x,i){if(f!=='all'&&x.c!==f)return;if(q&&(x.q+x.s+x.c).toLowerCase().indexOf(q)<0)return;n++;
+      h+='<div class="card tap" data-i="'+i+'"><div class="t"><span class="tag">'+x.c+'</span><span class="tag">'+x.s+'</span></div><h4>'+esc(x.q)+'</h4><p>'+esc(x.a)+'</p></div>'});
+    $('#list').innerHTML=h||'<div style="color:var(--mute);text-align:center;padding:24px 0">No questions match.</div>';$('#cnt').textContent=n+' shown';
+    $$('#filters .chip').forEach(function(c){c.classList.toggle('on',c.dataset.f===f)});
+  }
+  $('#filters').addEventListener('click',function(e){var c=e.target.closest('.chip');if(!c)return;st.filter=c.dataset.f;renderList()});
+  $('#q').addEventListener('input',renderList);
+  $('#list').addEventListener('click',function(e){var c=e.target.closest('.card');if(c)openHist(+c.dataset.i)});
+  // steps
+  function toHome(){RP.show('home');$('#dim').classList.remove('open');$('#rate').classList.remove('open');renderList();RP.mark('home')}
+  function ansHTML(x){return esc(x.full)+'<ul>'+x.pts.map(function(p){return '<li>'+esc(p)+'</li>'}).join('')+'</ul>'}
+  function answer(x,fresh){var b=bot(ansHTML(x),'reply');var a=document.createElement('div');a.className='act';a.innerHTML='<span class="chip">Helpful</span><span class="chip">Ask a follow-up</span><span class="chip">End chat</span>';b.appendChild(a);
+    a.onclick=function(e){var c=e.target.closest('.chip');if(!c)return;if(c.textContent==='Helpful'){c.classList.toggle('on')}else if(c.textContent==='End chat'){openRate()}else{txt.focus();RP.toast('Type your follow-up below')}};
+    setInput(true,'Write your question');RP.mark('answer')}
+  function repeatMsg(x){var b=bot('You have asked this before, so I have kept the answer for you.<div class="prev"><small>Earlier chat · '+x.c+' · '+x.s+'</small><b>'+esc(x.q)+'</b><small>'+esc(x.a.slice(0,44))+'…</small></div>');
+    var w=document.createElement('div');w.style.cssText='display:flex;flex-direction:column;gap:10px;margin-top:4px';w.innerHTML='<div class="btn" id="openOld">Open earlier chat</div><div class="btn ghost" id="askNewQ">Ask something new</div>';msgs.appendChild(w);scroll();
+    w.querySelector('#openOld').onclick=function(){openHist(HIST.indexOf(x))};
+    w.querySelector('#askNewQ').onclick=function(){w.remove();bot('Sure. What would you like to ask?');suggest();setInput(true,'Write your question')};
+    setInput(false,'Choose an option above');RP.mark('repeat')}
+  function suggest(){var d=opts(['Which Articles cover the Right to Equality?','Who was the first Governor-General of Bengal?'],'',function(t){ask(t)},'sug')}
+  function ask(t){t=t.trim();if(!t)return;$$('.sug',msgs).forEach(function(e){e.remove()});me(t);txt.value='';var old=HIST.filter(function(x){return /directive|dpsp/i.test(t)&&x.q.indexOf('Directive')>=0})[0];
+    if(old){setTimeout(function(){repeatMsg(old)},350);return}
+    var nq=NEWQ.filter(function(x){return x.m.test(t)})[0];
+    if(nq){setTimeout(function(){answer(nq,true)},450);return}
+    setTimeout(function(){bot('This demo only knows a few questions. Try one of these:');suggest()},350)}
+  function courseStep(){reset();note('Today');bot('Hi Sumit, which course is your doubt from?');
+    opts(['WBCS','PSC Pro'],'big',function(c){st.course=c;subjectStep(true)});setInput(false,'Choose a course to continue');RP.show('chat');RP.mark('course')}
+  function subjectStep(anim){reset();bot('Hi Sumit, which course is your doubt from?');me(st.course);bot('Got it. Now pick the subject.');
+    opts(['Bengali','Bio Science','Chemistry','Constitution','Descriptive English','Economics','English','Geography','GK-CA','Hindi','History (IH)','History (INM)'],'',function(s,o,d){st.subject=s;$$('.opt',d).forEach(function(x){x.classList.toggle('on',x===o)});setTimeout(askStep,250)});
+    setInput(false,'Pick a subject to continue');RP.show('chat');RP.mark('subject');if(!anim)$('#ctx').textContent=''}
+  function askStep(){reset();ctx();$('#ctx').textContent=st.course+' · '+st.subject;bot('Write your question on '+esc(st.subject)+'.');suggest();setInput(true,'Write your question');RP.show('chat');RP.mark('ask');txt.focus&&0}
+  function answerStep(){reset();st.course='WBCS';st.subject='Constitution';$('#ctx').textContent='WBCS · Constitution';bot('Write your question on Constitution.');me(NEWQ[0].q);answer(NEWQ[0]);RP.show('chat')}
+  function repeatStep(){reset();st.course='WBCS';st.subject='Constitution';$('#ctx').textContent='WBCS · Constitution';me(HIST[0].q);repeatMsg(HIST[0]);RP.show('chat')}
+  function openHist(i){var x=HIST[i];reset();$('#ctx').textContent=x.c+' · '+x.s;note('Earlier chat');me(x.q);bot(ansHTML(x),'reply');setInput(false,'This chat has ended');RP.show('chat');RP.mark('answer')}
+  function openRate(){$('#dim').classList.add('open');$('#rate').classList.add('open');RP.mark('rating')}
+  function ratingStep(){answerStep();setTimeout(openRate,50)}
+  // rating sheet
+  var stars=$$('#stars svg');
+  function paint(n){stars.forEach(function(s,i){s.classList.toggle('f',i<n)});$('#submit').classList.toggle('dis',n===0)}
+  stars.forEach(function(s,i){s.onclick=function(){st.rating=i+1;paint(st.rating)}});
+  $('#why').onclick=function(e){var c=e.target.closest('.chip');if(c)c.classList.toggle('on')};
+  $('#submit').onclick=function(){if(!st.rating)return;$('#dim').classList.remove('open');$('#rate').classList.remove('open');st.ended=true;
+    $$('.act',msgs).forEach(function(a){a.style.display='none'});note('This conversation has ended');setInput(false,'This chat has ended');
+    var w=document.createElement('div');w.style.marginTop='6px';w.innerHTML='<div class="btn" id="backHome">Back to my questions</div>';msgs.appendChild(w);scroll();$('#backHome').onclick=toHome;RP.toast('Thanks for rating');st.rating=0;paint(0)};
+  $('#dim').onclick=function(){$('#dim').classList.remove('open');$('#rate').classList.remove('open')};
+  // wiring
+  $('#askNew').onclick=courseStep;
+  $('#chatBack').onclick=toHome;
+  $('#home .bk').onclick=function(){RP.toast('Back to the app home is not part of this demo')};
+  send.onclick=function(){if(!send.classList.contains('off'))ask(txt.value)};
+  txt.addEventListener('keydown',function(e){if(e.key==='Enter'&&!send.classList.contains('off'))ask(txt.value)});
+  txt.addEventListener('input',function(){if(!txt.disabled)send.classList.toggle('off',!txt.value.trim())});
+  RP.setup('rice-bot',{home:function(){toHome()},course:courseStep,subject:function(){st.course='WBCS';subjectStep()},ask:function(){st.course='WBCS';st.subject='Constitution';askStep()},answer:answerStep,repeat:repeatStep,rating:ratingStep});
+  toHome();
+})();
+</script></body></html>
