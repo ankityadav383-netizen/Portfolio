@@ -160,10 +160,11 @@ a{text-decoration:none;color:inherit;}
 .lp-disk-spacer{display:inline-block;width:.92em;height:.92em;vertical-align:-0.11em;}
 .lp-disk-spacer[hidden]{display:none;}
 .lp-disk.is-docked{
-  position:fixed;left:0;top:0;margin:0;z-index:90;transform-origin:0 0;
-  --dock:0;
-  box-shadow:0 calc(10px*var(--dock)) calc(26px*var(--dock)) rgba(0,0,0,calc(.38*var(--dock))), 0 0 0 calc(4px*var(--dock)) rgba(250,247,243,.96);
+  position:fixed;left:0;top:0;margin:0;z-index:90;transform-origin:0 0;will-change:transform;
+  box-shadow:0 0 0 0 rgba(250,247,243,0),0 0 0 rgba(0,0,0,0);
+  transition:opacity .22s ease, box-shadow .35s ease;
 }
+.lp-disk.is-docked.is-far{box-shadow:0 10px 26px rgba(0,0,0,.38),0 0 0 4px rgba(250,247,243,.96);}
 /* paused: a scrim + play triangle so it still reads as a button once it's stopped spinning */
 .lp-disk.is-docked.is-paused::after{content:'';position:absolute;inset:0;border-radius:50%;background:rgba(0,0,0,.45);}
 .lp-disk.is-docked.is-paused::before{

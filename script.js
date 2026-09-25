@@ -500,48 +500,68 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     wrap.title = 'Pause music';
 
     /* Scroll-linked dock: past a little scroll, the "O" leaves the headline and travels to a fixed spot in the
-       bottom-right corner, so the music can be stopped from anywhere; scrolling back up sends it home again. */
+       bottom-right corner, so the music can be stopped from anywhere; scrolling back up sends it home again.
+       The disk follows a *smoothed* scroll position (time-based damping) rather than the raw one, so wheel notches
+       and flicks glide instead of jumping, and its geometry is cached so nothing forces layout every frame. */
     const spacer = document.createElement('span');          // holds the O's place in the headline while the disk is away
     spacer.className = 'lp-disk-spacer'; spacer.hidden = true;
     wrap.before(spacer);
-    const DOCK = 68, MARGIN = 24;
+    const DOCK = 68, MARGIN = 24, TAU = 0.075;              // TAU: smoothing time constant, seconds
     const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
     const ease = (k) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
-    let docked = false, natural = 0;
+    let docked = false, natural = 0, homeLeft = 0, homeTop = 0;   // homeLeft/homeTop: the O's slot in *document* coordinates
+    let tgtY = window.scrollY, sy = tgtY, raf = 0, last = 0;
+    const zone = () => { const vh = window.innerHeight; return [vh * 0.13, vh * 0.58]; };
+
+    function measureHome() {
+      const r = spacer.hidden ? wrap.getBoundingClientRect() : spacer.getBoundingClientRect();
+      homeLeft = r.left + window.scrollX; homeTop = r.top + window.scrollY; return r;
+    }
+    function startDock() {
+      const r = measureHome(); natural = r.width;
+      spacer.style.width = r.width + 'px'; spacer.style.height = r.height + 'px'; spacer.hidden = false;
+      wrap.classList.add('is-docked');
+      wrap.style.width = r.width + 'px'; wrap.style.height = r.height + 'px';
+      document.body.appendChild(wrap);                      // out of the hero's stacking context so nothing scrolls over it
+      docked = true;
+    }
     function undock() {
       if (!docked) return;
       docked = false;
       spacer.before(wrap);                                  // back into the headline (moved, not cloned: the video keeps playing)
-      wrap.classList.remove('is-docked');
+      wrap.classList.remove('is-docked', 'is-far');
       wrap.style.cssText = '';
       spacer.hidden = true;
     }
-    function dockUpdate() {
-      const vh = window.innerHeight, y = window.scrollY;
-      const S0 = vh * 0.13, S1 = vh * 0.58;
-      const p = clamp((y - S0) / (S1 - S0), 0, 1);
-      if (p <= 0) { undock(); return; }
-      if (!docked) {
-        const r = wrap.getBoundingClientRect();
-        natural = r.width;
-        spacer.style.width = r.width + 'px'; spacer.style.height = r.height + 'px'; spacer.hidden = false;
-        wrap.classList.add('is-docked');
-        wrap.style.width = r.width + 'px'; wrap.style.height = r.height + 'px';
-        document.body.appendChild(wrap);                    // out of the hero's stacking context so nothing scrolls over it
-        docked = true;
-      }
-      const home = spacer.getBoundingClientRect();          // where the O would be if it hadn't left
-      const e = ease(p), cw = document.documentElement.clientWidth;
+    function place(p) {
+      const e = ease(p), vh = window.innerHeight, cw = document.documentElement.clientWidth;
       const tx = cw - MARGIN - DOCK, ty = vh - MARGIN - DOCK;
-      const x = home.left + (tx - home.left) * e, yy = home.top + (ty - home.top) * e;
-      wrap.style.transform = `translate(${x}px, ${yy}px) scale(${1 + (DOCK / natural - 1) * e})`;
-      wrap.style.setProperty('--dock', e.toFixed(3));
+      const hx = homeLeft - window.scrollX, hy = homeTop - sy;     // where the O would be at the smoothed scroll position
+      const x = hx + (tx - hx) * e, y = hy + (ty - hy) * e;
+      wrap.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${1 + (DOCK / natural - 1) * e})`;
+      wrap.classList.toggle('is-far', e > 0.4);
     }
-    let dockRaf = 0;
-    const queue = () => { if (!dockRaf) dockRaf = requestAnimationFrame(() => { dockRaf = 0; dockUpdate(); }); };
-    window.addEventListener('scroll', dockUpdate, { passive: true });
-    window.addEventListener('resize', queue);
-    dockUpdate();
+    function frame(now) {
+      raf = 0;
+      const dt = last ? Math.min(0.05, (now - last) / 1000) : 0.016; last = now;
+      sy += (tgtY - sy) * (reduceMotion ? 1 : 1 - Math.exp(-dt / TAU));
+      if (Math.abs(tgtY - sy) < 0.4) sy = tgtY;
+      const [S0, S1] = zone(), p = clamp((sy - S0) / (S1 - S0), 0, 1);
+      if (!docked && (p > 0 || tgtY > S0)) startDock();
+      if (docked) {
+        if (p <= 0 && sy === tgtY) { undock(); last = 0; return; }   // fully home and settled: seamless hand-back to the headline
+        place(p);
+      }
+      if (sy !== tgtY) raf = requestAnimationFrame(frame); else last = 0;
+    }
+    const kick = () => { if (!raf) raf = requestAnimationFrame(frame); };
+    window.addEventListener('scroll', () => {
+      tgtY = window.scrollY;
+      if (!docked && tgtY <= zone()[0]) { sy = tgtY; return; }       // still in the headline: nothing to animate
+      kick();
+    }, { passive: true });
+    window.addEventListener('resize', () => { if (docked) measureHome(); tgtY = window.scrollY; kick(); });
+    if (tgtY > zone()[0]) { sy = tgtY; kick(); }                     // page reloaded part-way down: dock straight away
   });
 })();
 
