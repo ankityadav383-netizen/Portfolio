@@ -2118,3 +2118,7 @@ html.lp-flying .lp-disk { opacity: 0; transition: none; }
 .deck-arivoo .slide:not(.fs-s1):not(.fs-s9):not(.fs-s12) .fs-safe{padding:140px 120px 72px;}
 .deck-arivoo .fs-s9 .fs-safe{padding-left:120px;}
 .deck-arivoo .fs-s11 .fs-spacer{display:none;}
+
+/* RICE Smart: audit screenshot */
+.rice-shot{margin:0;}
+.rice-shot img{display:block;width:100%;height:auto;border-radius:24px;}
