@@ -480,12 +480,14 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
       const audio = document.querySelector('[data-lp-audio]');
       if (!audio) return;
       if (audio.paused) {
+        delete audio.dataset.userPaused;
         audio.play().catch(() => {});
         if (!reduceMotion) video.play().catch(() => {});
         wrap.setAttribute('aria-pressed', 'true');
         wrap.setAttribute('aria-label', 'O — pause the music');
         wrap.title = 'Pause music'; wrap.classList.remove('is-paused');
       } else {
+        audio.dataset.userPaused = '1';
         audio.pause();
         video.pause();
         wrap.setAttribute('aria-pressed', 'false');
@@ -497,7 +499,20 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     wrap.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
     });
-    wrap.title = 'Pause music';
+    wrap.title = 'Play music';
+    // keep the disk's label/state honest: it reflects whether sound is actually playing (it may be blocked by the browser)
+    const audioEl = document.querySelector('[data-lp-audio]');
+    if (audioEl) {
+      const sync = () => {
+        const paused = audioEl.paused;
+        wrap.classList.toggle('is-paused', paused);
+        wrap.setAttribute('aria-pressed', String(!paused));
+        wrap.setAttribute('aria-label', 'O \u2014 ' + (paused ? 'play' : 'pause') + ' the music');
+        wrap.title = paused ? 'Play music' : 'Pause music';
+      };
+      audioEl.addEventListener('play', sync); audioEl.addEventListener('pause', sync); audioEl.addEventListener('playing', sync);
+      sync();
+    }
 
     /* Scroll-linked dock: past a little scroll, the "O" leaves the headline and travels to a fixed spot in the
        bottom-right corner, so the music can be stopped from anywhere; scrolling back up sends it home again.
@@ -750,6 +765,28 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     setTimeout(() => startPlay(ENTER + 3), reduceMotion ? 50 : 750);
   });
 
+  /* ---------- music: browsers only allow sound after a real click / tap / key press -- scrolling doesn't count,
+     so a scroll-only visitor is blocked. Try anyway; if refused, ask for a click and start on the next gesture. ---------- */
+  let wantMusic = false;
+  const prompt = document.createElement('button');
+  prompt.type = 'button'; prompt.className = 'lp-sound-toast'; prompt.hidden = true;
+  prompt.innerHTML = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6v4h2.6L9 12.8V3.2L5.1 6zM11.5 5.4a3.6 3.6 0 0 1 0 5.2"/></svg><span>' + (matchMedia('(pointer: coarse)').matches ? 'Tap' : 'Click') + ' anywhere to play the music</span>';
+  document.body.appendChild(prompt);
+  const showPrompt = (on) => { prompt.hidden = !on; };
+  function playMusic() {
+    wantMusic = true;
+    try { audio.currentTime = 0; audio.volume = 0.55; } catch (_) {}
+    const pr = audio.play();
+    if (pr && pr.catch) pr.catch(() => { if (wantMusic && audio.paused) showPrompt(true); });
+  }
+  audio.addEventListener('playing', () => showPrompt(false));
+  ['pointerdown', 'keydown', 'touchend', 'click'].forEach((type) => window.addEventListener(type, (e) => {
+    if (!wantMusic || !audio.paused || audio.dataset.userPaused) return;
+    if (e.target && e.target.closest && e.target.closest('.lp-disk, .lp-platter')) return;   // the hero disk / the record on the phone screen toggle the music themselves
+    const pr = audio.play();
+    if (pr && pr.then) pr.then(() => showPrompt(false)).catch(() => {});
+  }, { capture: true, passive: true }));
+
   /* ---------- play / load ---------- */
   let raf = 0, t0 = 0, shown = 0, dropAt = 0;
 
@@ -762,9 +799,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     try { disc.playbackRate = 0.1; } catch (_) {}
     const p = disc.play();
     if (p && p.catch) p.catch(() => {});
-    try { audio.currentTime = 0; audio.volume = 0.55; } catch (_) {}
-    const ap = audio.play();
-    if (ap && ap.catch) ap.catch(() => {});
+    playMusic();
     ramp(0.1, 1, reduceMotion ? 1 : 450);
     t0 = performance.now();
     shown = 0;
@@ -806,8 +841,11 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   const tipEl = root.querySelector('.lp-gate-tip');
   const gateMode = !!gateEl && matchMedia('(max-width: 899px)').matches;
 
+  const updateTip = () => { if (tipEl) tipEl.textContent = audio.paused ? 'Paused \u2014 tap the record to play' : 'Tap the record to pause the music'; root.classList.toggle('is-muted', audio.paused); };
+  audio.addEventListener('playing', updateTip); audio.addEventListener('pause', updateTip);
   function showGate() {
     state = 'gate';
+    updateTip();
     hint('');
     root.classList.add('is-gate');
   }
@@ -828,10 +866,8 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     });
     platterEl.addEventListener('click', () => {
       if (state !== 'gate') return;
-      if (audio.paused) { audio.play().catch(() => {}); disc.play().catch(() => {}); }
-      else { audio.pause(); disc.pause(); }
-      root.classList.toggle('is-muted', audio.paused);
-      if (tipEl) tipEl.textContent = audio.paused ? 'Paused \u2014 tap the record to play' : 'Tap the record to pause the music';
+      if (audio.paused) { delete audio.dataset.userPaused; audio.play().catch(() => {}); disc.play().catch(() => {}); }
+      else { audio.dataset.userPaused = '1'; audio.pause(); disc.pause(); }
     });
   }
 
@@ -927,6 +963,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     audio.pause();
     audio.currentTime = 0;
     audio.volume = 0.55;
+    wantMusic = false; showPrompt(false); delete audio.dataset.userPaused;
     root.hidden = false;
     root.classList.remove('is-leaving', 'is-flying', 'is-playing', 'has-touched');
     arm.classList.remove('is-tracking', 'is-dragging');
