@@ -2122,3 +2122,6 @@ html.lp-flying .lp-disk { opacity: 0; transition: none; }
 /* RICE Smart: audit screenshot */
 .rice-shot{margin:0;}
 .rice-shot img{display:block;width:100%;height:auto;border-radius:24px;}
+.fs-lcards.row.rice-n2{grid-template-columns:repeat(2,1fr);}
+.fs-lcards.row.rice-n1{grid-template-columns:1fr;}
+.fs-lcards.row.rice-n2,.fs-lcards.row.rice-n1{width:1680px;max-width:100%;}
