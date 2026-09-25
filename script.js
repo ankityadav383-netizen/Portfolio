@@ -619,7 +619,10 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     const assets = Promise.all([decode('assets/loader/lp-poster.jpg?v=navy'), wide ? decode('assets/loader/desk-bg.webp') : 0, font, loaded]);
     // never hold the screen hostage on a slow connection
     Promise.race([assets, new Promise((r) => setTimeout(r, 1800))])
-      .then(() => requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('is-ready'))));
+      .then(() => requestAnimationFrame(() => requestAnimationFrame(() => {
+        root.classList.add('is-ready');
+        setTimeout(() => { if (!active() && state === 'idle') { setChip('early'); showPrompt(true); } }, 900);
+      })));
   })();
 
   // distance from record centre to the stylus at a given arm angle
@@ -752,7 +755,8 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   window.addEventListener('touchend', () => { touchY = null; }, { passive: true });
   window.addEventListener('keydown', (e) => {
     if (state !== 'idle') return;
-    const step = { ArrowDown: 0.18, ArrowUp: -0.18, PageDown: 0.6, PageUp: -0.6 }[e.key];
+    const step = { ArrowDown: 0.18, ArrowUp: -0.18, PageDown: 0.6, PageUp: -0.6, ' ': 0.6 }[e.key];
+    if (e.key === ' ' && e.target && e.target.closest && e.target.closest('button')) return;
     if (step) { e.preventDefault(); addProg(step); }
   });
 
@@ -765,22 +769,39 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     setTimeout(() => startPlay(ENTER + 3), reduceMotion ? 50 : 750);
   });
 
-  /* ---------- music: browsers only allow sound after a real click / tap / key press -- scrolling doesn't count,
-     so a scroll-only visitor is blocked. Try anyway; if refused, ask for a click and start on the next gesture. ---------- */
-  let wantMusic = false;
+  /* ---------- music: browsers only allow sound after a real click / tap / key press (scrolling with a wheel or
+     trackpad is deliberately NOT one of them). So: ask for one click early, unlock on the first qualifying input,
+     and if a start is still refused, retry on the next one. ---------- */
+  let wantMusic = false, primed = false;
+  const verb = coarse ? 'Tap' : 'Click';
+  const active = () => !!(navigator.userActivation && navigator.userActivation.hasBeenActive);
   const prompt = document.createElement('button');
   prompt.type = 'button'; prompt.className = 'lp-sound-toast'; prompt.hidden = true;
-  prompt.innerHTML = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6v4h2.6L9 12.8V3.2L5.1 6zM11.5 5.4a3.6 3.6 0 0 1 0 5.2"/></svg><span>' + (matchMedia('(pointer: coarse)').matches ? 'Tap' : 'Click') + ' anywhere to play the music</span>';
+  prompt.innerHTML = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6v4h2.6L9 12.8V3.2L5.1 6zM11.5 5.4a3.6 3.6 0 0 1 0 5.2"/></svg><span></span>';
+  const chipText = prompt.querySelector('span');
+  const setChip = (kind) => { chipText.textContent = verb + (kind === 'blocked' ? ' anywhere to play the music' : ' anywhere to turn the sound on'); };
+  setChip('early');
   document.body.appendChild(prompt);
   const showPrompt = (on) => { prompt.hidden = !on; };
+  // Safari (and friends) unlock an audio element when play() is called inside a gesture; a muted, immediately-paused
+  // play does that without any sound, so the later programmatic start (after scrolling) is allowed.
+  function prime() {
+    if (primed || wantMusic || !audio.paused) return;
+    primed = true; audio.muted = true;
+    const pr = audio.play();
+    const settle = () => { audio.muted = false; };
+    if (pr && pr.then) pr.then(() => { if (!wantMusic) { audio.pause(); audio.currentTime = 0; } settle(); }).catch(settle); else settle();
+  }
   function playMusic() {
     wantMusic = true;
+    audio.muted = false;
     try { audio.currentTime = 0; audio.volume = 0.55; } catch (_) {}
     const pr = audio.play();
-    if (pr && pr.catch) pr.catch(() => { if (wantMusic && audio.paused) showPrompt(true); });
+    if (pr && pr.catch) pr.catch(() => { if (wantMusic && audio.paused) { setChip('blocked'); showPrompt(true); } });
   }
-  audio.addEventListener('playing', () => showPrompt(false));
-  ['pointerdown', 'keydown', 'touchend', 'click'].forEach((type) => window.addEventListener(type, (e) => {
+  audio.addEventListener('playing', () => { if (wantMusic) showPrompt(false); });
+  ['pointerdown', 'pointerup', 'mousedown', 'keydown', 'touchend', 'click'].forEach((type) => window.addEventListener(type, (e) => {
+    if (active()) { if (!wantMusic) showPrompt(false); prime(); }          // the sound is unlocked: drop the "click for sound" chip
     if (!wantMusic || !audio.paused || audio.dataset.userPaused) return;
     if (e.target && e.target.closest && e.target.closest('.lp-disk, .lp-platter')) return;   // the hero disk / the record on the phone screen toggle the music themselves
     const pr = audio.play();
