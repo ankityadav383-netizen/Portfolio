@@ -534,7 +534,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     const wide = matchMedia('(min-width: 900px)').matches;
     const font = document.fonts && document.fonts.load ? document.fonts.load('400 13px "JetBrains Mono"').catch(() => {}) : 0;
     const loaded = document.readyState === 'complete' ? 0 : new Promise((r) => window.addEventListener('load', r, { once: true }));
-    const assets = Promise.all([decode('assets/loader/lp-poster.jpg?v=blue'), wide ? decode('assets/loader/desk-bg.webp') : 0, font, loaded]);
+    const assets = Promise.all([decode('assets/loader/lp-poster.jpg?v=navy'), wide ? decode('assets/loader/desk-bg.webp') : 0, font, loaded]);
     // never hold the screen hostage on a slow connection
     Promise.race([assets, new Promise((r) => setTimeout(r, 1800))])
       .then(() => requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('is-ready'))));
