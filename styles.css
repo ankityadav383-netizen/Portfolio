@@ -473,6 +473,8 @@ a{text-decoration:none;color:inherit;}
 }
 .project-card:hover .project-media{transform:translateY(-6px);}
 .project-card:hover .project-media::before{opacity:0;}
+/* light artwork with text baked in (NABC): keep the depth shade but far softer, so the lettering and phones stay crisp */
+.project-media.is-art::before,.work-media.is-art::after{background:linear-gradient(180deg,rgba(0,0,0,0) 65%,rgba(0,0,0,.14) 100%);}
 .project-card h3{font-size:22px;font-weight:700;margin-bottom:6px;}
 .project-card p{margin:0;color:var(--muted);font-size:15px;}
 
