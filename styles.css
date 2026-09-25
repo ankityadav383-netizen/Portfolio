@@ -1821,7 +1821,8 @@ body.stan-lock{overflow:hidden;}
   --lp-deck: #efefef;
   --lp-ink: #2b2b2b;
   --lp-ink-soft: #6b6b6b;
-  --lp-accent: #e8123f; /* matches the record label */
+  --lp-accent: #e8123f; /* UI accent: LED, nudge ring, hint arrow */
+  --lp-label: #2a9ec2;  /* the record's centre label */
   --lp-size: min(72vmin, 500px);
 }
 
@@ -1931,7 +1932,7 @@ html.lp-flying .lp-disk { opacity: 0; transition: none; }
   transform: translate(-50%, -50%);
   border-radius: 50%;
   overflow: hidden;
-  background: var(--lp-accent);
+  background: var(--lp-label);
   pointer-events: none;
 }
 
