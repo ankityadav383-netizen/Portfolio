@@ -2022,7 +2022,7 @@ html.lp-flying .lp-disk { opacity: 0; transition: none; }
   animation: lp-nudge 1.8s ease-out infinite;
   pointer-events: none;
 }
-.lp-nudge { display: none; }   /* the needle is driven by scroll now, so no drag cue */
+.lp-loader.has-touched .lp-nudge { display: none; }
 @keyframes lp-nudge {
   0% { opacity: .7; transform: scale(.6); }
   100% { opacity: 0; transform: scale(1.6); }
@@ -2049,8 +2049,6 @@ html.lp-flying .lp-disk { opacity: 0; transition: none; }
   min-height: 1.4em;
 }
 .lp-hint svg { width: 16px; height: 16px; color: var(--lp-accent); flex: none; }
-.lp-loader:not(.has-touched) .lp-hint svg { animation: lp-bob 1.5s ease-in-out infinite; }
-@keyframes lp-bob { 50% { transform: translateY(3px); } }
 
 /* ---------- phones: the loader hands off to a "best on desktop" screen instead of the site ---------- */
 .lp-gate { display: none; }
@@ -2115,7 +2113,7 @@ html.lp-flying .lp-disk { opacity: 0; transition: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .lp-nudge, .lp-loader.is-playing .lp-led, .lp-hint svg { animation: none !important; }
+  .lp-nudge, .lp-loader.is-playing .lp-led { animation: none; }
   .lp-arm { transition-duration: .01s; }
 }
 

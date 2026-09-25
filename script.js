@@ -621,7 +621,6 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     Promise.race([assets, new Promise((r) => setTimeout(r, 1800))])
       .then(() => requestAnimationFrame(() => requestAnimationFrame(() => {
         root.classList.add('is-ready');
-        setTimeout(() => { if (!active() && state === 'idle') { setChip('early'); showPrompt(true); } }, 900);
       })));
   })();
 
@@ -711,7 +710,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   /* ---------- scroll: scrolling (or swiping up) sweeps the needle onto the record ---------- */
   const SCROLL_END = ENTER + 3;                 // arm angle with the stylus over the groove
   const coarse = matchMedia('(pointer: coarse)').matches;
-  const HINT_IDLE = coarse ? 'Swipe up to drop the needle' : 'Scroll to drop the needle';
+  const HINT_IDLE = coarse ? 'Drag the needle \u00b7 or swipe up' : 'Drag the needle onto the record \u00b7 or scroll';
   const HINT_ALMOST = 'Keep going \u2014 almost on the record';
   let prog = 0, shownProg = 0, sweepRaf = 0;
   const ready = () => root.classList.contains('is-ready');
@@ -720,6 +719,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     if (state !== 'idle' || !ready()) return;
     prog = Math.min(1, Math.max(0, prog + d));
     root.classList.add('has-touched');
+    if (!active() && prompt.hidden) { setChip('early'); showPrompt(true); }   // scrolling can't unlock sound: ask for one click now
     arm.classList.add('is-dragging');          // no CSS easing: the scroll itself is the animation
     if (!sweepRaf) sweepRaf = requestAnimationFrame(sweep);
   }
