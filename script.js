@@ -573,7 +573,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   const root = document.getElementById('lpLoader');
   if (!root) return;
 
-  const MIN_SPIN_MS = 3200;
+  const MIN_SPIN_MS = 1400;
   const PIVOT = { x: 858, y: 137 };  // deck units (svg viewBox 0..1000)
   const CENTER = { x: 500, y: 500 };
   const ARM_LEN = 648;               // pivot -> stylus
@@ -708,7 +708,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   function sweep() {
     sweepRaf = 0;
     if (state !== 'idle') return;
-    shownProg += (prog - shownProg) * (reduceMotion ? 1 : 0.18);
+    shownProg += (prog - shownProg) * (reduceMotion ? 1 : 0.3);
     if (Math.abs(prog - shownProg) < 0.002) shownProg = prog;
     setArm(REST + (SCROLL_END - REST) * shownProg, shownProg < 1);
     hint(shownProg > 0.55 ? HINT_ALMOST : HINT_IDLE);
@@ -724,20 +724,20 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     if (state !== 'idle') return;
     e.preventDefault();
     const unit = e.deltaMode === 1 ? 32 : e.deltaMode === 2 ? 600 : 1;   // lines / pages -> px
-    addProg((e.deltaY * unit) / 700);
+    addProg((e.deltaY * unit) / 380);
   }, { passive: false });
   let touchY = null;
   window.addEventListener('touchstart', (e) => { touchY = e.touches.length === 1 ? e.touches[0].clientY : null; }, { passive: true });
   window.addEventListener('touchmove', (e) => {
     if (touchY === null || state !== 'idle') return;
     const y = e.touches[0].clientY;
-    addProg((touchY - y) / 300);                // finger up = forward
+    addProg((touchY - y) / 190);                // finger up = forward
     touchY = y;
   }, { passive: true });
   window.addEventListener('touchend', () => { touchY = null; }, { passive: true });
   window.addEventListener('keydown', (e) => {
     if (state !== 'idle') return;
-    const step = { ArrowDown: 0.1, ArrowUp: -0.1, PageDown: 0.4, PageUp: -0.4 }[e.key];
+    const step = { ArrowDown: 0.18, ArrowUp: -0.18, PageDown: 0.6, PageUp: -0.6 }[e.key];
     if (step) { e.preventDefault(); addProg(step); }
   });
 
@@ -765,7 +765,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     try { audio.currentTime = 0; audio.volume = 0.55; } catch (_) {}
     const ap = audio.play();
     if (ap && ap.catch) ap.catch(() => {});
-    ramp(0.1, 1, reduceMotion ? 1 : 900);
+    ramp(0.1, 1, reduceMotion ? 1 : 450);
     t0 = performance.now();
     shown = 0;
     // let the drop transition settle before the arm starts tracking inward
@@ -777,11 +777,11 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     const t = (now - t0) / MIN_SPIN_MS;
     const cap = pageLoaded ? 100 : 92;
     const goal = Math.min(cap, t * 100);
-    shown += (goal - shown) * 0.12;
+    shown += (goal - shown) * 0.2;
     if (goal >= 100 && shown > 99.4) shown = 100;
     setPct(shown);
     if (arm.classList.contains('is-tracking')) {
-      setArm(dropAt + (Math.max(dropAt, MAX - 1.5) - dropAt) * (shown / 100), false);
+      setArm(dropAt + (Math.max(dropAt, MAX - 1.5) - dropAt) * 0.28 * (shown / 100), false);   // a short creep, not all the way to the label
     }
     if (shown < 60) hint('Loading — spinning up');
     else if (shown < 100) hint(pageLoaded ? 'Almost there' : 'Waiting for the page');
@@ -794,7 +794,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     setPct(100);
     hint('Enjoy the record');
     // needle stays in the groove and the record keeps spinning, then it lifts off and lands in the hero "O"
-    setTimeout(() => { if (gateMode) showGate(); else if (!flyToHero()) fadeOut(); }, 1300);
+    setTimeout(() => { if (gateMode) showGate(); else if (!flyToHero()) fadeOut(); }, 350);
   }
 
   /* ---------- phones: stay on the record + music, and ask them to open it on a laptop ---------- */
@@ -880,7 +880,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     arm.classList.remove('is-tracking');
     setArm(REST, false);            // needle lifts back to its cradle
 
-    const DUR = 1100, START_RATE = disc.playbackRate || 1, END_RATE = heroVideo.playbackRate || 0.35;
+    const DUR = 800, START_RATE = disc.playbackRate || 1, END_RATE = heroVideo.playbackRate || 0.35;
     const ease = (k) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
     const t0f = performance.now();
     let synced = false;
