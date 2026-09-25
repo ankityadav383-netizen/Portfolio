@@ -534,7 +534,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     const wide = matchMedia('(min-width: 900px)').matches;
     const font = document.fonts && document.fonts.load ? document.fonts.load('400 13px "JetBrains Mono"').catch(() => {}) : 0;
     const loaded = document.readyState === 'complete' ? 0 : new Promise((r) => window.addEventListener('load', r, { once: true }));
-    const assets = Promise.all([decode('assets/loader/lp-poster.jpg?v=navy'), wide ? decode('assets/loader/desk-bg.webp') : 0, font, loaded]);
+    const assets = Promise.all([decode('assets/loader/lp-poster.jpg?v=name2'), wide ? decode('assets/loader/desk-bg.webp') : 0, font, loaded]);
     // never hold the screen hostage on a slow connection
     Promise.race([assets, new Promise((r) => setTimeout(r, 1800))])
       .then(() => requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('is-ready'))));
@@ -736,9 +736,8 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     const heroDisk = document.querySelector('.lp-disk');
     const heroVideo = heroDisk && heroDisk.querySelector('.lp-disk-video');
     const platter = root.querySelector('.lp-platter');
-    const label = root.querySelector('.lp-label');
     const spindle = root.querySelector('.lp-spindle');
-    if (reduceMotion || !heroVideo || !platter || !label || !spindle) return false;
+    if (reduceMotion || !heroVideo || !platter || !spindle) return false;
     const from = platter.getBoundingClientRect();
     const first = heroDisk.getBoundingClientRect();
     if (!first.width || first.bottom < 0 || first.top > innerHeight) return false;
@@ -748,7 +747,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     fly.className = 'lp-fly';
     Object.assign(fly.style, { left: from.left + 'px', top: from.top + 'px', width: from.width + 'px', height: from.height + 'px' });
     // moving (not cloning) the live nodes keeps the video playing without a restart
-    fly.append(disc, label, spindle);
+    fly.append(disc, spindle);
     spindle.style.width = '6%';
     document.body.appendChild(fly);
 
@@ -774,7 +773,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
       fly.style.transition = 'opacity .22s ease';
       fly.style.opacity = '0';
       setTimeout(() => {
-        platter.append(disc, label);
+        platter.append(disc);
         deck.insertBefore(spindle, spindleNext);
         spindle.style.width = '';
         spindle.style.opacity = '';
