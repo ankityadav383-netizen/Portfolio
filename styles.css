@@ -197,6 +197,12 @@ a{text-decoration:none;color:inherit;}
   transition:scale .18s ease;
 }
 .hero .deco:hover{scale:1.07;}
+/* slow idle spin on the separate `rotate` property, so it never touches the toy's drag position (translate) or hover scale */
+.hero .deco{animation:deco-spin var(--spin,30s) linear infinite;}
+.hero .bolt-1{--spin:38s;animation-direction:reverse;}
+.hero .sparkle-1{--spin:28s;}
+@keyframes deco-spin{to{rotate:360deg;}}
+@media (prefers-reduced-motion:reduce){.hero .deco{animation:none;}}
 .hero .deco.is-held{cursor:grabbing;scale:1.16;filter:drop-shadow(0 16px 20px rgba(0,0,0,.28));}
 .hero-portrait{
   margin-top:36px;
