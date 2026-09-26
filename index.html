@@ -30,7 +30,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=fs127">
+<link rel="stylesheet" href="styles.css?v=fs128">
 </head>
 <body>
 
@@ -69,7 +69,6 @@
 
         <!-- guide: shows where the needle has to go (geometry filled in by script.js) -->
         <g class="lp-guide" aria-hidden="true">
-          <path class="lp-guide-arc" fill="none"/>
           <circle class="lp-guide-fill"/>
           <circle class="lp-guide-ring"/>
           <circle class="lp-guide-ring lp-guide-ring2"/>
@@ -105,6 +104,9 @@
           <circle cx="858" cy="137" r="44" fill="#f4f4f4"/>
         </g>
       </svg>
+
+      <!-- tag on the needle: asks for the needle, then says thanks once the record is playing -->
+      <div class="lp-tag" aria-hidden="true"><i></i><span class="t-put">Put me on the disk</span><span class="t-enjoy">Enjoy</span></div>
 
       <!-- keyboard / screen-reader control -->
       <button class="lp-sr" data-lp-key>Drop the needle to enter the site</button>
@@ -370,6 +372,6 @@
   </div>
 </div>
 
-<script src="script.js?v=fs127"></script>
+<script src="script.js?v=fs128"></script>
 </body>
 </html>

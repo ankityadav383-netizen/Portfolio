@@ -642,8 +642,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   (function guide() {
     const g = root.querySelector('.lp-guide'); if (!g) return;
     const at = (deg) => { const r = (deg * Math.PI) / 180; return { x: PIVOT.x - ARM_LEN * Math.sin(r), y: PIVOT.y + ARM_LEN * Math.cos(r) }; };
-    const a = at(REST + 1), b = at(ENTER + (MAX - ENTER) * 0.6);
-    g.querySelector('.lp-guide-arc').setAttribute('d', `M${a.x.toFixed(1)} ${a.y.toFixed(1)} A${ARM_LEN} ${ARM_LEN} 0 0 1 ${b.x.toFixed(1)} ${b.y.toFixed(1)}`);
+    const b = at(ENTER + (MAX - ENTER) * 0.6);
     g.querySelectorAll('circle').forEach((c) => { c.setAttribute('cx', b.x.toFixed(1)); c.setAttribute('cy', b.y.toFixed(1)); });
   })();
 

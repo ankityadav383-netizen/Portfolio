@@ -2099,7 +2099,7 @@ html.lp-flying .lp-disk { opacity: 0; transition: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .lp-nudge, .lp-grab, .lp-guide-arc, .lp-guide-ring, .lp-loader.is-playing .lp-led { animation: none; }
+  .lp-nudge, .lp-grab, ..lp-guide-ring, .lp-loader.is-playing .lp-led { animation: none; }
   .lp-arm { transition-duration: .01s; }
 }
 
@@ -2124,10 +2124,21 @@ html.lp-flying .lp-disk { opacity: 0; transition: none; }
 /* needle guide: dashed path from the needle to a pulsing target on the record */
 .lp-guide { pointer-events: none; transition: opacity .35s; }
 .lp-loader.is-playing .lp-guide, .lp-loader.is-finishing .lp-guide, .lp-loader.is-gate .lp-guide { opacity: 0; }
-.lp-guide-arc { stroke: #fff; stroke-width: 5; stroke-linecap: round; stroke-dasharray: 2 16; filter: drop-shadow(0 0 5px rgba(232, 18, 63, .9)); animation: lp-flow 1.1s linear infinite; }
-@keyframes lp-flow { to { stroke-dashoffset: -18; } }
 .lp-guide-fill { r: 44px; fill: rgba(232, 18, 63, .22); }
 .lp-guide-dot { r: 7px; fill: #fff; }
 .lp-guide-ring { r: 44px; fill: none; stroke: #e8123f; stroke-width: 5; transform-box: fill-box; transform-origin: center; animation: lp-target 1.6s ease-out infinite; filter: drop-shadow(0 0 6px rgba(232, 18, 63, .9)); }
 .lp-guide-ring2 { animation-delay: .8s; }
 @keyframes lp-target { 0% { opacity: .95; transform: scale(.7); } 100% { opacity: 0; transform: scale(1.7); } }
+
+/* tag on the needle */
+.lp-tag { position: absolute; z-index: 6; left: calc(89.4% + 34px); top: 78.6%; transform: translateY(-50%); display: flex; align-items: center; gap: 9px; padding: 10px 16px 10px 13px; border-radius: 999px; background: #111; color: #fff; font: 600 12px/1 'JetBrains Mono', ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; pointer-events: none; box-shadow: 0 12px 26px -10px rgba(0, 0, 0, .6); animation: lp-tag-in .6s cubic-bezier(.2, .75, .2, 1) .9s backwards; }
+.lp-tag::before { content: ""; position: absolute; left: -6px; top: 50%; width: 12px; height: 12px; background: #111; transform: translateY(-50%) rotate(45deg); border-radius: 2px; }
+.lp-tag i { width: 8px; height: 8px; border-radius: 50%; background: #e8123f; box-shadow: 0 0 0 0 rgba(232, 18, 63, .7); animation: lp-tag-dot 1.4s ease-out infinite; flex: none; }
+.lp-tag .t-enjoy { display: none; }
+.lp-loader.is-playing .lp-tag .t-put, .lp-loader.is-finishing .lp-tag .t-put { display: none; }
+.lp-loader.is-playing .lp-tag .t-enjoy, .lp-loader.is-finishing .lp-tag .t-enjoy { display: inline; }
+.lp-loader.is-playing .lp-tag i, .lp-loader.is-finishing .lp-tag i { animation: none; background: #35c46b; }
+.lp-loader.is-gate .lp-tag { display: none; }
+@keyframes lp-tag-in { from { opacity: 0; transform: translate(-8px, -50%); } }
+@keyframes lp-tag-dot { to { box-shadow: 0 0 0 9px rgba(232, 18, 63, 0); } }
+@media (prefers-reduced-motion: reduce) { .lp-tag, .lp-tag i { animation: none; } }
