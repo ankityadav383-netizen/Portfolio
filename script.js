@@ -640,6 +640,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
 
 
   let state = 'idle';     // idle | dragging | playing | finishing | done
+  let quick = false;      // scroll path: the whole hand-off runs in about a second (dragging keeps its slower, more ceremonial timing)
   let angle = REST;
   let grabOffset = 0;
   let pageLoaded = document.readyState === 'complete';
@@ -735,6 +736,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     if (shownProg >= 1) {                       // needle is on the groove: drop it and start the record
       arm.classList.remove('is-dragging');
       state = 'dragging';
+      quick = true;
       startPlay(SCROLL_END);
       return;
     }
@@ -822,19 +824,19 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     const p = disc.play();
     if (p && p.catch) p.catch(() => {});
     playMusic();
-    ramp(0.1, 1, reduceMotion ? 1 : 450);
+    ramp(0.1, 1, reduceMotion ? 1 : (quick ? 160 : 450));
     t0 = performance.now();
     shown = 0;
     // let the drop transition settle before the arm starts tracking inward
-    setTimeout(() => { if (state === 'playing') arm.classList.add('is-tracking'); }, 350);
+    setTimeout(() => { if (state === 'playing') arm.classList.add('is-tracking'); }, quick ? 60 : 350);
     raf = requestAnimationFrame(tick);
   }
 
   function tick(now) {
-    const t = (now - t0) / MIN_SPIN_MS;
+    const t = (now - t0) / (quick ? 140 : MIN_SPIN_MS);
     const cap = pageLoaded ? 100 : 92;
     const goal = Math.min(cap, t * 100);
-    shown += (goal - shown) * 0.2;
+    shown += (goal - shown) * (quick ? 0.7 : 0.2);
     if (goal >= 100 && shown > 99.4) shown = 100;
     setPct(shown);
     if (arm.classList.contains('is-tracking')) {
@@ -851,7 +853,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     setPct(100);
     hint('Enjoy the record');
     // needle stays in the groove and the record keeps spinning, then it lifts off and lands in the hero "O"
-    setTimeout(() => { if (gateMode) showGate(); else if (!flyToHero()) fadeOut(); }, 350);
+    setTimeout(() => { if (gateMode) showGate(); else if (!flyToHero()) fadeOut(); }, quick ? 40 : 350);
   }
 
   /* ---------- phones: stay on the record + music, and ask them to open it on a laptop ---------- */
@@ -963,7 +965,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     arm.classList.remove('is-tracking');
     setArm(REST, false);            // needle lifts back to its cradle
 
-    const DUR = 800, START_RATE = disc.playbackRate || 1, END_RATE = heroVideo.playbackRate || 0.35;
+    const DUR = quick ? 440 : 800, START_RATE = disc.playbackRate || 1, END_RATE = heroVideo.playbackRate || 0.35;
     const ease = (k) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
     const t0f = performance.now();
     let synced = false;
@@ -973,7 +975,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
       if (Math.abs(heroVideo.currentTime - disc.currentTime) > 0.05) heroVideo.currentTime = disc.currentTime;
       heroVideo.play().catch(() => {});
       html.classList.remove('lp-flying');
-      fly.style.transition = 'opacity .22s ease';
+      fly.style.transition = quick ? 'opacity .12s ease' : 'opacity .22s ease';
       fly.style.opacity = '0';
       setTimeout(() => {
         platter.append(disc, label);
@@ -982,7 +984,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
         spindle.style.opacity = '';
         fly.remove();
         done();
-      }, 240);
+      }, quick ? 130 : 240);
     }
     function step(now) {
       const k = Math.min(1, (now - t0f) / DUR), e = ease(k);
@@ -1003,6 +1005,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   }
 
   function replay() {
+    quick = false;
     cancelAnimationFrame(raf);
     cancelAnimationFrame(rampRaf);
     disc.pause();
