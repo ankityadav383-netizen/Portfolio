@@ -349,8 +349,18 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   const dropIn = () => {
     hero.classList.remove('toys-wait');
     if (reduceMotion) return;
+    // every load gives each toy its own random spin: direction, number of turns, tilt, and a wobble on landing
+    const rnd = (lo, hi) => lo + Math.random() * (hi - lo), sgn = () => (Math.random() < 0.5 ? -1 : 1);
+    toys.forEach((el) => {
+      el.style.setProperty('--fy', `${sgn() * Math.round(rnd(360, 1000))}deg`);   // spin on its own vertical axis (1 to ~3 turns)
+      el.style.setProperty('--fx', `${sgn() * Math.round(rnd(0, 360))}deg`);      // plus a random tumble on the horizontal axis
+      el.style.setProperty('--t0', `${sgn() * Math.round(rnd(20, 110))}deg`);     // tilt while falling
+      el.style.setProperty('--t1', `${sgn() * Math.round(rnd(4, 14))}deg`);       // tilt at first impact
+      el.style.setProperty('--t2', `${sgn() * Math.round(rnd(2, 7))}deg`);
+      el.style.setProperty('--t3', `${sgn() * rnd(0.5, 3).toFixed(1)}deg`);
+    });
     hero.classList.add('toys-drop');
-    setTimeout(() => hero.classList.remove('toys-drop'), 2000);
+    setTimeout(() => { hero.classList.remove('toys-drop'); toys.forEach((el) => ['--fy', '--fx', '--t0', '--t1', '--t2', '--t3'].forEach((v) => el.style.removeProperty(v))); }, 2000);
   };
   if (loaderEl && !loaderEl.hidden) window.addEventListener('lp:done', dropIn, { once: true }); else dropIn();
   toys.forEach((el) => el.addEventListener('pointerdown', () => hero.classList.remove('toys-drop'), true));

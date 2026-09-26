@@ -200,13 +200,18 @@ a{text-decoration:none;color:inherit;}
 .hero .deco.is-held{cursor:grabbing;scale:1.16;filter:drop-shadow(0 16px 20px rgba(0,0,0,.28));}
 /* fall into place on load: the toys wait (hidden) behind the loader, then drop in and bounce to rest */
 .hero.toys-wait .deco{opacity:0;}
-.hero.toys-drop .deco{animation:deco-drop 1.35s linear backwards;}
-.hero.toys-drop .bolt-1{animation-delay:.16s;}
+.hero.toys-drop .deco{animation:deco-drop 1.35s linear backwards,deco-flip 1.35s linear backwards;}
+.hero.toys-drop .bolt-1{animation-delay:.16s,.16s;}
+@keyframes deco-flip{
+  0%{transform:perspective(900px) rotateY(var(--fy,720deg)) rotateX(var(--fx,0deg));animation-timing-function:cubic-bezier(.3,.2,.4,1);}
+  52%{transform:perspective(900px) rotateY(0deg) rotateX(0deg);}
+  100%{transform:perspective(900px) rotateY(0deg) rotateX(0deg);}
+}
 @keyframes deco-drop{
-  0%{translate:0 -75vh;rotate:-40deg;animation-timing-function:cubic-bezier(.55,0,.9,.55);}
-  52%{translate:0 0;rotate:6deg;animation-timing-function:cubic-bezier(.2,.6,.4,1);}
-  68%{translate:0 -34px;rotate:-3deg;animation-timing-function:cubic-bezier(.6,0,.8,.4);}
-  82%{translate:0 0;rotate:1.5deg;animation-timing-function:cubic-bezier(.2,.6,.4,1);}
+  0%{translate:0 -75vh;rotate:var(--t0,-40deg);animation-timing-function:cubic-bezier(.55,0,.9,.55);}
+  52%{translate:0 0;rotate:var(--t1,6deg);animation-timing-function:cubic-bezier(.2,.6,.4,1);}
+  68%{translate:0 -34px;rotate:var(--t2,-3deg);animation-timing-function:cubic-bezier(.6,0,.8,.4);}
+  82%{translate:0 0;rotate:var(--t3,1.5deg);animation-timing-function:cubic-bezier(.2,.6,.4,1);}
   91%{translate:0 -9px;rotate:0deg;animation-timing-function:cubic-bezier(.6,0,.8,.4);}
   100%{translate:0 0;rotate:0deg;}
 }
