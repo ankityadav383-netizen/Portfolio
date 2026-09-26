@@ -638,6 +638,15 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   }
   const MAX = INNER;
 
+  // guide: a dashed path along the arm's sweep, ending in a target ring on the record where the needle should land
+  (function guide() {
+    const g = root.querySelector('.lp-guide'); if (!g) return;
+    const at = (deg) => { const r = (deg * Math.PI) / 180; return { x: PIVOT.x - ARM_LEN * Math.sin(r), y: PIVOT.y + ARM_LEN * Math.cos(r) }; };
+    const a = at(REST + 1), b = at(ENTER + (MAX - ENTER) * 0.6);
+    g.querySelector('.lp-guide-arc').setAttribute('d', `M${a.x.toFixed(1)} ${a.y.toFixed(1)} A${ARM_LEN} ${ARM_LEN} 0 0 1 ${b.x.toFixed(1)} ${b.y.toFixed(1)}`);
+    g.querySelectorAll('circle').forEach((c) => { c.setAttribute('cx', b.x.toFixed(1)); c.setAttribute('cy', b.y.toFixed(1)); });
+  })();
+
   let state = 'idle';     // idle | dragging | playing | finishing | done
   let angle = REST;
   let grabOffset = 0;
@@ -782,8 +791,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   const chipText = prompt.querySelector('span');
   const setChip = (kind) => { chipText.textContent = verb + (kind === 'blocked' ? ' anywhere to play the music' : ' anywhere to turn the sound on'); };
   setChip('early');
-  document.body.appendChild(prompt);
-  const showPrompt = (on) => { prompt.hidden = !on; };
+  const showPrompt = () => {};   // the "click for sound" pill is gone from the loader: the next click / key press still unlocks and starts the music quietly in the background
   // Safari (and friends) unlock an audio element when play() is called inside a gesture; a muted, immediately-paused
   // play does that without any sound, so the later programmatic start (after scrolling) is allowed.
   function prime() {
