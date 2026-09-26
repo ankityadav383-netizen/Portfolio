@@ -342,6 +342,18 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   const REST_BOUNCE = 60;   // impacts slower than this don't bounce at all (kills endless micro-bounces)
   const MAX_V = 3400;
   const T = toys.map((el) => { el.draggable = false; return { el, x: 0, y: 0, w: 0, h: 0, vx: 0, vy: 0, held: false, placed: false, s: [] }; });
+  // fall into place when the page opens: hidden behind the loader, then dropped from above with a small bounce.
+  // (CSS animation on translate/rotate only, so the drag physics below is untouched; grabbing a toy mid-fall cancels it.)
+  hero.classList.add('toys-wait');
+  const loaderEl = document.getElementById('lpLoader');
+  const dropIn = () => {
+    hero.classList.remove('toys-wait');
+    if (reduceMotion) return;
+    hero.classList.add('toys-drop');
+    setTimeout(() => hero.classList.remove('toys-drop'), 2000);
+  };
+  if (loaderEl && !loaderEl.hidden) window.addEventListener('lp:done', dropIn, { once: true }); else dropIn();
+  toys.forEach((el) => el.addEventListener('pointerdown', () => hero.classList.remove('toys-drop'), true));
   let raf = 0, last = 0;
   const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
   const bounds = () => ({ W: hero.clientWidth, H: hero.clientHeight });
