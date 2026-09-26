@@ -638,13 +638,6 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   }
   const MAX = INNER;
 
-  // guide: a dashed path along the arm's sweep, ending in a target ring on the record where the needle should land
-  (function guide() {
-    const g = root.querySelector('.lp-guide'); if (!g) return;
-    const at = (deg) => { const r = (deg * Math.PI) / 180; return { x: PIVOT.x - ARM_LEN * Math.sin(r), y: PIVOT.y + ARM_LEN * Math.cos(r) }; };
-    const b = at(ENTER + (MAX - ENTER) * 0.6);
-    g.querySelectorAll('circle').forEach((c) => { c.setAttribute('cx', b.x.toFixed(1)); c.setAttribute('cy', b.y.toFixed(1)); });
-  })();
 
   let state = 'idle';     // idle | dragging | playing | finishing | done
   let angle = REST;

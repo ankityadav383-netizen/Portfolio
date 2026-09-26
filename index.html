@@ -30,7 +30,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=fs128">
+<link rel="stylesheet" href="styles.css?v=fs129">
 </head>
 <body>
 
@@ -67,14 +67,6 @@
         <!-- arm rest (cradle) -->
         <rect x="908" y="770" width="34" height="58" rx="12" fill="#e4e4e4" filter="url(#lpShadowBase)"/>
 
-        <!-- guide: shows where the needle has to go (geometry filled in by script.js) -->
-        <g class="lp-guide" aria-hidden="true">
-          <circle class="lp-guide-fill"/>
-          <circle class="lp-guide-ring"/>
-          <circle class="lp-guide-ring lp-guide-ring2"/>
-          <circle class="lp-guide-dot"/>
-        </g>
-
         <!-- tonearm: drawn in its on-record pose (19deg), rotated by JS -->
         <g class="lp-arm" data-lp-arm filter="url(#lpShadow)">
           <path d="M858 137 L813 188 L752 244 Q745 252 745 265 L737 670 Q736 684 727 694 L694 714"
@@ -87,10 +79,6 @@
             <rect class="lp-headshell" x="-64" y="-26" width="128" height="52" rx="14" fill="url(#lpCap)" stroke="#d5d5d5" stroke-width="1.5"/>
             <rect x="-48" y="-10" width="56" height="20" rx="6" fill="#ebebeb"/>
           </g>
-          <!-- pulsing nudge on the headshell -->
-          <circle class="lp-nudge" cx="647" cy="752" r="60" fill="none" stroke="#e8123f" stroke-width="4"/>
-          <circle class="lp-nudge lp-nudge2" cx="647" cy="752" r="60" fill="none" stroke="#e8123f" stroke-width="4"/>
-          <circle class="lp-grab" cx="647" cy="752" r="15" fill="#e8123f" stroke="#fff" stroke-width="4"/>
           <!-- generous invisible hit area (stroke + headshell) -->
           <path class="lp-arm-hit" d="M813 188 L752 244 Q745 252 745 265 L737 670 Q736 684 727 694 L694 714"
                 fill="none" stroke="transparent" stroke-width="70" stroke-linecap="round"/>
@@ -106,7 +94,7 @@
       </svg>
 
       <!-- tag on the needle: asks for the needle, then says thanks once the record is playing -->
-      <div class="lp-tag" aria-hidden="true"><i></i><span class="t-put">Put me on the disk</span><span class="t-enjoy">Enjoy</span></div>
+      <div class="lp-tag" aria-hidden="true"><span class="t-put">Put me on the disk</span><span class="t-enjoy">Enjoy</span></div>
 
       <!-- keyboard / screen-reader control -->
       <button class="lp-sr" data-lp-key>Drop the needle to enter the site</button>
@@ -372,6 +360,6 @@
   </div>
 </div>
 
-<script src="script.js?v=fs128"></script>
+<script src="script.js?v=fs129"></script>
 </body>
 </html>
