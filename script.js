@@ -728,7 +728,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   function sweep() {
     sweepRaf = 0;
     if (state !== 'idle') return;
-    shownProg += (prog - shownProg) * (reduceMotion ? 1 : 0.3);
+    shownProg += (prog - shownProg) * (reduceMotion ? 1 : 0.5);
     if (Math.abs(prog - shownProg) < 0.002) shownProg = prog;
     setArm(REST + (SCROLL_END - REST) * shownProg, shownProg < 1);
     hint(shownProg > 0.55 ? HINT_ALMOST : HINT_IDLE);
@@ -744,20 +744,20 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     if (state !== 'idle') return;
     e.preventDefault();
     const unit = e.deltaMode === 1 ? 32 : e.deltaMode === 2 ? 600 : 1;   // lines / pages -> px
-    addProg((e.deltaY * unit) / 380);
+    addProg((e.deltaY * unit) / 110);
   }, { passive: false });
   let touchY = null;
   window.addEventListener('touchstart', (e) => { touchY = e.touches.length === 1 ? e.touches[0].clientY : null; }, { passive: true });
   window.addEventListener('touchmove', (e) => {
     if (touchY === null || state !== 'idle') return;
     const y = e.touches[0].clientY;
-    addProg((touchY - y) / 190);                // finger up = forward
+    addProg((touchY - y) / 70);                // finger up = forward
     touchY = y;
   }, { passive: true });
   window.addEventListener('touchend', () => { touchY = null; }, { passive: true });
   window.addEventListener('keydown', (e) => {
     if (state !== 'idle') return;
-    const step = { ArrowDown: 0.18, ArrowUp: -0.18, PageDown: 0.6, PageUp: -0.6, ' ': 0.6 }[e.key];
+    const step = { ArrowDown: 0.4, ArrowUp: -0.4, PageDown: 1, PageUp: -1, ' ': 1 }[e.key];
     if (e.key === ' ' && e.target && e.target.closest && e.target.closest('button')) return;
     if (step) { e.preventDefault(); addProg(step); }
   });
