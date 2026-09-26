@@ -19,10 +19,10 @@
 <section class="scr" id="otp"><img class="shot" src="assets/onb-otp.webp" alt="OTP verification">
   <div class="hs" data-go="details" style="left:9.6%;top:39.6%;width:81.4%;height:6.2%" role="button" aria-label="Submit"></div></section>
 
-<section class="scr" id="details"><img class="shot" src="assets/onb-details.webp" alt="Personal details">
+<section class="scr" id="details"><img class="shot" src="assets/onb-details.webp?v=2" alt="Personal details">
   <div class="hs" data-go="exam" style="left:66%;top:73.2%;width:26%;height:5%" role="button" aria-label="Next"></div></section>
 
-<section class="scr" id="exam"><img class="shot" id="examImg" src="assets/onb-exam.webp" alt="Choose the exam you are preparing for">
+<section class="scr" id="exam"><img class="shot" id="examImg" src="assets/onb-exam.webp?v=2" alt="Choose the exam you are preparing for">
   <div class="hs" id="bank" style="left:11%;top:35%;width:24%;height:12%" role="button" aria-label="Banking"></div>
   <div class="hs" id="examNext" style="left:66%;top:69.5%;width:26%;height:5%" role="button" aria-label="Next"></div></section>
 
@@ -49,7 +49,7 @@
     phone:function(){go('phoneS','phone')},
     otp:function(){go('otp','otp')},
     details:function(){go('details','details')},
-    exam:function(){$('#examImg').src='assets/onb-exam.webp';go('exam','exam')},
+    exam:function(){$('#examImg').src='assets/onb-exam.webp?v=2';go('exam','exam')},
     done:function(){go('done','done')}
   };
   RP.setup('rice-onb',steps);
@@ -62,7 +62,7 @@
   cont.addEventListener('click',function(){if(num.value.length===10)steps.otp();});
   num.addEventListener('keydown',function(e){if(e.key==='Enter'&&num.value.length===10)steps.otp();});
   var picked=false;
-  $('#bank').addEventListener('click',function(){picked=!picked;$('#examImg').src=picked?'assets/onb-exam-on.webp':'assets/onb-exam.webp';});
+  $('#bank').addEventListener('click',function(){picked=!picked;$('#examImg').src=picked?'assets/onb-exam-on.webp?v=2':'assets/onb-exam.webp?v=2';});
   $('#examNext').addEventListener('click',function(){steps.done();});
   // start
   RP.mark('splash');
