@@ -804,7 +804,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   function playMusic() {
     wantMusic = true;
     audio.muted = false;
-    try { audio.currentTime = 0; audio.volume = 0.55; } catch (_) {}
+    try { audio.currentTime = 0; audio.volume = 0.275; } catch (_) {}
     const pr = audio.play();
     if (pr && pr.catch) pr.catch(() => { if (wantMusic && audio.paused) { setChip('blocked'); showPrompt(true); } });
   }
@@ -1017,7 +1017,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     disc.currentTime = 0;
     audio.pause();
     audio.currentTime = 0;
-    audio.volume = 0.55;
+    audio.volume = 0.275;
     wantMusic = false; showPrompt(false); delete audio.dataset.userPaused;
     root.hidden = false;
     root.classList.remove('is-leaving', 'is-flying', 'is-playing', 'has-touched');
