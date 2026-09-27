@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FW1ZEX8M30"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FW1ZEX8M30');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Behind the Scenes of Arivoo (SMS) Exam Module — Ankit</title>
+<meta name="description" content="How school admins were manually juggling date sheets, invigilators and seating charts for exams — and the exam module built to map all of it instead.">
+<link rel="canonical" href="https://bluesdesign.lol/blog-arivoo-exam-module.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Behind the Scenes of Arivoo (SMS) Exam Module — Ankit">
+<meta property="og:description" content="How school admins were manually juggling date sheets, invigilators and seating charts for exams — and the exam module built to map all of it instead.">
+<meta property="og:url" content="https://bluesdesign.lol/blog-arivoo-exam-module.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Behind the Scenes of Arivoo (SMS) Exam Module — Ankit">
+<meta name="twitter:description" content="How school admins were manually juggling date sheets, invigilators and seating charts for exams — and the exam module built to map all of it instead.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=fs142">
+<style>
+  /* the blog layout: a huge title, a one-line dek, a date/read-time row, then a full-width rounded hero image -- shared with every post linked from Thoughts */
+  .article-head{max-width:920px;margin:0 auto;padding:150px 24px 0;}
+  .article-back{display:inline-flex;align-items:center;gap:8px;font:600 14px/1 'Inter',sans-serif;color:var(--muted);margin-bottom:28px;}
+  .article-back svg{width:16px;height:16px;}
+  .article-title{font-size:clamp(34px,5.6vw,64px);line-height:1.05;letter-spacing:-.02em;font-weight:800;margin-bottom:22px;}
+  .article-dek{font:400 21px/1.5 'Inter',sans-serif;color:var(--muted);max-width:680px;margin-bottom:40px;}
+  .article-meta{display:flex;justify-content:space-between;align-items:center;font:500 15px/1 'Inter',sans-serif;color:var(--muted);padding-bottom:28px;}
+  .article-hero{max-width:920px;margin:0 auto;padding:0 24px;}
+  .article-hero img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:20px;background:#eef1f6;}
+  .article{max-width:680px;margin:0 auto;padding:56px 24px 120px;}
+  .article-body{font-size:18px;line-height:1.75;color:var(--near-black);}
+  .article-body p{margin:0 0 22px;}
+  .article-body h2{font-size:26px;line-height:1.25;margin:52px 0 18px;letter-spacing:-.01em;}
+  .article-body .lede{font-size:21px;font-weight:500;color:var(--ink);}
+  .article-body ul.plain{margin:0 0 22px;padding-left:22px;}
+  .article-body ul.plain li{margin-bottom:8px;}
+  /* figures: full-bleed relative to the text column, own the image + caption pattern used for both flow diagrams and product screens */
+  .article-figure{margin:32px 0;}
+  .article-figure img{display:block;width:100%;height:auto;border-radius:14px;border:1px solid var(--line);background:#fff;}
+  .article-figure figcaption{margin-top:10px;font-size:14px;color:var(--muted);text-align:center;}
+  .article-figure-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .article-figure-pair img{display:block;width:100%;height:auto;border-radius:14px;border:1px solid var(--line);background:#fff;}
+  .article-body blockquote{margin:32px 0;padding:2px 0 2px 22px;border-left:3px solid var(--line);font-style:italic;color:var(--muted);}
+  .article-hr{border:0;border-top:1px solid var(--line);margin:44px 0;}
+  .article-note{font-size:15px;color:var(--muted);}
+  @media (max-width:640px){
+    .article-head{padding:130px 20px 0;}
+    .article-hero{padding:0 20px;}
+    .article-hero img{aspect-ratio:4/3;}
+    .article{padding:44px 20px 90px;}
+    .article-figure-pair{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="navpill" id="navPill">
+  <div class="navpill-top">
+    <a href="index.html#top" class="navlogo">ANKIT</a>
+    <button class="navmenu" id="navMenuBtn" aria-label="Menu">
+      <svg class="navmenu-icon navmenu-dots" width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="3" cy="9" r="1.6" fill="#111"/><circle cx="9" cy="9" r="1.6" fill="#111"/><circle cx="15" cy="9" r="1.6" fill="#111"/></svg>
+      <svg class="navmenu-icon navmenu-close" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 14M14 2L2 14" stroke="#111" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="navdropdown" id="navDropdown">
+    <a href="index.html#about">About Me</a>
+    <a href="index.html#journey">My Design journey</a>
+    <a href="work.html">Work</a>
+  </div>
+</nav>
+
+<main id="top">
+  <div class="article-head">
+    <a class="article-back" href="index.html#thoughts">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+      Thoughts
+    </a>
+    <h1 class="article-title">Behind the Scenes of Arivoo (SMS) Exam Module</h1>
+    <p class="article-dek">Date sheets, section mapping, invigilators and seating charts &mdash; all of it done by hand. Here's how that turned into one exam module.</p>
+    <div class="article-meta"><span>May 21, 2025</span><span>3 min read</span></div>
+  </div>
+  <div class="article-hero">
+    <img src="assets/blog/exam/ui-create-exam.webp" width="1440" height="1080" alt="Arivoo School Management System's Create Exam screen, with fields for exam name, class, stream, exam type and grading pattern">
+  </div>
+  <article class="article">
+    <div class="article-body">
+      <p class="lede">While working on Arivoo School Management System, I ran into a genuinely interesting problem: how schools actually run an exam, end to end &mdash; and how much of it could be taken off someone's plate.</p>
+
+      <h2>The problem</h2>
+      <p>Conducting an exam meant a school admin manually building a date sheet, generating admit cards, allocating invigilators, and mapping students to exam centres. All of it by hand, for every exam, every term.</p>
+      <p>Talking to the admins doing this, a few things stood out:</p>
+      <ul class="plain">
+        <li>Exams come in different types &mdash; a unit test and a half-yearly exam don't share a marking scheme &mdash; and a date sheet has to go out a month in advance, class by class and subject by subject.</li>
+        <li>Classes with clashing subjects have to be mapped together deliberately. If Class 10 has a maths exam, it needs to be scheduled alongside a class sitting a different subject, not another maths paper.</li>
+        <li>There was no real way to tell an invigilator which centre they'd been assigned to. More than once, that meant a last-minute phone call.</li>
+        <li>Rooms could simply run out of space: Class 10 might have 57 students and Class 8 another 48, but a hall only seats 50 (two to a bench). Nobody had a clean way to see that coming.</li>
+      </ul>
+
+      <h2>Working through it</h2>
+      <p>The starting point was letting an admin build a date sheet around exactly which classes needed to sit together &mdash; asking for the exam name, the classes and sections involved (multiple selections, not one at a time), and the rest of the exam's details in one pass. If Class 10 has five sections and Class 12 has four, four pairs are obvious and the fifth section either shares a class or gets its own sitting &mdash; the tool has to make that visible, not leave it to memory.</p>
+
+      <figure class="article-figure">
+        <img src="assets/blog/exam/flow-create.webp" width="1400" height="605" alt="Flow diagram: Create Exam Screen leads to Add Exam Details, where the admin sets exam name, classes, sections, exam type, date, grader, and full and passing marks, with an option to copy details across every section">
+        <figcaption>The flow for creating an exam across every section at once.</figcaption>
+      </figure>
+
+      <p>Room allocation needed the same visibility: a running picture of which rooms exist, how many seats each one has, and what's already been assigned to it before another class gets mapped in.</p>
+
+      <figure class="article-figure">
+        <img src="assets/blog/exam/flow-room.webp" width="702" height="678" alt="Flow diagram: Room Master Screen shows how many rooms are occupied or can be mapped to an exam, with an option to add new rooms">
+        <figcaption>Checking room occupancy before mapping a new class in.</figcaption>
+      </figure>
+
+      <p>And once rooms and exams both exist, the last step is putting students into seats &mdash; by class and section, with invigilators assigned to the room they'll actually be standing in.</p>
+
+      <figure class="article-figure">
+        <img src="assets/blog/exam/flow-mapping.webp" width="1400" height="624" alt="Flow diagram: Exam allotment screen, showing hall status as allotted, in progress or not allotted, leading to Map Students, where class cards can be dragged and dropped into rooms">
+        <figcaption>Mapping students to an exam centre, room by room.</figcaption>
+      </figure>
+
+      <h2>The screens</h2>
+      <p>Exam creation and scheduling &mdash; the exam's details on one side, and the per-section, per-subject grading setup (platform, mode, marks, grader, slot) on the other, with a shortcut to copy a section's setup to every other section sitting the same exam.</p>
+
+      <div class="article-figure-pair">
+        <img src="assets/blog/exam/ui-create-exam.webp" width="1440" height="1080" alt="Create Exam screen with exam name, school program, class, stream, exam type, category and marks entry fields">
+        <img src="assets/blog/exam/ui-exam-details.webp" width="1440" height="1409" alt="Exam Details screen showing per-subject grading setup for Maths, English and Bengali Theory across Section A and Section B, with a Copy Data to all Section shortcut">
+      </div>
+      <p class="article-note" style="text-align:center;margin-top:-10px;">Exam creation &amp; scheduling screen.</p>
+
+      <p>Room master &mdash; every room the school has, with its seating capacity, plus a simple form to add a new one when a hall is missing from the list.</p>
+
+      <div class="article-figure-pair">
+        <img src="assets/blog/exam/ui-room-list.webp" width="1440" height="1024" alt="Room Management screen listing rooms with room number, name and seating capacity of 55 each">
+        <img src="assets/blog/exam/ui-room-add.webp" width="1440" height="1024" alt="Add New room panel with fields for building name, floor number, room number, room name and seating capacity">
+      </div>
+      <p class="article-note" style="text-align:center;margin-top:-10px;">Room master screens.</p>
+
+      <p>Student mapping &mdash; every class waiting for a seat, how many of its students are already placed, and a room-by-room view of who's been allotted where, down to which range of roll numbers or which invigilator covers that room.</p>
+
+      <div class="article-figure-pair">
+        <img src="assets/blog/exam/ui-hall-mapping.webp" width="1440" height="1199" alt="Allocate Hall screen showing classes 10A through 11C with total and remaining student counts, next to a seating map for Room 2, Vivekananda">
+        <img src="assets/blog/exam/ui-student-allocation.webp" width="1440" height="1020" alt="Allocation panel for Class 10th A into Room 2, with options to allocate all students, a roll-number range, or a custom list, plus remaining space and invigilator assignment">
+      </div>
+      <p class="article-note" style="text-align:center;margin-top:-10px;">Student mapping screen.</p>
+
+      <p>It took about two weeks to land on this, final UI included. There may well be a cleaner way to solve it &mdash; if you've got one, I'd like to hear it.</p>
+
+      <hr class="article-hr">
+      <p class="article-note">Originally published on <a href="https://medium.com/@ankityadav383/behind-the-scenes-of-arivoo-sms-exam-module-3a9fa93af8ae" target="_blank" rel="noopener" style="text-decoration:underline">Medium</a>. Ping me at <a href="mailto:ankit.yadav383@gmail.com" style="text-decoration:underline">ankit.yadav383@gmail.com</a>.</p>
+    </div>
+  </article>
+</main>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-inner">
+    <div class="footer-top-row">
+      <div class="footer-top">
+        <h2>Design that<br>scales.</h2>
+      </div>
+      <div class="footer-contact">
+        <h3>/Contact</h3>
+        <div class="footer-links">
+          <a href="https://www.linkedin.com/in/ankit-yadav-product/" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.22 8.4h4.56V23H.22V8.4zM8.4 8.4h4.37v2h.06c.61-1.15 2.1-2.36 4.32-2.36 4.63 0 5.48 3.05 5.48 7.01V23h-4.56v-6.9c0-1.65-.03-3.77-2.3-3.77-2.3 0-2.65 1.8-2.65 3.65V23H8.4V8.4z" fill="currentColor"/></svg>
+          </a>
+          <a href="mailto:ankit.yadav383@gmail.com" aria-label="Email">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M2 4h20v16H2V4zm2 2v.01L12 12l8-5.99V6H4zm16 12V8.24l-8 6-8-6V18h16z" fill="currentColor"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-watermark-wrap">
+    <div class="footer-watermark">ANKIT</div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 Ankit. All rights reserved.</span>
+  </div>
+</footer>
+
+<script src="script.js?v=fs142"></script>
+</body>
+</html>
