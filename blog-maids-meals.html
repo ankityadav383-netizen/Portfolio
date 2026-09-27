@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FW1ZEX8M30"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FW1ZEX8M30');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maids, Meals & Misunderstandings — Ankit</title>
+<meta name="description" content="Three roommates, three diets, one cook, and no one home to answer the door. A short story about fixing a very domestic UX problem with a spare key and a shared meal plan.">
+<link rel="canonical" href="https://bluesdesign.lol/blog-maids-meals.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Maids, Meals & Misunderstandings — Ankit">
+<meta property="og:description" content="Three roommates, three diets, one cook, and no one home to answer the door. A short story about fixing a very domestic UX problem.">
+<meta property="og:url" content="https://bluesdesign.lol/blog-maids-meals.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Maids, Meals & Misunderstandings — Ankit">
+<meta name="twitter:description" content="Three roommates, three diets, one cook, and no one home to answer the door. A short story about fixing a very domestic UX problem.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=fs140">
+<style>
+  .article{max-width:680px;margin:0 auto;padding:160px 24px 120px;}
+  .article-eyebrow{font:600 13px/1 'Inter',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:18px;}
+  .article-title{font-size:clamp(32px,5vw,52px);line-height:1.08;margin-bottom:18px;}
+  .article-meta{font:500 14px/1 'Inter',sans-serif;color:var(--muted);margin-bottom:48px;}
+  .article-body{font-size:18px;line-height:1.75;color:var(--near-black);}
+  .article-body p{margin:0 0 22px;}
+  .article-body .lede{font-size:21px;font-weight:500;color:var(--ink);}
+  .article-cast{list-style:none;margin:0 0 26px;padding:0;display:flex;flex-direction:column;gap:10px;}
+  .article-cast li{font-size:17px;line-height:1.5;}
+  .article-cast b{font-weight:600;}
+  .article-body blockquote{margin:32px 0;padding:2px 0 2px 22px;border-left:3px solid var(--line);font-style:italic;color:var(--muted);}
+  .article-back{display:inline-flex;align-items:center;gap:8px;font:600 14px/1 'Inter',sans-serif;color:var(--ink);margin-bottom:8px;}
+  .article-back svg{width:16px;height:16px;}
+  .article-hr{border:0;border-top:1px solid var(--line);margin:44px 0;}
+  .article-note{font-size:15px;color:var(--muted);}
+  @media (max-width:640px){.article{padding:130px 20px 90px;}}
+</style>
+</head>
+<body>
+
+<nav class="navpill" id="navPill">
+  <div class="navpill-top">
+    <a href="index.html#top" class="navlogo">ANKIT</a>
+    <button class="navmenu" id="navMenuBtn" aria-label="Menu">
+      <svg class="navmenu-icon navmenu-dots" width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="3" cy="9" r="1.6" fill="#111"/><circle cx="9" cy="9" r="1.6" fill="#111"/><circle cx="15" cy="9" r="1.6" fill="#111"/></svg>
+      <svg class="navmenu-icon navmenu-close" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2L14 14M14 2L2 14" stroke="#111" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="navdropdown" id="navDropdown">
+    <a href="index.html#about">About Me</a>
+    <a href="index.html#journey">My Design journey</a>
+    <a href="work.html">Work</a>
+  </div>
+</nav>
+
+<main id="top">
+  <article class="article">
+    <a class="article-back" href="index.html#thoughts">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+      Thoughts
+    </a>
+    <p class="article-eyebrow">Thoughts</p>
+    <h1 class="article-title">Maids, Meals &amp; Misunderstandings</h1>
+    <p class="article-meta">May 22, 2025 &middot; 3 min read</p>
+
+    <div class="article-body">
+      <p class="lede">Streamlining everyday life, one note at a time.</p>
+
+      <p>I've been living in Bangalore for about three years. A year ago I moved into a 3BHK with my college friends. All three of us are designers, but that's about where the similarity ends &mdash; we each run a completely different life: 9-to-5s, travel, different hours, different appetites.</p>
+
+      <p>To make things simpler, we hired two house helps: one for cleaning, one for cooking. We thought that would settle it. It didn't &mdash; because the three of us can't agree on what to eat.</p>
+
+      <ul class="article-cast">
+        <li><b>Me</b> &mdash; a typical North Indian, I like my food subtle and flavourful.</li>
+        <li><b>Ujjawal</b> &mdash; from Darjeeling, prefers spicy food and quick Korean meals.</li>
+        <li><b>Utsav</b> &mdash; tries hard to eat like a fitness freak. High protein one week, low carb the next. We all know the truth.</li>
+      </ul>
+
+      <p>And then there's the main character of this story: Kamala didi, our cook. She's Nepali, has two kids, recently got her first smartphone, and makes an excellent plate of Chinese food.</p>
+
+      <p>It worked fine until all of us got busier &mdash; including didi. We'd come home late from work, and there was nobody around to let her in or tell her what to cook. Groceries would run out with nobody home to reorder them. After this happened one time too many, I called a board meeting over drinks. (Cold drinks.) The agenda: solve this, once and for all.</p>
+
+      <p>Brainstorming got a little ridiculous.</p>
+
+      <blockquote>"Let's not decide who opens the door &mdash; let's just keep it open and let her walk in herself."<br>"Bro, that's the drink talking."<br>"Fine &mdash; let's just cut her a spare key."</blockquote>
+
+      <p>Door: solved. Next problem &mdash; who decides what to cook? None of us trusted the other two to pick fairly, so we outsourced it to someone more experienced, more neutral, and available at 11pm on a Tuesday.</p>
+
+      <p>I opened ChatGPT.</p>
+
+      <p>We used it to put together a weekly diet plan all three of us could actually agree to, printed it, stuck it on the fridge, and shared a photo of it with didi over WhatsApp. Now she knows what to cook and when, and can flag what's running low before it becomes a problem &mdash; and thanks to Blinkit's cart-share, she can add the missing ingredients to a shared list herself, so groceries get ordered without anyone needing to be home.</p>
+
+      <p>A spare key, a shared plan, and a cart link. That's all it took to fix something that had been quietly irritating all three of us for months.</p>
+
+      <hr class="article-hr">
+      <p class="article-note">Originally published on <a href="https://medium.com/@ankityadav383/maids-meals-misunderstandings-3fd97733e74a" target="_blank" rel="noopener" style="text-decoration:underline">Medium</a>. If you've got a similar story, or a better fix, I'd like to hear it &mdash; <a href="mailto:ankit.yadav383@gmail.com" style="text-decoration:underline">ankit.yadav383@gmail.com</a>.</p>
+    </div>
+  </article>
+</main>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-inner">
+    <div class="footer-top-row">
+      <div class="footer-top">
+        <h2>Design that<br>scales.</h2>
+      </div>
+      <div class="footer-contact">
+        <h3>/Contact</h3>
+        <div class="footer-links">
+          <a href="https://www.linkedin.com/in/ankit-yadav-product/" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.22 8.4h4.56V23H.22V8.4zM8.4 8.4h4.37v2h.06c.61-1.15 2.1-2.36 4.32-2.36 4.63 0 5.48 3.05 5.48 7.01V23h-4.56v-6.9c0-1.65-.03-3.77-2.3-3.77-2.3 0-2.65 1.8-2.65 3.65V23H8.4V8.4z" fill="currentColor"/></svg>
+          </a>
+          <a href="mailto:ankit.yadav383@gmail.com" aria-label="Email">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M2 4h20v16H2V4zm2 2v.01L12 12l8-5.99V6H4zm16 12V8.24l-8 6-8-6V18h16z" fill="currentColor"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-watermark-wrap">
+    <div class="footer-watermark">ANKIT</div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 Ankit. All rights reserved.</span>
+  </div>
+</footer>
+
+<script src="script.js?v=fs140"></script>
+</body>
+</html>
