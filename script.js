@@ -611,10 +611,10 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   const root = document.getElementById('lpLoader');
   if (!root) return;
 
-  // a deep link straight into a section (e.g. a blog post's "Thoughts" back-link, or the nav's About/Journey
-  // links) means the visitor already knows where they're going -- skip the whole intro instead of forcing them
-  // through it again. `#top` is the homepage itself, so that still gets the full loader.
-  if (location.hash && location.hash !== '#top') {
+  // a deep link straight into a section -- a blog post's "Thoughts" back-link, the nav's About/Journey links,
+  // or the logo's "#top" -- means the visitor already knows where they're going -- skip the whole intro instead
+  // of forcing them through it again. Only a hash-less visit (the actual first landing) gets the full loader.
+  if (location.hash) {
     root.hidden = true;
     document.documentElement.classList.remove('lp-lock');
     // the page was non-scrollable (lp-lock) when the browser tried its own scroll-to-fragment on load, so it
