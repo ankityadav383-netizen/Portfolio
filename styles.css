@@ -2205,3 +2205,40 @@ html:not(.about-settled) .intro .kk{transition-delay:0s;}
 @media (prefers-reduced-motion:reduce){.intro-image > img,.kk-card,.intro-image.is-joke > img,.intro-image.is-joke .kk-card{transition:none}.kk-head.is-dwelling .kk-dwell{animation:none}}
 .kk-card.is-final .kk-actions{padding-bottom:10px;}
 .kk-card.is-final .kk-log{padding-bottom:6px;}
+
+/* smaller laptop windows: the portrait (and so the joke window) is smaller, so tighten the chat text to keep a whole joke in view */
+@media (max-width:1399px){
+  .kk-card .kk-head{padding:8px 10px 8px 14px;font-size:12px;}
+  .kk-card .kk-x{width:22px;height:22px;font-size:16px;}
+  .kk-card .kk-log{padding:9px 11px 0;gap:5px;}
+  .kk-card .kk-msg{font-size:12px;line-height:1.32;padding:6px 10px;max-width:90%;}
+  .kk-card .kk-actions{padding:6px 11px 58px;}
+  .kk-card .kk-opt{font-size:12px;padding:7px 12px;}
+  .kk-card.is-final .kk-actions{padding-bottom:6px;}
+}
+
+/* ---- joke window skin: dark leather grain, bronze rim and stitching, gold lettering (same material as the sword's cover) ---- */
+.kk-card,.kk-panel{
+  background:
+    radial-gradient(120% 70% at 12% 0%,rgba(150,98,55,.38),transparent 58%),
+    radial-gradient(110% 90% at 100% 100%,rgba(0,0,0,.55),transparent 62%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' seed='19' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .86  0 0 0 0 .66  0 0 0 0 .4  0 0 0 1.3 -.78'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29' opacity='.55'/%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .04  0 0 0 0 .02  0 0 0 0 .01  0 0 0 1.5 -.5'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29'/%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='300'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .045' numOctaves='3' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55  0 0 0 0 .32  0 0 0 0 .18  0 0 0 1.1 -.42'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29' opacity='.5'/%3E%3C/svg%3E"),
+    linear-gradient(160deg,#2e2018,#150e0a);
+  color:#f2e8d5;
+  box-shadow:inset 0 0 0 1px rgba(214,178,96,.7),inset 0 0 0 2px rgba(0,0,0,.45),inset 0 0 38px rgba(0,0,0,.55);
+}
+.kk-panel{border:1px solid #6e5530;box-shadow:inset 0 0 0 1px rgba(214,178,96,.7),inset 0 0 0 2px rgba(0,0,0,.45),inset 0 0 38px rgba(0,0,0,.55),0 24px 60px -18px rgba(0,0,0,.55);}
+.kk-card::before,.kk-panel::before{content:"";position:absolute;inset:7px;border:1px dashed rgba(201,164,90,.5);border-radius:11px;pointer-events:none;z-index:1;}
+.kk-card::after,.kk-panel::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'%3E%3Cg transform='rotate%280 13 13%29' fill='none' stroke='%23c9a45a' stroke-width='1.4' stroke-linecap='round'%3E%3Cpath d='M3 16V8a5 5 0 0 1 5-5h8'/%3E%3Cpath d='M3 11.5V8.5a5.5 5.5 0 0 1 5.5-5.5h3' stroke-opacity='.5'/%3E%3Ccircle cx='3.2' cy='3.2' r='1.5' fill='%23c9a45a' stroke='none'/%3E%3C/g%3E%3C/svg%3E") left 7px top 7px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'%3E%3Cg transform='rotate%2890 13 13%29' fill='none' stroke='%23c9a45a' stroke-width='1.4' stroke-linecap='round'%3E%3Cpath d='M3 16V8a5 5 0 0 1 5-5h8'/%3E%3Cpath d='M3 11.5V8.5a5.5 5.5 0 0 1 5.5-5.5h3' stroke-opacity='.5'/%3E%3Ccircle cx='3.2' cy='3.2' r='1.5' fill='%23c9a45a' stroke='none'/%3E%3C/g%3E%3C/svg%3E") right 7px top 7px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'%3E%3Cg transform='rotate%28270 13 13%29' fill='none' stroke='%23c9a45a' stroke-width='1.4' stroke-linecap='round'%3E%3Cpath d='M3 16V8a5 5 0 0 1 5-5h8'/%3E%3Cpath d='M3 11.5V8.5a5.5 5.5 0 0 1 5.5-5.5h3' stroke-opacity='.5'/%3E%3Ccircle cx='3.2' cy='3.2' r='1.5' fill='%23c9a45a' stroke='none'/%3E%3C/g%3E%3C/svg%3E") left 7px bottom 7px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'%3E%3Cg transform='rotate%28180 13 13%29' fill='none' stroke='%23c9a45a' stroke-width='1.4' stroke-linecap='round'%3E%3Cpath d='M3 16V8a5 5 0 0 1 5-5h8'/%3E%3Cpath d='M3 11.5V8.5a5.5 5.5 0 0 1 5.5-5.5h3' stroke-opacity='.5'/%3E%3Ccircle cx='3.2' cy='3.2' r='1.5' fill='%23c9a45a' stroke='none'/%3E%3C/g%3E%3C/svg%3E") right 7px bottom 7px no-repeat;}
+.kk-panel{position:relative;}
+.kk-card .kk-head,.kk-panel .kk-head{background:transparent;color:#dcc189;font-weight:700;letter-spacing:.06em;text-transform:uppercase;text-shadow:0 1px 0 rgba(0,0,0,.6);border-bottom:0;position:relative;z-index:2;}
+.kk-card .kk-head::after,.kk-panel .kk-head::after{content:"";position:absolute;left:14px;right:14px;bottom:0;height:1px;background:linear-gradient(90deg,transparent,#b8995a 22%,#d9bf82 50%,#b8995a 78%,transparent);}
+.kk-card .kk-x,.kk-panel .kk-x{background:rgba(201,164,90,.16);color:#dcc189;border:1px solid rgba(201,164,90,.45);}
+.kk-card .kk-x:hover,.kk-panel .kk-x:hover{background:#c9a45a;color:#1a110b;}
+.kk-card .kk-log,.kk-panel .kk-log,.kk-card .kk-actions,.kk-panel .kk-actions{position:relative;z-index:2;}
+.kk-card .kk-msg.bot,.kk-panel .kk-msg.bot{background:linear-gradient(#3a2b20,#2b2018);color:#f2e8d5;border:1px solid rgba(201,164,90,.3);box-shadow:0 2px 6px rgba(0,0,0,.35);}
+.kk-card .kk-msg.me,.kk-panel .kk-msg.me{background:linear-gradient(#f1e6cd,#e1d1ad);color:#2a1c11;border:1px solid rgba(120,90,40,.4);box-shadow:0 2px 6px rgba(0,0,0,.3);}
+.kk-card .kk-typing i,.kk-panel .kk-typing i{background:#c9a45a;}
+.kk-card .kk-opt,.kk-panel .kk-opt{background:rgba(0,0,0,.25);color:#e6cf97;border:1.5px solid #c9a45a;}
+.kk-card .kk-opt:hover,.kk-card .kk-opt:focus-visible,.kk-panel .kk-opt:hover,.kk-panel .kk-opt:focus-visible{background:#c9a45a;color:#1a110b;}
+.kk-dwell{background:#d9bf82;}
