@@ -1127,7 +1127,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     const card = document.createElement('div');
     card.className = 'kk-card'; card.id = 'kkCard'; card.setAttribute('role', 'dialog'); card.setAttribute('aria-label', 'A knock-knock joke');
     card.innerHTML =
-      '<div class="kk-head"><span>Humor is my weapon</span><button type="button" class="kk-x" aria-label="Close the joke">&times;</button><i class="kk-dwell" aria-hidden="true"></i></div>' +
+      '<div class="kk-head"><span>Humor is my superpower</span><button type="button" class="kk-x" aria-label="Close the joke">&times;</button><i class="kk-dwell" aria-hidden="true"></i></div>' +
       '<div class="kk-log" aria-live="polite"></div>' +
       '<div class="kk-actions"></div>';
     const tap = document.createElement('button');
