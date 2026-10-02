@@ -74,7 +74,7 @@ if (heroWrap && morphCard && aboutSection) {
     progress = Math.max(0, Math.min(1, progress));
 
     const inMorph = progress > 0 && progress < 1;
-    // the joke-bot sword (anchored in this section) reveals once the portrait has landed, and tucks away again if you scroll back up
+    // the joke bot's "Tap to see my superpower" line shows once the portrait has landed, and tucks away again if you scroll back up
     document.documentElement.classList.toggle('about-settled', progress >= 0.995);
     heroPortraitBox.style.visibility = inMorph ? 'hidden' : 'visible';
     introImageBox.style.visibility = inMorph ? 'hidden' : 'visible';
@@ -1068,10 +1068,9 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   window.LPLoader = { replay, get state() { return state; } };
 })();
 
-/* ============ Joke bot ("Humor is my weapon"): draw the sword and one knock-knock joke plays.
-   On the homepage the About portrait itself flips over into the joke window, then flips back when the joke is done;
-   on pages without that portrait it is a small pop-up. Skipped on the case-study decks (their slide controls live at
-   bottom-centre) and until the loader is done. ============ */
+/* ============ Joke bot: tap the About portrait and it flips over into a joke window; one knock-knock joke plays, then the
+   window closes and the photo flips back. Homepage only (needs the portrait, and a window wide enough to hold the chat),
+   and not until the loader is done. ============ */
 (() => {
   if (document.body.classList.contains('deck-page')) return;
   const JOKES = [
@@ -1122,40 +1121,26 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   const wait = (ms) => new Promise((r) => setTimeout(r, reduceMotion ? 0 : ms));
 
   function mount() {
-    if (document.getElementById('kk')) return;
     const portrait = document.querySelector('.intro-image');
-    const inPortrait = !!portrait && innerWidth >= 900 && portrait.offsetWidth >= 250;
-    const chat =
+    if (!portrait || portrait.querySelector('.kk-card') || innerWidth < 1100 || portrait.offsetWidth < 240) return;
+    const card = document.createElement('div');
+    card.className = 'kk-card'; card.id = 'kkCard'; card.setAttribute('role', 'dialog'); card.setAttribute('aria-label', 'A knock-knock joke');
+    card.innerHTML =
       '<div class="kk-head"><span>Humor is my weapon</span><button type="button" class="kk-x" aria-label="Close the joke">&times;</button><i class="kk-dwell" aria-hidden="true"></i></div>' +
       '<div class="kk-log" aria-live="polite"></div>' +
       '<div class="kk-actions"></div>';
-    const root = document.createElement('div');
-    root.className = 'kk'; root.id = 'kk';
-    root.innerHTML =
-      (inPortrait ? '' : '<div class="kk-panel" id="kkPanel" role="dialog" aria-label="Humor is my weapon" hidden>' + chat + '</div>') +
-      '<button type="button" class="kk-pill" aria-expanded="false" aria-controls="kkPanel" aria-label="Tap the image to see my super power. It draws the sword and tells a joke.">' +
-        '<span class="kk-hint" aria-hidden="true">Tap the image to see my super power</span>' +
-        '<span class="kk-stage" aria-hidden="true">' +
-          '<img class="kk-sw" src="assets/sword/sword-blade.webp" alt="" width="1300" height="355" draggable="false">' +
-          '<img class="kk-sc" src="assets/sword/sword-cover.webp" alt="" width="800" height="176" draggable="false">' +
-        '</span>' +
-      '</button>';
-    // not pinned to the screen: it sits at the bottom of the About view on the homepage (or the first screen on other pages) and scrolls away with the page
-    const host = document.getElementById('about');
-    if (host) host.appendChild(root); else { root.classList.add('kk-page'); document.body.appendChild(root); }
+    const tap = document.createElement('button');
+    tap.type = 'button'; tap.className = 'kk-tap'; tap.setAttribute('aria-expanded', 'false'); tap.setAttribute('aria-controls', 'kkCard');
+    tap.setAttribute('aria-label', 'Tap to see my superpower. It tells a joke.');
+    const hint = document.createElement('span');
+    hint.className = 'kk-hint'; hint.setAttribute('aria-hidden', 'true'); hint.textContent = 'Tap to see my superpower';
+    portrait.append(card, tap, hint);
+    portrait.classList.add('kk-ready');
 
-    let panel;
-    if (inPortrait) {
-      panel = document.createElement('div');
-      panel.className = 'kk-card'; panel.id = 'kkPanel'; panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-label', 'Humor is my weapon');
-      panel.innerHTML = chat; portrait.appendChild(panel);
-    } else panel = root.querySelector('.kk-panel');
+    const log = card.querySelector('.kk-log'), actions = card.querySelector('.kk-actions'), closeBtn = card.querySelector('.kk-x'), head = card.querySelector('.kk-head');
+    let order = [], token = 0;
 
-    const pill = root.querySelector('.kk-pill');
-    const log = panel.querySelector('.kk-log'), actions = panel.querySelector('.kk-actions'), closeBtn = panel.querySelector('.kk-x'), head = panel.querySelector('.kk-head');
-    let order = [], token = 0, drawing = false;
-
-    const isOpen = () => (inPortrait ? portrait.classList.contains('is-joke') : !panel.hidden);
+    const isOpen = () => portrait.classList.contains('is-joke');
     const next = () => { if (!order.length) order = JOKES.map((_, i) => i).sort(() => Math.random() - 0.5); return JOKES[order.pop()]; };
     const scroll = () => { log.scrollTop = log.scrollHeight; };
     const bubble = (who, text) => { const b = document.createElement('div'); b.className = 'kk-msg ' + who; b.textContent = text; log.appendChild(b); scroll(); };
@@ -1181,32 +1166,26 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
       await choices(who + ' who?');                 if (t !== token) return;
       await bot(punch, t);                          if (t !== token) return;
       // one joke only: leave it up long enough to read, then close (the bar under the title counts it down)
-      panel.classList.add('is-final');              // no more buttons: give the log the room the button area was holding
       const dwell = 2400 + punch.length * 55;
       head.style.setProperty('--dwell', dwell + 'ms'); head.classList.add('is-dwelling');
       await new Promise((r) => setTimeout(r, dwell));
-      if (t === token && isOpen()) close();
+      if (t === token && isOpen()) close(false);
     }
     function open() {
-      token += 1; log.innerHTML = ''; actions.innerHTML = ''; head.classList.remove('is-dwelling'); panel.classList.remove('is-final');
-      if (inPortrait) portrait.classList.add('is-joke'); else panel.hidden = false;
-      pill.setAttribute('aria-expanded', 'true'); root.classList.add('is-open');
+      token += 1; log.innerHTML = ''; actions.innerHTML = ''; head.classList.remove('is-dwelling');
+      portrait.classList.add('is-joke'); tap.setAttribute('aria-expanded', 'true');
       joke(token);
     }
-    function close() {
+    function close(refocus) {
       token += 1;                                                   // stops any joke still in progress
-      if (inPortrait) portrait.classList.remove('is-joke'); else panel.hidden = true;
-      pill.setAttribute('aria-expanded', 'false'); root.classList.remove('is-open');
-      pill.classList.remove('is-drawn');                            // the blade slides back into the scabbard
-      head.classList.remove('is-dwelling');
+      portrait.classList.remove('is-joke'); tap.setAttribute('aria-expanded', 'false'); head.classList.remove('is-dwelling');
+      if (refocus) tap.focus({ preventScroll: true });
       setTimeout(() => { if (!isOpen()) { log.innerHTML = ''; actions.innerHTML = ''; } }, 900);
     }
-    async function draw() { if (drawing) return; drawing = true; pill.classList.add('is-drawn'); await wait(760); open(); drawing = false; }
-    pill.addEventListener('click', () => { if (isOpen()) close(); else if (!drawing) draw(); });
-    closeBtn.addEventListener('click', () => { close(); pill.focus({ preventScroll: true }); });
-    root.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isOpen()) { e.stopPropagation(); close(); pill.focus({ preventScroll: true }); } });
-    panel.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isOpen()) { e.stopPropagation(); close(); pill.focus({ preventScroll: true }); } });
-    requestAnimationFrame(() => root.classList.add('is-in'));
+    tap.addEventListener('click', () => { if (!isOpen()) open(); });
+    hint.addEventListener('click', () => { if (!isOpen()) open(); });   // the line of text is a tap target too
+    closeBtn.addEventListener('click', () => close(true));
+    card.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isOpen()) { e.stopPropagation(); close(true); } });
   }
 
   const loader = document.getElementById('lpLoader');
