@@ -73,7 +73,9 @@ if (heroWrap && morphCard && aboutSection) {
     let progress = (window.scrollY - morphStart) / (morphEnd - morphStart);
     progress = Math.max(0, Math.min(1, progress));
 
-    const inMorph = progress > 0 && progress < 1;
+    // an open joke keeps the portrait slot (and the window in it) where it is: the flying card must not take over mid-joke
+    const jokeUp = introImageBox.classList.contains('is-joke');
+    const inMorph = !jokeUp && progress > 0 && progress < 1;
     // the joke bot's "Tap to see my superpower" line shows once the portrait has landed, and tucks away again if you scroll back up
     document.documentElement.classList.toggle('about-settled', progress >= 0.995);
     heroPortraitBox.style.visibility = inMorph ? 'hidden' : 'visible';
@@ -1179,6 +1181,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     function close(refocus) {
       token += 1;                                                   // stops any joke still in progress
       portrait.classList.remove('is-joke'); tap.setAttribute('aria-expanded', 'false'); head.classList.remove('is-dwelling');
+      requestAnimationFrame(() => window.dispatchEvent(new Event('scroll')));     // let the scroll-driven portrait animation pick up where it should be now
       if (refocus) tap.focus({ preventScroll: true });
       setTimeout(() => { if (!isOpen()) { log.innerHTML = ''; actions.innerHTML = ''; } }, 900);
     }
