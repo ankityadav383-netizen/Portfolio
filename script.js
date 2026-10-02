@@ -1117,7 +1117,9 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
           '<img class="kk-saya" src="assets/sword/sword-scabbard.webp" alt="" width="496" height="258" draggable="false">' +
         '</span></span>' +
       '</button>';
-    document.body.appendChild(root);
+    // not pinned to the screen: it sits at the bottom of the About view on the homepage (or the first screen on other pages) and scrolls away with the page
+    const host = document.getElementById('about');
+    if (host) host.appendChild(root); else { root.classList.add('kk-page'); document.body.appendChild(root); }
 
     const pill = root.querySelector('.kk-pill'), panel = root.querySelector('.kk-panel');
     const log = root.querySelector('.kk-log'), actions = root.querySelector('.kk-actions'), closeBtn = root.querySelector('.kk-x');
