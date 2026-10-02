@@ -2142,10 +2142,10 @@ html.lp-flying .lp-disk { opacity: 0; transition: none; }
 .work-lock-tag i{width:7px;height:7px;border-radius:50%;background:#f4b740;}
 
 /* knock-knock joke bot (bottom-centre) */
-.kk{position:absolute;left:0;right:0;margin:0 auto;width:fit-content;max-width:100%;bottom:max(18px,env(safe-area-inset-bottom));z-index:9000;display:flex;flex-direction:column;align-items:center;gap:12px;opacity:0;pointer-events:none;transition:opacity .45s ease,transform .45s cubic-bezier(.2,.75,.2,1);font-family:'Inter',system-ui,sans-serif;}
+.kk{position:absolute;left:0;right:0;margin:0 auto;width:fit-content;max-width:100%;bottom:max(4px,env(safe-area-inset-bottom));z-index:9000;display:flex;flex-direction:column;align-items:center;gap:12px;opacity:0;pointer-events:none;transition:opacity .45s ease,transform .45s cubic-bezier(.2,.75,.2,1);font-family:'Inter',system-ui,sans-serif;}
 .kk:not(.is-in){transform:translateY(16px);}
 .intro{position:relative;}
-.kk.kk-page{bottom:auto;top:calc(100vh - 18px);top:calc(100svh - 18px);transform:translateY(-100%);}
+.kk.kk-page{bottom:auto;top:calc(100vh - 4px);top:calc(100svh - 4px);transform:translateY(-100%);}
 .kk.kk-page:not(.is-in){transform:translateY(calc(-100% + 16px));}
 .kk.is-in{opacity:1;}
 .kk.is-in .kk-pill,.kk.is-in .kk-panel{pointer-events:auto;}
