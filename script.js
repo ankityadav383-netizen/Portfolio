@@ -1112,10 +1112,10 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
         '<div class="kk-actions"></div>' +
       '</div>' +
       '<button type="button" class="kk-pill" aria-expanded="false" aria-controls="kkPanel" aria-label="Humor is my weapon. Draw the sword to hear a joke" title="Humor is my weapon">' +
-        '<span class="kk-stage" aria-hidden="true"><span class="kk-grp">' +
-          '<img class="kk-hilt" src="assets/sword/sword-hilt.webp" alt="" width="338" height="258" draggable="false">' +
-          '<img class="kk-saya" src="assets/sword/sword-scabbard.webp" alt="" width="496" height="258" draggable="false">' +
-        '</span></span>' +
+        '<span class="kk-stage" aria-hidden="true">' +
+          '<img class="kk-sw" src="assets/sword/sword-blade.webp" alt="" width="1300" height="355" draggable="false">' +
+          '<img class="kk-sc" src="assets/sword/sword-cover.webp" alt="" width="800" height="176" draggable="false">' +
+        '</span>' +
       '</button>';
     // not pinned to the screen: it sits at the bottom of the About view on the homepage (or the first screen on other pages) and scrolls away with the page
     const host = document.getElementById('about');
