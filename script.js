@@ -1065,3 +1065,92 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   if (gateMode) enterGateDirect();
   window.LPLoader = { replay, get state() { return state; } };
 })();
+
+/* ============ Knock-knock joke bot: a small scripted chat pinned bottom-centre on the regular pages
+   (not the case-study decks, whose slide controls already live there, and not until the loader is done) ============ */
+(() => {
+  if (document.body.classList.contains('deck-page')) return;
+  const JOKES = [
+    ['Boo', 'Don’t cry, it’s only a joke.'],
+    ['Orange', 'Orange you glad I didn’t say banana?'],
+    ['Lettuce', 'Lettuce in, it’s cold out here!'],
+    ['Justin', 'Justin time for dinner.'],
+    ['Figs', 'Figs the doorbell, it’s broken!'],
+    ['Wire', 'Wire you still designing without auto layout?'],
+    ['Kern', 'Kern you give these letters some room to breathe?'],
+    ['Cash', 'No thanks, I prefer peanuts.'],
+  ];
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const wait = (ms) => new Promise((r) => setTimeout(r, reduceMotion ? 0 : ms));
+
+  function mount() {
+    if (document.getElementById('kk')) return;
+    const root = document.createElement('div');
+    root.className = 'kk'; root.id = 'kk';
+    root.innerHTML =
+      '<div class="kk-panel" id="kkPanel" role="dialog" aria-label="Knock-knock joke bot" hidden>' +
+        '<div class="kk-head"><span>Knock-knock bot</span><button type="button" class="kk-x" aria-label="Close the joke bot">&times;</button></div>' +
+        '<div class="kk-log" aria-live="polite"></div>' +
+        '<div class="kk-actions"></div>' +
+      '</div>' +
+      '<button type="button" class="kk-pill" aria-expanded="false" aria-controls="kkPanel">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8.5 10h.01M12 10h.01M15.5 10h.01"/></svg>' +
+        '<span>Knock knock</span>' +
+      '</button>';
+    document.body.appendChild(root);
+
+    const pill = root.querySelector('.kk-pill'), panel = root.querySelector('.kk-panel');
+    const log = root.querySelector('.kk-log'), actions = root.querySelector('.kk-actions'), closeBtn = root.querySelector('.kk-x');
+    let order = [], started = false, busy = false;
+
+    const next = () => { if (!order.length) order = JOKES.map((_, i) => i).sort(() => Math.random() - 0.5); return JOKES[order.pop()]; };
+    const scroll = () => { log.scrollTop = log.scrollHeight; };
+    const bubble = (who, text) => { const b = document.createElement('div'); b.className = 'kk-msg ' + who; b.textContent = text; log.appendChild(b); scroll(); };
+    async function bot(text) {
+      const t = document.createElement('div'); t.className = 'kk-msg bot kk-typing'; t.setAttribute('aria-hidden', 'true'); t.innerHTML = '<i></i><i></i><i></i>';
+      log.appendChild(t); scroll(); await wait(650); t.remove(); bubble('bot', text);
+    }
+    function choices(list) {
+      actions.innerHTML = '';
+      return new Promise((resolve) => {
+        list.forEach((label, i) => {
+          const b = document.createElement('button'); b.type = 'button'; b.className = 'kk-opt'; b.textContent = label;
+          b.addEventListener('click', () => { actions.innerHTML = ''; bubble('me', label); resolve(i); });
+          actions.appendChild(b);
+        });
+        const first = actions.querySelector('button'); if (first && !panel.hidden) first.focus({ preventScroll: true });
+      });
+    }
+    async function joke() {
+      busy = true;
+      const [who, punch] = next();
+      await bot('Knock knock.');
+      await choices(['Who’s there?']);
+      await bot(who + '.');
+      await choices([who + ' who?']);
+      await bot(punch);
+      busy = false;
+      const pick = await choices(['Another one', 'That’s enough']);
+      if (pick === 0) return joke();
+      await bot('Door’s closing. Thanks for stopping by.');
+      await wait(900);
+      close();
+    }
+    function open() {
+      panel.hidden = false; pill.setAttribute('aria-expanded', 'true'); root.classList.add('is-open');
+      if (!started) { started = true; joke(); }
+      else { const f = actions.querySelector('button'); if (f) f.focus({ preventScroll: true }); }
+    }
+    function close() {
+      panel.hidden = true; pill.setAttribute('aria-expanded', 'false'); root.classList.remove('is-open');
+      if (!busy && started && !actions.querySelector('button')) { started = false; log.innerHTML = ''; }   // a finished chat starts fresh next time
+    }
+    pill.addEventListener('click', () => (panel.hidden ? open() : close()));
+    closeBtn.addEventListener('click', () => { close(); pill.focus({ preventScroll: true }); });
+    root.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) { e.stopPropagation(); close(); pill.focus({ preventScroll: true }); } });
+    requestAnimationFrame(() => root.classList.add('is-in'));
+  }
+
+  const loader = document.getElementById('lpLoader');
+  if (loader && !loader.hidden) window.addEventListener('lp:done', mount, { once: true }); else mount();
+})();
