@@ -12,16 +12,17 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maids, Meals & Misunderstandings — Ankit</title>
-<meta name="description" content="Three roommates, three diets, one cook, and no one home to answer the door. A short story about fixing a very domestic UX problem with a spare key and a shared meal plan.">
-<link rel="canonical" href="https://bluesdesign.lol/blog-maids-meals.html">
+<title>Adamas Card Studio — Ankit</title>
+<meta name="description" content="I was making ID cards by hand and felt like a robot, so I built a small tool to do it. A short story about why it isn't a bulk generator.">
+<link rel="canonical" href="https://bluesdesign.lol/blog-adamas-card-studio.html">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Maids, Meals & Misunderstandings — Ankit">
-<meta property="og:description" content="Three roommates, three diets, one cook, and no one home to answer the door. A short story about fixing a very domestic UX problem.">
-<meta property="og:url" content="https://bluesdesign.lol/blog-maids-meals.html">
+<meta property="og:image" content="https://bluesdesign.lol/assets/blog/card-studio-hero.svg">
+<meta property="og:title" content="Adamas Card Studio — Ankit">
+<meta property="og:description" content="I was making ID cards by hand and felt like a robot, so I built a small tool to do it.">
+<meta property="og:url" content="https://bluesdesign.lol/blog-adamas-card-studio.html">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Maids, Meals & Misunderstandings — Ankit">
-<meta name="twitter:description" content="Three roommates, three diets, one cook, and no one home to answer the door. A short story about fixing a very domestic UX problem.">
+<meta name="twitter:title" content="Adamas Card Studio — Ankit">
+<meta name="twitter:description" content="I was making ID cards by hand and felt like a robot, so I built a small tool to do it.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,6 +41,9 @@
   .article{max-width:680px;margin:0 auto;padding:56px 24px 120px;}
   .article-body{font-size:18px;line-height:1.75;color:var(--near-black);}
   .article-body p{margin:0 0 22px;}
+  .article-body h2{font-size:26px;line-height:1.25;margin:52px 0 18px;letter-spacing:-.01em;}
+  .article-body ul.plain{margin:0 0 22px;padding-left:22px;}
+  .article-body ul.plain li{margin-bottom:8px;}
   .article-body .lede{font-size:21px;font-weight:500;color:var(--ink);}
   .article-cast{list-style:none;margin:0 0 26px;padding:0;display:flex;flex-direction:column;gap:10px;}
   .article-cast li{font-size:17px;line-height:1.5;}
@@ -78,44 +82,46 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
       Thoughts
     </a>
-    <h1 class="article-title">Maids, Meals &amp; Misunderstandings</h1>
-    <p class="article-dek">Three roommates, three diets, one cook, and no one left home to open the door &mdash; how a spare key and a shared meal plan fixed a very domestic UX problem.</p>
-    <div class="article-meta"><span>May 22, 2025</span><span>3 min read</span></div>
+    <h1 class="article-title">Adamas Card Studio</h1>
+    <p class="article-dek">I was two ID cards into a task that felt like a robot's job. So I built a small tool to do it &mdash; and found out why it shouldn't be a bulk generator.</p>
+    <div class="article-meta"><span>Oct 2, 2026</span><span>2 min read</span></div>
   </div>
   <div class="article-hero">
-    <img src="assets/blog/maids-meals-hero.webp" width="1122" height="1402" alt="Hands chopping vegetables on a wooden board by a sunlit kitchen window">
+    <img src="assets/blog/card-studio-hero.svg" width="1600" height="1000" alt="Illustration of the front and back of a generic ID card">
   </div>
   <article class="article">
     <div class="article-body">
-      <p class="lede">Streamlining everyday life, one note at a time.</p>
-      <p>I've been living in Bangalore for about three years. A year ago I moved into a 3BHK with my college friends. All three of us are designers, but that's about where the similarity ends &mdash; we each run a completely different life: 9-to-5s, travel, different hours, different appetites.</p>
+      <p class="lede">Not every useful thing starts as a project. This one started with a colleague being on leave.</p>
 
-      <p>To make things simpler, we hired two house helps: one for cleaning, one for cooking. We thought that would settle it. It didn't &mdash; because the three of us can't agree on what to eat.</p>
+      <p>I'm a design lead. My graphic designer was away for a week, and some of her tasks &mdash; ID cards among them &mdash; had become urgent. They were hers, but they needed doing, so I picked them up.</p>
 
-      <ul class="article-cast">
-        <li><b>Me</b> &mdash; a typical North Indian, I like my food subtle and flavourful.</li>
-        <li><b>Ujjawal</b> &mdash; from Darjeeling, prefers spicy food and quick Korean meals.</li>
-        <li><b>Utsav</b> &mdash; tries hard to eat like a fitness freak. High protein one week, low carb the next. We all know the truth.</li>
+      <p>Creating an ID card means dropping in a photo, changing the text, exporting, and doing it again for the next person. I made two and felt like a robot. That was the moment I thought: this can be automated.</p>
+
+      <h2>Who is it for?</h2>
+      <p>I opened Claude and started with the question that matters most: who would actually use this? The answer was HR.</p>
+
+      <p>My first idea was a one-time job. HR already keep an Excel sheet with everyone's details, so the tool could read the sheet and generate every card in bulk.</p>
+
+      <h2>Why bulk was off the table</h2>
+      <p>Then I talked to HR, and the idea fell apart. Making an ID card needs supervision on very small things &mdash; a spelling, a photo crop, a designation. One small error and the whole print run's cost is gone.</p>
+
+      <p>So a bulk generator was the wrong tool. What they needed was something that makes one card quickly while a person watches every detail.</p>
+
+      <h2>What I built</h2>
+      <p>I used some vibe coding. I gave Claude the ID card template and the details each card needs, and asked for:</p>
+      <ul class="plain">
+        <li>A live preview that updates as the details are typed.</li>
+        <li>Controls to adjust the photo inside the card.</li>
+        <li>Separate downloads for the front and the back.</li>
       </ul>
 
-      <p>And then there's the main character of this story: Kamala didi, our cook. She's Nepali, has two kids, recently got her first smartphone, and makes an excellent plate of Chinese food.</p>
+      <h2>Testing and shipping</h2>
+      <p>It's a small project, so I gave it to QA for a day. They found a few small fixes, I made them, and it went live. The QA team uses it happily.</p>
 
-      <p>It worked fine until all of us got busier &mdash; including didi. We'd come home late from work, and there was nobody around to let her in or tell her what to cook. Groceries would run out with nobody home to reorder them. After this happened one time too many, I called a board meeting over drinks. (Cold drinks.) The agenda: solve this, once and for all.</p>
-
-      <p>Brainstorming got a little ridiculous.</p>
-
-      <blockquote>"Let's not decide who opens the door &mdash; let's just keep it open and let her walk in herself."<br>"Bro, that's the drink talking."<br>"Fine &mdash; let's just cut her a spare key."</blockquote>
-
-      <p>Door: solved. Next problem &mdash; who decides what to cook? None of us trusted the other two to pick fairly, so we outsourced it to someone more experienced, more neutral, and available at 11pm on a Tuesday.</p>
-
-      <p>I opened ChatGPT.</p>
-
-      <p>We used it to put together a weekly diet plan all three of us could actually agree to, printed it, stuck it on the fridge, and shared a photo of it with didi over WhatsApp. Now she knows what to cook and when, and can flag what's running low before it becomes a problem &mdash; and thanks to Blinkit's cart-share, she can add the missing ingredients to a shared list herself, so groceries get ordered without anyone needing to be home.</p>
-
-      <p>A spare key, a shared plan, and a cart link. That's all it took to fix something that had been quietly irritating all three of us for months.</p>
+      <p>It's a modest tool, but it replaced a repetitive task with a few seconds of careful checking &mdash; and it only worked because I asked the people who'd use it before building the version I'd first imagined.</p>
 
       <hr class="article-hr">
-      <p class="article-note">Originally published on <a href="https://medium.com/@ankityadav383/maids-meals-misunderstandings-3fd97733e74a" target="_blank" rel="noopener" style="text-decoration:underline">Medium</a>. If you've got a similar story, or a better fix, I'd like to hear it &mdash; <a href="mailto:ankit.yadav383@gmail.com" style="text-decoration:underline">ankit.yadav383@gmail.com</a>.</p>
+      <p class="article-note">The image above is an illustration, not a screenshot of the tool.</p>
     </div>
   </article>
 </main>
