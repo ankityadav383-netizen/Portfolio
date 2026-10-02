@@ -2141,81 +2141,42 @@ html.lp-flying .lp-disk { opacity: 0; transition: none; }
 .work-lock-tag{position:absolute;left:20px;top:20px;display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);font:600 11px/1 'Inter',sans-serif;letter-spacing:.14em;text-transform:uppercase;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);}
 .work-lock-tag i{width:7px;height:7px;border-radius:50%;background:#f4b740;}
 
-.kk-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px 12px 18px;background:#141310;color:#fff;font-weight:600;font-size:14px;}
-.kk-x{width:30px;height:30px;border:0;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;font-size:20px;line-height:1;cursor:pointer;}
-.kk-log{padding:16px 14px 6px;display:flex;flex-direction:column;gap:8px;max-height:min(46vh,300px);min-height:120px;overflow-y:auto;}
-.kk-msg{max-width:84%;padding:10px 14px;border-radius:18px;font-size:15px;line-height:1.4;}
-.kk-msg.bot{align-self:flex-start;background:#ece7df;color:#141310;border-bottom-left-radius:6px;}
-.kk-msg.me{align-self:flex-end;background:#141310;color:#fff;border-bottom-right-radius:6px;}
-.kk-typing{display:inline-flex;gap:5px;align-items:center;padding:13px 14px;}
-.kk-typing i{width:6px;height:6px;border-radius:50%;background:#8d877e;animation:kk-dot 1s ease-in-out infinite;}
+/* joke window: tapping the portrait turns the photo monochrome and blurred, and the chat sits on top of it; any scroll closes it */
+.intro-image{position:relative;overflow:visible;}
+.kk-photo{position:absolute;inset:0;overflow:hidden;border-radius:inherit;}   /* clips the blur at the rounded edge */
+.kk-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:filter .6s ease,transform .8s ease;}
+.intro-image.is-joke .kk-photo img{filter:grayscale(1) blur(6px) brightness(1.3) contrast(1.05);transform:scale(1.08);}
+.kk-card{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;border-radius:inherit;color:#fff;font-family:'Inter',system-ui,sans-serif;
+  background:linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.12) 28%,rgba(0,0,0,0) 55%,rgba(0,0,0,.3));opacity:0;visibility:hidden;transition:opacity .35s ease,visibility 0s .35s;}
+.intro-image.is-joke .kk-card{opacity:1;visibility:visible;transition:opacity .5s ease .25s,visibility 0s .25s;}
+.kk-head{position:relative;display:flex;align-items:center;justify-content:space-between;padding:11px 12px 11px 16px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.92);}
+.kk-head::after{content:"";position:absolute;left:14px;right:14px;bottom:0;height:1px;background:rgba(255,255,255,.28);}
+.kk-x{width:26px;height:26px;border:1px solid rgba(255,255,255,.4);border-radius:50%;background:rgba(0,0,0,.25);color:#fff;font-size:17px;line-height:1;cursor:pointer;}
+.kk-x:hover{background:#fff;color:#141310;}
+.kk-log{flex:1;min-height:0;display:flex;flex-direction:column;gap:7px;padding:12px 14px 0;overflow-y:auto;scrollbar-width:none;}
+.kk-log::-webkit-scrollbar{display:none;}
+.kk-msg{max-width:88%;padding:8px 12px;border-radius:16px;font-size:13.5px;line-height:1.38;}
+.kk-msg.bot{align-self:flex-start;background:rgba(16,15,13,.74);color:#fff;border-bottom-left-radius:5px;border:1px solid rgba(255,255,255,.14);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);}
+.kk-msg.me{align-self:flex-end;background:rgba(255,255,255,.94);color:#141310;border-bottom-right-radius:5px;}
+.kk-typing{display:inline-flex;gap:5px;align-items:center;padding:12px 13px;}
+.kk-typing i{width:6px;height:6px;border-radius:50%;background:#d5d0c8;animation:kk-dot 1s ease-in-out infinite;}
 .kk-typing i:nth-child(2){animation-delay:.15s}.kk-typing i:nth-child(3){animation-delay:.3s}
 @keyframes kk-dot{0%,80%,100%{opacity:.35;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
-.kk-actions{padding:6px 14px 14px;display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;min-height:20px;}
-.kk-opt{border:1.5px solid #141310;background:#fff;color:#141310;border-radius:999px;padding:9px 16px;font:600 14px/1 'Inter',system-ui,sans-serif;cursor:pointer;}
-.kk-opt:hover{background:#141310;color:#fff;}
-@media (prefers-reduced-motion:reduce){.kk-typing i{animation:none}}
-
-
-/* the About portrait flips over into the joke window (and back): the photo turns edge-on, then the dark card turns in */
-.intro-image{position:relative;overflow:visible;}
-.intro-image > img{border-radius:inherit;}
-.intro-image > img{transform:perspective(1200px) rotateY(0deg);transition:transform .42s ease-out .38s;}
-.kk-card{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;border-radius:inherit;background:#141310;color:#fff;font-family:'Inter',system-ui,sans-serif;transform:perspective(1200px) rotateY(-90deg);visibility:hidden;transition:transform .38s ease-in 0s,visibility 0s .38s;}
-.intro-image.is-joke > img{transform:perspective(1200px) rotateY(90deg);transition:transform .38s ease-in 0s;}
-.intro-image.is-joke .kk-card{transform:perspective(1200px) rotateY(0deg);visibility:visible;transition:transform .42s ease-out .38s,visibility 0s .38s;}
-.kk-card .kk-head{position:relative;display:flex;align-items:center;justify-content:space-between;padding:11px 12px 11px 16px;background:transparent;font-size:13px;font-weight:600;letter-spacing:.01em;border-bottom:1px solid rgba(255,255,255,.12);}
-.kk-card .kk-x{width:26px;height:26px;font-size:18px;}
-.kk-log{scrollbar-width:none;}.kk-log::-webkit-scrollbar{display:none;}
-.kk-card .kk-log{flex:1;min-height:0;max-height:none;padding:12px 14px 0;gap:7px;}
-.kk-card .kk-msg{font-size:13.5px;line-height:1.38;padding:8px 12px;max-width:88%;}
-.kk-card .kk-msg.bot{background:#2c2a27;color:#f4f1ec;}
-.kk-card .kk-msg.me{background:#faf7f3;color:#141310;}
-.kk-card .kk-typing i{background:#a39d93;}
-.kk-card .kk-actions{padding:8px 14px 16px;min-height:0;}
-.kk-card .kk-opt{background:transparent;color:#fff;border-color:rgba(255,255,255,.75);font-size:13px;padding:8px 14px;}
-.kk-card .kk-opt:hover,.kk-card .kk-opt:focus-visible{background:#fff;color:#141310;}
-.kk-dwell{position:absolute;left:0;bottom:-1px;height:2px;width:100%;background:#f4b740;transform-origin:left;transform:scaleX(0);opacity:0;}
+.kk-actions{padding:8px 14px 16px;display:flex;justify-content:flex-end;min-height:0;}
+.kk-opt{border:1.5px solid rgba(255,255,255,.85);background:rgba(0,0,0,.3);color:#fff;border-radius:999px;padding:8px 14px;font:600 13px/1 'Inter',system-ui,sans-serif;cursor:pointer;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);}
+.kk-opt:hover,.kk-opt:focus-visible{background:#fff;color:#141310;}
+.kk-dwell{position:absolute;left:0;bottom:-1px;height:2px;width:100%;background:#fff;transform-origin:left;transform:scaleX(0);opacity:0;}
 .kk-head.is-dwelling .kk-dwell{opacity:1;animation:kk-dwell var(--dwell,3s) linear forwards;}
 @keyframes kk-dwell{from{transform:scaleX(1)}to{transform:scaleX(0)}}
-@media (prefers-reduced-motion:reduce){.intro-image > img,.kk-card,.intro-image.is-joke > img,.intro-image.is-joke .kk-card{transition:none}.kk-head.is-dwelling .kk-dwell{animation:none}}
-
-/* smaller laptop windows: the portrait (and so the joke window) is smaller, so tighten the chat text to keep a whole joke in view */
 @media (max-width:1399px){
-  .kk-card .kk-head{padding:8px 10px 8px 14px;font-size:12px;}
-  .kk-card .kk-x{width:22px;height:22px;font-size:16px;}
-  .kk-card .kk-log{padding:9px 11px 0;gap:5px;}
-  .kk-card .kk-msg{font-size:12px;line-height:1.32;padding:6px 10px;max-width:90%;}
-  .kk-card .kk-actions{padding:6px 11px 14px;}
-  .kk-card .kk-opt{font-size:12px;padding:7px 12px;}
+  .kk-head{padding:8px 10px 8px 14px;font-size:11px;}
+  .kk-x{width:22px;height:22px;font-size:15px;}
+  .kk-log{padding:9px 11px 0;gap:5px;}
+  .kk-msg{font-size:12px;line-height:1.32;padding:6px 10px;max-width:90%;}
+  .kk-actions{padding:6px 11px 12px;}
+  .kk-opt{font-size:12px;padding:7px 12px;}
 }
-
-/* ---- joke window skin: dark leather grain, bronze rim and stitching, gold lettering (leather and bronze) ---- */
-.kk-card{
-  background:
-    radial-gradient(120% 70% at 12% 0%,rgba(150,98,55,.38),transparent 58%),
-    radial-gradient(110% 90% at 100% 100%,rgba(0,0,0,.55),transparent 62%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' seed='19' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .86  0 0 0 0 .66  0 0 0 0 .4  0 0 0 1.3 -.78'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29' opacity='.55'/%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .04  0 0 0 0 .02  0 0 0 0 .01  0 0 0 1.5 -.5'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29'/%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='300'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .045' numOctaves='3' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55  0 0 0 0 .32  0 0 0 0 .18  0 0 0 1.1 -.42'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29' opacity='.5'/%3E%3C/svg%3E"),
-    linear-gradient(160deg,#2e2018,#150e0a);
-  color:#f2e8d5;
-  box-shadow:inset 0 0 0 1px rgba(214,178,96,.7),inset 0 0 0 2px rgba(0,0,0,.45),inset 0 0 38px rgba(0,0,0,.55);
-}
-.kk-card::before{content:"";position:absolute;inset:7px;border:1px dashed rgba(201,164,90,.5);border-radius:11px;pointer-events:none;z-index:1;}
-.kk-card::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'%3E%3Cg transform='rotate%280 13 13%29' fill='none' stroke='%23c9a45a' stroke-width='1.4' stroke-linecap='round'%3E%3Cpath d='M3 16V8a5 5 0 0 1 5-5h8'/%3E%3Cpath d='M3 11.5V8.5a5.5 5.5 0 0 1 5.5-5.5h3' stroke-opacity='.5'/%3E%3Ccircle cx='3.2' cy='3.2' r='1.5' fill='%23c9a45a' stroke='none'/%3E%3C/g%3E%3C/svg%3E") left 7px top 7px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'%3E%3Cg transform='rotate%2890 13 13%29' fill='none' stroke='%23c9a45a' stroke-width='1.4' stroke-linecap='round'%3E%3Cpath d='M3 16V8a5 5 0 0 1 5-5h8'/%3E%3Cpath d='M3 11.5V8.5a5.5 5.5 0 0 1 5.5-5.5h3' stroke-opacity='.5'/%3E%3Ccircle cx='3.2' cy='3.2' r='1.5' fill='%23c9a45a' stroke='none'/%3E%3C/g%3E%3C/svg%3E") right 7px top 7px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'%3E%3Cg transform='rotate%28270 13 13%29' fill='none' stroke='%23c9a45a' stroke-width='1.4' stroke-linecap='round'%3E%3Cpath d='M3 16V8a5 5 0 0 1 5-5h8'/%3E%3Cpath d='M3 11.5V8.5a5.5 5.5 0 0 1 5.5-5.5h3' stroke-opacity='.5'/%3E%3Ccircle cx='3.2' cy='3.2' r='1.5' fill='%23c9a45a' stroke='none'/%3E%3C/g%3E%3C/svg%3E") left 7px bottom 7px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 26 26'%3E%3Cg transform='rotate%28180 13 13%29' fill='none' stroke='%23c9a45a' stroke-width='1.4' stroke-linecap='round'%3E%3Cpath d='M3 16V8a5 5 0 0 1 5-5h8'/%3E%3Cpath d='M3 11.5V8.5a5.5 5.5 0 0 1 5.5-5.5h3' stroke-opacity='.5'/%3E%3Ccircle cx='3.2' cy='3.2' r='1.5' fill='%23c9a45a' stroke='none'/%3E%3C/g%3E%3C/svg%3E") right 7px bottom 7px no-repeat;}
-.kk-card .kk-head{background:transparent;color:#dcc189;font-weight:700;letter-spacing:.06em;text-transform:uppercase;text-shadow:0 1px 0 rgba(0,0,0,.6);border-bottom:0;position:relative;z-index:2;}
-.kk-card .kk-head::after{content:"";position:absolute;left:14px;right:14px;bottom:0;height:1px;background:linear-gradient(90deg,transparent,#b8995a 22%,#d9bf82 50%,#b8995a 78%,transparent);}
-.kk-card .kk-x{background:rgba(201,164,90,.16);color:#dcc189;border:1px solid rgba(201,164,90,.45);}
-.kk-card .kk-x:hover{background:#c9a45a;color:#1a110b;}
-.kk-card .kk-log,.kk-card .kk-actions{position:relative;z-index:2;}
-.kk-card .kk-msg.bot{background:linear-gradient(#3a2b20,#2b2018);color:#f2e8d5;border:1px solid rgba(201,164,90,.3);box-shadow:0 2px 6px rgba(0,0,0,.35);}
-.kk-card .kk-msg.me{background:linear-gradient(#f1e6cd,#e1d1ad);color:#2a1c11;border:1px solid rgba(120,90,40,.4);box-shadow:0 2px 6px rgba(0,0,0,.3);}
-.kk-card .kk-typing i{background:#c9a45a;}
-.kk-card .kk-opt{background:rgba(0,0,0,.25);color:#e6cf97;border:1.5px solid #c9a45a;}
-.kk-card .kk-opt:hover,.kk-card .kk-opt:focus-visible{background:#c9a45a;color:#1a110b;}
-.kk-dwell{background:#d9bf82;}
-
-  font:600 13px/1 'Inter',system-ui,sans-serif;letter-spacing:.015em;color:#ecd9a4;text-shadow:0 1px 0 rgba(0,0,0,.6);
-  background:linear-gradient(#3a2b20,#241912);border:1px solid #c9a45a;box-shadow:0 8px 18px -8px rgba(0,0,0,.6),inset 0 0 0 1px rgba(0,0,0,.35);}
+@media (prefers-reduced-motion:reduce){.kk-photo img,.kk-card,.intro-image.is-joke .kk-card{transition:none}.kk-typing i{animation:none}.kk-head.is-dwelling .kk-dwell{animation:none}}
 
 /* tapping the About portrait opens the joke window: a see-through button over the photo, and a hint under it */
 .intro-image.kk-ready{cursor:pointer;transition:transform .35s cubic-bezier(.2,.75,.2,1),box-shadow .35s ease;}

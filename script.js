@@ -73,9 +73,7 @@ if (heroWrap && morphCard && aboutSection) {
     let progress = (window.scrollY - morphStart) / (morphEnd - morphStart);
     progress = Math.max(0, Math.min(1, progress));
 
-    // an open joke keeps the portrait slot (and the window in it) where it is: the flying card must not take over mid-joke
-    const jokeUp = introImageBox.classList.contains('is-joke');
-    const inMorph = !jokeUp && progress > 0 && progress < 1;
+    const inMorph = progress > 0 && progress < 1;
     // the joke bot's "Tap to see my superpower" line shows once the portrait has landed, and tucks away again if you scroll back up
     document.documentElement.classList.toggle('about-settled', progress >= 0.995);
     heroPortraitBox.style.visibility = inMorph ? 'hidden' : 'visible';
@@ -1070,8 +1068,8 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   window.LPLoader = { replay, get state() { return state; } };
 })();
 
-/* ============ Joke bot: tap the About portrait and it flips over into a joke window; one knock-knock joke plays, then the
-   window closes and the photo flips back. Homepage only (needs the portrait, and a window wide enough to hold the chat),
+/* ============ Joke bot: tap the About portrait and the photo turns monochrome and blurred, and that is the joke window; one
+   knock-knock joke plays, then it closes (as does any scroll) and the photo comes back to colour. Homepage only (needs the portrait, and a window wide enough to hold the chat),
    and not until the loader is done. ============ */
 (() => {
   if (document.body.classList.contains('deck-page')) return;
@@ -1136,11 +1134,14 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     tap.setAttribute('aria-label', 'Tap to see my superpower. It tells a joke.');
     const hint = document.createElement('span');
     hint.className = 'kk-hint'; hint.setAttribute('aria-hidden', 'true'); hint.textContent = 'Tap to see my superpower';
+    // keep the photo inside a clipped wrapper so its blur can't spill past the rounded edge
+    const img = portrait.querySelector(':scope > img');
+    if (img) { const wrap = document.createElement('div'); wrap.className = 'kk-photo'; img.replaceWith(wrap); wrap.appendChild(img); }
     portrait.append(card, tap, hint);
     portrait.classList.add('kk-ready');
 
     const log = card.querySelector('.kk-log'), actions = card.querySelector('.kk-actions'), closeBtn = card.querySelector('.kk-x'), head = card.querySelector('.kk-head');
-    let order = [], token = 0;
+    let order = [], token = 0, openY = 0;
 
     const isOpen = () => portrait.classList.contains('is-joke');
     const next = () => { if (!order.length) order = JOKES.map((_, i) => i).sort(() => Math.random() - 0.5); return JOKES[order.pop()]; };
@@ -1175,17 +1176,17 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     }
     function open() {
       token += 1; log.innerHTML = ''; actions.innerHTML = ''; head.classList.remove('is-dwelling');
-      portrait.classList.add('is-joke'); tap.setAttribute('aria-expanded', 'true');
+      openY = window.scrollY; portrait.classList.add('is-joke'); tap.setAttribute('aria-expanded', 'true');
       joke(token);
     }
     function close(refocus) {
       token += 1;                                                   // stops any joke still in progress
       portrait.classList.remove('is-joke'); tap.setAttribute('aria-expanded', 'false'); head.classList.remove('is-dwelling');
-      requestAnimationFrame(() => window.dispatchEvent(new Event('scroll')));     // let the scroll-driven portrait animation pick up where it should be now
       if (refocus) tap.focus({ preventScroll: true });
       setTimeout(() => { if (!isOpen()) { log.innerHTML = ''; actions.innerHTML = ''; } }, 900);
     }
     tap.addEventListener('click', () => { if (!isOpen()) open(); });
+    window.addEventListener('scroll', () => { if (isOpen() && Math.abs(window.scrollY - openY) > 20) close(false); }, { passive: true });   // scrolling up or down closes the joke window
     hint.addEventListener('click', () => { if (!isOpen()) open(); });   // the line of text is a tap target too
     closeBtn.addEventListener('click', () => close(true));
     card.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isOpen()) { e.stopPropagation(); close(true); } });
