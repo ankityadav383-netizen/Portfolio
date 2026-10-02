@@ -2181,3 +2181,27 @@ html.about-settled .intro .kk.is-in{opacity:1;transform:none;}
 html:not(.about-settled) .intro .kk .kk-pill,html:not(.about-settled) .intro .kk .kk-panel{pointer-events:none;}
 html:not(.about-settled) .intro .kk{transition-delay:0s;}
 @media (prefers-reduced-motion:reduce){.intro .kk{transition:opacity .01s}}
+
+/* the About portrait flips over into the joke window (and back): the photo turns edge-on, then the dark card turns in */
+.intro-image{position:relative;}
+.intro-image > img{transform:perspective(1200px) rotateY(0deg);transition:transform .42s ease-out .38s;}
+.kk-card{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;border-radius:inherit;background:#141310;color:#fff;font-family:'Inter',system-ui,sans-serif;transform:perspective(1200px) rotateY(-90deg);visibility:hidden;transition:transform .38s ease-in 0s,visibility 0s .38s;}
+.intro-image.is-joke > img{transform:perspective(1200px) rotateY(90deg);transition:transform .38s ease-in 0s;}
+.intro-image.is-joke .kk-card{transform:perspective(1200px) rotateY(0deg);visibility:visible;transition:transform .42s ease-out .38s,visibility 0s .38s;}
+.kk-card .kk-head{position:relative;display:flex;align-items:center;justify-content:space-between;padding:11px 12px 11px 16px;background:transparent;font-size:13px;font-weight:600;letter-spacing:.01em;border-bottom:1px solid rgba(255,255,255,.12);}
+.kk-card .kk-x{width:26px;height:26px;font-size:18px;}
+.kk-log{scrollbar-width:none;}.kk-log::-webkit-scrollbar{display:none;}
+.kk-card .kk-log{flex:1;min-height:0;max-height:none;padding:12px 14px 0;gap:7px;}
+.kk-card .kk-msg{font-size:13.5px;line-height:1.38;padding:8px 12px;max-width:88%;}
+.kk-card .kk-msg.bot{background:#2c2a27;color:#f4f1ec;}
+.kk-card .kk-msg.me{background:#faf7f3;color:#141310;}
+.kk-card .kk-typing i{background:#a39d93;}
+.kk-card .kk-actions{padding:8px 14px 64px;min-height:0;}   /* bottom padding keeps the button clear of the drawn sword */
+.kk-card .kk-opt{background:transparent;color:#fff;border-color:rgba(255,255,255,.75);font-size:13px;padding:8px 14px;}
+.kk-card .kk-opt:hover,.kk-card .kk-opt:focus-visible{background:#fff;color:#141310;}
+.kk-dwell{position:absolute;left:0;bottom:-1px;height:2px;width:100%;background:#f4b740;transform-origin:left;transform:scaleX(0);opacity:0;}
+.kk-head.is-dwelling .kk-dwell{opacity:1;animation:kk-dwell var(--dwell,3s) linear forwards;}
+@keyframes kk-dwell{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+@media (prefers-reduced-motion:reduce){.intro-image > img,.kk-card,.intro-image.is-joke > img,.intro-image.is-joke .kk-card{transition:none}.kk-head.is-dwelling .kk-dwell{animation:none}}
+.kk-card.is-final .kk-actions{padding-bottom:10px;}
+.kk-card.is-final .kk-log{padding-bottom:6px;}

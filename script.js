@@ -1068,8 +1068,10 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   window.LPLoader = { replay, get state() { return state; } };
 })();
 
-/* ============ Knock-knock joke bot: a small scripted chat pinned bottom-centre on the regular pages
-   (not the case-study decks, whose slide controls already live there, and not until the loader is done) ============ */
+/* ============ Joke bot ("Humor is my weapon"): draw the sword and one knock-knock joke plays.
+   On the homepage the About portrait itself flips over into the joke window, then flips back when the joke is done;
+   on pages without that portrait it is a small pop-up. Skipped on the case-study decks (their slide controls live at
+   bottom-centre) and until the loader is done. ============ */
 (() => {
   if (document.body.classList.contains('deck-page')) return;
   const JOKES = [
@@ -1105,14 +1107,16 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
 
   function mount() {
     if (document.getElementById('kk')) return;
+    const portrait = document.querySelector('.intro-image');
+    const inPortrait = !!portrait && innerWidth >= 900 && portrait.offsetWidth >= 250;
+    const chat =
+      '<div class="kk-head"><span>Humor is my weapon</span><button type="button" class="kk-x" aria-label="Close the joke">&times;</button><i class="kk-dwell" aria-hidden="true"></i></div>' +
+      '<div class="kk-log" aria-live="polite"></div>' +
+      '<div class="kk-actions"></div>';
     const root = document.createElement('div');
     root.className = 'kk'; root.id = 'kk';
     root.innerHTML =
-      '<div class="kk-panel" id="kkPanel" role="dialog" aria-label="Humor is my weapon" hidden>' +
-        '<div class="kk-head"><span>Humor is my weapon</span><button type="button" class="kk-x" aria-label="Close the joke bot">&times;</button></div>' +
-        '<div class="kk-log" aria-live="polite"></div>' +
-        '<div class="kk-actions"></div>' +
-      '</div>' +
+      (inPortrait ? '' : '<div class="kk-panel" id="kkPanel" role="dialog" aria-label="Humor is my weapon" hidden>' + chat + '</div>') +
       '<button type="button" class="kk-pill" aria-expanded="false" aria-controls="kkPanel" aria-label="Humor is my weapon. Draw the sword to hear a joke" title="Humor is my weapon">' +
         '<span class="kk-stage" aria-hidden="true">' +
           '<img class="kk-sw" src="assets/sword/sword-blade.webp" alt="" width="1300" height="355" draggable="false">' +
@@ -1123,58 +1127,68 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     const host = document.getElementById('about');
     if (host) host.appendChild(root); else { root.classList.add('kk-page'); document.body.appendChild(root); }
 
-    const pill = root.querySelector('.kk-pill'), panel = root.querySelector('.kk-panel');
-    const log = root.querySelector('.kk-log'), actions = root.querySelector('.kk-actions'), closeBtn = root.querySelector('.kk-x');
-    let order = [], started = false, busy = false;
+    let panel;
+    if (inPortrait) {
+      panel = document.createElement('div');
+      panel.className = 'kk-card'; panel.id = 'kkPanel'; panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-label', 'Humor is my weapon');
+      panel.innerHTML = chat; portrait.appendChild(panel);
+    } else panel = root.querySelector('.kk-panel');
 
+    const pill = root.querySelector('.kk-pill');
+    const log = panel.querySelector('.kk-log'), actions = panel.querySelector('.kk-actions'), closeBtn = panel.querySelector('.kk-x'), head = panel.querySelector('.kk-head');
+    let order = [], token = 0, drawing = false;
+
+    const isOpen = () => (inPortrait ? portrait.classList.contains('is-joke') : !panel.hidden);
     const next = () => { if (!order.length) order = JOKES.map((_, i) => i).sort(() => Math.random() - 0.5); return JOKES[order.pop()]; };
     const scroll = () => { log.scrollTop = log.scrollHeight; };
     const bubble = (who, text) => { const b = document.createElement('div'); b.className = 'kk-msg ' + who; b.textContent = text; log.appendChild(b); scroll(); };
-    async function bot(text) {
-      const t = document.createElement('div'); t.className = 'kk-msg bot kk-typing'; t.setAttribute('aria-hidden', 'true'); t.innerHTML = '<i></i><i></i><i></i>';
-      log.appendChild(t); scroll(); await wait(650); t.remove(); bubble('bot', text);
+    async function bot(text, t) {
+      const d = document.createElement('div'); d.className = 'kk-msg bot kk-typing'; d.setAttribute('aria-hidden', 'true'); d.innerHTML = '<i></i><i></i><i></i>';
+      log.appendChild(d); scroll(); await wait(650); d.remove();
+      if (t === token) bubble('bot', text);
     }
-    function choices(list) {
+    function choices(label) {
       actions.innerHTML = '';
       return new Promise((resolve) => {
-        list.forEach((label, i) => {
-          const b = document.createElement('button'); b.type = 'button'; b.className = 'kk-opt'; b.textContent = label;
-          b.addEventListener('click', () => { actions.innerHTML = ''; bubble('me', label); resolve(i); });
-          actions.appendChild(b);
-        });
-        const first = actions.querySelector('button'); if (first && !panel.hidden) first.focus({ preventScroll: true });
+        const b = document.createElement('button'); b.type = 'button'; b.className = 'kk-opt'; b.textContent = label;
+        b.addEventListener('click', () => { actions.innerHTML = ''; bubble('me', label); resolve(); });
+        actions.appendChild(b);
+        if (isOpen()) b.focus({ preventScroll: true });
       });
     }
-    async function joke() {
-      busy = true;
+    async function joke(t) {
       const [who, punch] = next();
-      await bot('Knock knock.');
-      await choices(['Who’s there?']);
-      await bot(who + '.');
-      await choices([who + ' who?']);
-      await bot(punch);
-      busy = false;
-      const pick = await choices(['Another one', 'That’s enough']);
-      if (pick === 0) return joke();
-      await bot('Door’s closing. Thanks for stopping by.');
-      await wait(900);
-      close();
+      await bot('Knock knock.', t);                 if (t !== token) return;
+      await choices('Who\u2019s there?');           if (t !== token) return;
+      await bot(who + '.', t);                      if (t !== token) return;
+      await choices(who + ' who?');                 if (t !== token) return;
+      await bot(punch, t);                          if (t !== token) return;
+      // one joke only: leave it up long enough to read, then close (the bar under the title counts it down)
+      panel.classList.add('is-final');              // no more buttons: give the log the room the button area was holding
+      const dwell = 2400 + punch.length * 55;
+      head.style.setProperty('--dwell', dwell + 'ms'); head.classList.add('is-dwelling');
+      await new Promise((r) => setTimeout(r, dwell));
+      if (t === token && isOpen()) close();
     }
     function open() {
-      panel.hidden = false; pill.setAttribute('aria-expanded', 'true'); root.classList.add('is-open');
-      if (!started) { started = true; joke(); }
-      else { const f = actions.querySelector('button'); if (f) f.focus({ preventScroll: true }); }
+      token += 1; log.innerHTML = ''; actions.innerHTML = ''; head.classList.remove('is-dwelling'); panel.classList.remove('is-final');
+      if (inPortrait) portrait.classList.add('is-joke'); else panel.hidden = false;
+      pill.setAttribute('aria-expanded', 'true'); root.classList.add('is-open');
+      joke(token);
     }
     function close() {
-      panel.hidden = true; pill.setAttribute('aria-expanded', 'false'); root.classList.remove('is-open');
-      pill.classList.remove('is-drawn');                                                  // the blade slides back into the scabbard
-      if (!busy && started && !actions.querySelector('button')) { started = false; log.innerHTML = ''; }   // a finished chat starts fresh next time
+      token += 1;                                                   // stops any joke still in progress
+      if (inPortrait) portrait.classList.remove('is-joke'); else panel.hidden = true;
+      pill.setAttribute('aria-expanded', 'false'); root.classList.remove('is-open');
+      pill.classList.remove('is-drawn');                            // the blade slides back into the scabbard
+      head.classList.remove('is-dwelling');
+      setTimeout(() => { if (!isOpen()) { log.innerHTML = ''; actions.innerHTML = ''; } }, 900);
     }
-    let drawing = false;
     async function draw() { if (drawing) return; drawing = true; pill.classList.add('is-drawn'); await wait(760); open(); drawing = false; }
-    pill.addEventListener('click', () => { if (panel.hidden) draw(); else close(); });
+    pill.addEventListener('click', () => { if (isOpen()) close(); else if (!drawing) draw(); });
     closeBtn.addEventListener('click', () => { close(); pill.focus({ preventScroll: true }); });
-    root.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) { e.stopPropagation(); close(); pill.focus({ preventScroll: true }); } });
+    root.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isOpen()) { e.stopPropagation(); close(); pill.focus({ preventScroll: true }); } });
+    panel.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isOpen()) { e.stopPropagation(); close(); pill.focus({ preventScroll: true }); } });
     requestAnimationFrame(() => root.classList.add('is-in'));
   }
 
