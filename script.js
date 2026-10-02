@@ -1111,9 +1111,8 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
         '<div class="kk-log" aria-live="polite"></div>' +
         '<div class="kk-actions"></div>' +
       '</div>' +
-      '<button type="button" class="kk-pill" aria-expanded="false" aria-controls="kkPanel">' +
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8.5 10h.01M12 10h.01M15.5 10h.01"/></svg>' +
-        '<span>Knock knock</span>' +
+      '<button type="button" class="kk-pill" aria-expanded="false" aria-controls="kkPanel" aria-label="Draw the sword to hear a joke" title="Draw the sword">' +
+        '<svg class="kk-svg" viewBox="90 8 160 40" aria-hidden="true" focusable="false"><defs><linearGradient id="kkSteel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbfdff"/><stop offset=".5" stop-color="#c9d0d9"/><stop offset="1" stop-color="#8e98a5"/></linearGradient><linearGradient id="kkLacquer" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d1223f"/><stop offset=".55" stop-color="#a30f29"/><stop offset="1" stop-color="#6e0a1b"/></linearGradient></defs><g class="kk-sword"><path class="kk-blade" d="M56 25.2H144L153.5 28 144 30.8H56Z" fill="url(#kkSteel)" stroke="#6b7480" stroke-width=".5"/><path d="M58 28.7H146" stroke="#fff" stroke-opacity=".85" stroke-width=".7"/><ellipse cx="53" cy="28" rx="3.3" ry="9.2" fill="#d4af37" stroke="#8a6d1b" stroke-width=".6"/><rect x="8" y="23.2" width="43" height="9.6" rx="3" fill="#141310"/><g fill="none" stroke="#d4af37" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M11 23.4 l3.2 4.6 -3.2 4.6" /><path d="M17 23.4 l3.2 4.6 -3.2 4.6" /><path d="M23 23.4 l3.2 4.6 -3.2 4.6" /><path d="M29 23.4 l3.2 4.6 -3.2 4.6" /><path d="M35 23.4 l3.2 4.6 -3.2 4.6" /><path d="M41 23.4 l3.2 4.6 -3.2 4.6" /><path d="M47 23.4 l3.2 4.6 -3.2 4.6" /></g><circle cx="5" cy="28" r="5.3" fill="#d4af37" stroke="#8a6d1b" stroke-width=".6"/></g><g class="kk-saya"><rect x="146" y="21.5" width="104" height="13" rx="6" fill="url(#kkLacquer)"/><path d="M158 24.3H240" stroke="#fff" stroke-opacity=".28" stroke-width="1.3" stroke-linecap="round"/><rect x="146" y="21.5" width="8" height="13" rx="2.5" fill="#d4af37" stroke="#8a6d1b" stroke-width=".5"/><rect x="196" y="21.5" width="4.5" height="13" fill="#d4af37"/><rect x="242" y="21.5" width="8" height="13" rx="4" fill="#d4af37" stroke="#8a6d1b" stroke-width=".5"/></g></svg>' +
       '</button>';
     document.body.appendChild(root);
 
@@ -1161,9 +1160,12 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     }
     function close() {
       panel.hidden = true; pill.setAttribute('aria-expanded', 'false'); root.classList.remove('is-open');
+      pill.classList.remove('is-drawn');                                                  // the blade slides back into the scabbard
       if (!busy && started && !actions.querySelector('button')) { started = false; log.innerHTML = ''; }   // a finished chat starts fresh next time
     }
-    pill.addEventListener('click', () => (panel.hidden ? open() : close()));
+    let drawing = false;
+    async function draw() { if (drawing) return; drawing = true; pill.classList.add('is-drawn'); await wait(760); open(); drawing = false; }
+    pill.addEventListener('click', () => { if (panel.hidden) draw(); else close(); });
     closeBtn.addEventListener('click', () => { close(); pill.focus({ preventScroll: true }); });
     root.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) { e.stopPropagation(); close(); pill.focus({ preventScroll: true }); } });
     requestAnimationFrame(() => root.classList.add('is-in'));
