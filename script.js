@@ -1133,7 +1133,8 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     root.className = 'kk'; root.id = 'kk';
     root.innerHTML =
       (inPortrait ? '' : '<div class="kk-panel" id="kkPanel" role="dialog" aria-label="Humor is my weapon" hidden>' + chat + '</div>') +
-      '<button type="button" class="kk-pill" aria-expanded="false" aria-controls="kkPanel" aria-label="Humor is my weapon. Draw the sword to hear a joke" title="Humor is my weapon">' +
+      '<button type="button" class="kk-pill" aria-expanded="false" aria-controls="kkPanel" aria-label="Tap the image to see my super power. It draws the sword and tells a joke.">' +
+        '<span class="kk-hint" aria-hidden="true">Tap the image to see my super power</span>' +
         '<span class="kk-stage" aria-hidden="true">' +
           '<img class="kk-sw" src="assets/sword/sword-blade.webp" alt="" width="1300" height="355" draggable="false">' +
           '<img class="kk-sc" src="assets/sword/sword-cover.webp" alt="" width="800" height="176" draggable="false">' +

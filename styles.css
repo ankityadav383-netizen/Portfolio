@@ -2242,3 +2242,16 @@ html:not(.about-settled) .intro .kk{transition-delay:0s;}
 .kk-card .kk-opt,.kk-panel .kk-opt{background:rgba(0,0,0,.25);color:#e6cf97;border:1.5px solid #c9a45a;}
 .kk-card .kk-opt:hover,.kk-card .kk-opt:focus-visible,.kk-panel .kk-opt:hover,.kk-panel .kk-opt:focus-visible{background:#c9a45a;color:#1a110b;}
 .kk-dwell{background:#d9bf82;}
+
+/* the hint on the closed sword: "Tap the image to see my super power" -- shown for a few seconds once the sword is in view, and on hover / keyboard focus; gone once it is drawn */
+.kk-hint{position:absolute;left:50%;bottom:calc(100% + 4px);transform:translate(-50%,0);padding:8px 15px;border-radius:999px;white-space:nowrap;pointer-events:none;opacity:0;
+  font:600 13px/1 'Inter',system-ui,sans-serif;letter-spacing:.015em;color:#ecd9a4;text-shadow:0 1px 0 rgba(0,0,0,.6);
+  background:linear-gradient(#3a2b20,#241912);border:1px solid #c9a45a;box-shadow:0 8px 18px -8px rgba(0,0,0,.6),inset 0 0 0 1px rgba(0,0,0,.35);}
+.kk-hint::after{content:"";position:absolute;left:50%;bottom:-5px;width:8px;height:8px;margin-left:-4px;background:#241912;border-right:1px solid #c9a45a;border-bottom:1px solid #c9a45a;transform:rotate(45deg);}
+@keyframes kk-hint-intro{0%{opacity:0;transform:translate(-50%,8px)}9%{opacity:1;transform:translate(-50%,0)}86%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,4px)}}
+.kk-page .kk-hint{animation:kk-hint-intro 6s ease 1.1s both;}
+html.about-settled .intro .kk .kk-hint{animation:kk-hint-intro 6s ease 1.2s both;}
+.kk-pill:hover:not(.is-drawn) .kk-hint,.kk-pill:focus-visible:not(.is-drawn) .kk-hint{animation:none!important;opacity:1!important;transform:translate(-50%,0)!important;}
+.kk-pill.is-drawn .kk-hint{animation:none!important;opacity:0!important;}
+@media (prefers-reduced-motion:reduce){.kk-page .kk-hint,html.about-settled .intro .kk .kk-hint{animation:none;opacity:1}}
+@media (max-width:640px){.kk-hint{font-size:12px;padding:7px 12px;}}
