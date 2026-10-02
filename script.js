@@ -1116,7 +1116,6 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
           '<img class="kk-hilt" src="assets/sword/sword-hilt.webp" alt="" width="338" height="258" draggable="false">' +
           '<img class="kk-saya" src="assets/sword/sword-scabbard.webp" alt="" width="496" height="258" draggable="false">' +
         '</span></span>' +
-        '<span class="kk-cap" aria-hidden="true">Humor is my weapon</span>' +
       '</button>';
     document.body.appendChild(root);
 
