@@ -2174,3 +2174,10 @@ html.lp-flying .lp-disk { opacity: 0; transition: none; }
 .kk-opt{border:1.5px solid #141310;background:#fff;color:#141310;border-radius:999px;padding:9px 16px;font:600 14px/1 'Inter',system-ui,sans-serif;cursor:pointer;}
 .kk-opt:hover{background:#141310;color:#fff;}
 @media (prefers-reduced-motion:reduce){.kk{transition:none}.kk-typing i{animation:none}}
+
+/* the sword in the About section reveals as the portrait settles: rises and fades in just after it lands */
+.intro .kk{opacity:0;transform:translateY(28px);transition:opacity .8s ease .2s,transform 1s cubic-bezier(.2,.75,.2,1) .2s;}
+html.about-settled .intro .kk.is-in{opacity:1;transform:none;}
+html:not(.about-settled) .intro .kk .kk-pill,html:not(.about-settled) .intro .kk .kk-panel{pointer-events:none;}
+html:not(.about-settled) .intro .kk{transition-delay:0s;}
+@media (prefers-reduced-motion:reduce){.intro .kk{transition:opacity .01s}}

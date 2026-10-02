@@ -74,6 +74,8 @@ if (heroWrap && morphCard && aboutSection) {
     progress = Math.max(0, Math.min(1, progress));
 
     const inMorph = progress > 0 && progress < 1;
+    // the joke-bot sword (anchored in this section) reveals once the portrait has landed, and tucks away again if you scroll back up
+    document.documentElement.classList.toggle('about-settled', progress >= 0.995);
     heroPortraitBox.style.visibility = inMorph ? 'hidden' : 'visible';
     introImageBox.style.visibility = inMorph ? 'hidden' : 'visible';
     morphCard.style.opacity = inMorph ? '1' : '0';
