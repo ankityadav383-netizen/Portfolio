@@ -1068,7 +1068,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   window.LPLoader = { replay, get state() { return state; } };
 })();
 
-/* ============ Joke bot: tap the About portrait and the photo turns monochrome and blurred, and that is the joke window; one
+/* ============ Joke bot: tap the About portrait and the photo flips over; its back (the same photo, monochrome and blurred) is the joke window; one
    knock-knock joke plays, then it closes (as does any scroll) and the photo comes back to colour. Homepage only (needs the portrait, and a window wide enough to hold the chat),
    and not until the loader is done. ============ */
 (() => {
@@ -1136,8 +1136,14 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     hint.className = 'kk-hint'; hint.setAttribute('aria-hidden', 'true'); hint.textContent = 'Tap to see my superpower';
     // keep the photo inside a clipped wrapper so its blur can't spill past the rounded edge
     const img = portrait.querySelector(':scope > img');
-    if (img) { const wrap = document.createElement('div'); wrap.className = 'kk-photo'; img.replaceWith(wrap); wrap.appendChild(img); }
-    portrait.append(card, tap, hint);
+    const flip = document.createElement('div'); flip.className = 'kk-flip';
+    const front = document.createElement('div'); front.className = 'kk-photo';
+    if (img) {
+      const bg = document.createElement('div'); bg.className = 'kk-bg';                 // the back of the card: the same photo, monochrome and blurred
+      const copy = img.cloneNode(); copy.removeAttribute('loading'); copy.alt = ''; bg.appendChild(copy); card.prepend(bg);
+      img.replaceWith(front); front.appendChild(img);                                    // the front: the photo as it always was
+    }
+    flip.append(front, card); portrait.append(flip, tap, hint);
     portrait.classList.add('kk-ready');
 
     const log = card.querySelector('.kk-log'), actions = card.querySelector('.kk-actions'), closeBtn = card.querySelector('.kk-x'), head = card.querySelector('.kk-head');
@@ -1177,7 +1183,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     function open() {
       token += 1; log.innerHTML = ''; actions.innerHTML = ''; head.classList.remove('is-dwelling');
       openY = window.scrollY; portrait.classList.add('is-joke'); tap.setAttribute('aria-expanded', 'true');
-      joke(token);
+      const t = token; setTimeout(() => { if (t === token) joke(t); }, reduceMotion ? 0 : 480);   // let the card turn over before the chat starts
     }
     function close(refocus) {
       token += 1;                                                   // stops any joke still in progress
