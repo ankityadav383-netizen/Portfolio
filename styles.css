@@ -2129,3 +2129,14 @@ html.lp-flying .lp-disk { opacity: 0; transition: none; }
 .lp-loader.is-gate .lp-tag { display: none; }
 @keyframes lp-tag-in { from { opacity: 0; transform: translate(-8px, -50%); } }
 @media (prefers-reduced-motion: reduce) { .lp-tag { animation: none; } }
+
+/* locked "coming soon" project card on the Work page: not a link, no hover lift */
+.work-card.locked{cursor:default;pointer-events:none;-webkit-user-select:none;user-select:none;}
+.work-card.locked:hover{transform:none;}
+.work-card.locked h3,.work-card.locked p{opacity:.72;}
+.work-card.locked .work-media::after{display:none;}
+.work-lock-art{position:absolute;inset:0;display:grid;place-items:center;background:radial-gradient(120% 90% at 30% 20%,#4d4a46 0%,#23211f 52%,#141310 100%);color:#f4f1ec;}
+.work-lock-art::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 4px);opacity:.7;}
+.work-lock-ico{position:relative;width:64px;height:64px;opacity:.9;}
+.work-lock-tag{position:absolute;left:20px;top:20px;display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);font:600 11px/1 'Inter',sans-serif;letter-spacing:.14em;text-transform:uppercase;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);}
+.work-lock-tag i{width:7px;height:7px;border-radius:50%;background:#f4b740;}
