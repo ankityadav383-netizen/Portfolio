@@ -1071,14 +1071,26 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
 (() => {
   if (document.body.classList.contains('deck-page')) return;
   const JOKES = [
-    ['Boo', 'Don’t cry, it’s only a joke.'],
-    ['Orange', 'Orange you glad I didn’t say banana?'],
-    ['Lettuce', 'Lettuce in, it’s cold out here!'],
-    ['Justin', 'Justin time for dinner.'],
-    ['Figs', 'Figs the doorbell, it’s broken!'],
-    ['Wire', 'Wire you still designing without auto layout?'],
-    ['Kern', 'Kern you give these letters some room to breathe?'],
-    ['Cash', 'No thanks, I prefer peanuts.'],
+    // about Ankit (only things his site and stories already say)
+    ['Edge', 'Edge case. Ankit\u2019s favourite guest \u2014 everyone else saves them for the last sprint.'],
+    ['Empty', 'Empty state. Ankit is the only person who gets excited when the list has nothing in it.'],
+    ['Error', 'Error message. Ankit gets excited about those too, which is why yours reads better than \u201cSomething went wrong.\u201d'],
+    ['Third', 'The third screen of onboarding. Nobody remembers it. Ankit designs it first.'],
+    ['Robot', 'The feeling Ankit got after making two ID cards by hand. So he built a tool instead.'],
+    ['Needle', 'Needle drop. Ankit made a loading screen you have to operate yourself.'],
+    ['Nift', 'Nifty design. That\u2019s what happens when NIFT trains a product designer.'],
+    ['Didi', 'Didi\u2019s meal plan. Ankit fixed a household with a spare key and a shared cart link.'],
+    // design laws, corporate edition
+    ['Hick', 'Hick\u2019s Law: every extra option on the slide adds ten minutes to the meeting.'],
+    ['Fitts', 'Fitts\u2019s Law: the further away the \u201cSubmit expenses\u201d button, the later the expenses.'],
+    ['Jakob', 'Jakob\u2019s Law: users want your product to work like the others. Your stakeholder wants a hamburger menu that spins.'],
+    ['Miller', 'Miller\u2019s Law: people hold about seven things in mind. The Q3 roadmap deck has forty.'],
+    ['Parkinson', 'Parkinson\u2019s Law: work expands to fill the time. That\u2019s how a \u201cquick sync\u201d becomes an hour.'],
+    ['Murphy', 'Murphy\u2019s Law: anything that can go wrong will \u2014 right after the stakeholder approves the final design.'],
+    ['Goodhart', 'Goodhart\u2019s Law: when a metric becomes a target, it stops being a good metric. Ask the team celebrating accidental clicks.'],
+    ['Tesler', 'Tesler\u2019s Law: complexity can\u2019t be removed, only moved. In most companies it gets moved to the designer.'],
+    ['Conway', 'Conway\u2019s Law: your product ends up shaped like your org chart. That\u2019s why the app has five navigation bars.'],
+    ['Postel', 'Postel\u2019s Law: be generous in what you accept. Even a form that says \u201cInvalid\u201d with no reason.'],
   ];
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const wait = (ms) => new Promise((r) => setTimeout(r, reduceMotion ? 0 : ms));
