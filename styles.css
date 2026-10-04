@@ -2246,3 +2246,19 @@ html.about-settled .intro-image.kk-ready .kk-hint{opacity:1;transition:opacity .
 .project-card:hover .nabc-stage .text,.work-card:hover .nabc-stage .text{translate:2.5% 0;}
 .work-card:hover .nabc-anim{transform:none;}
 @media (prefers-reduced-motion:reduce){.nabc-stage .nl{transition:none}}
+
+/* ===== Arivoo thumbnail: the photo with its app UI lifted out as layers; on hover the shot pushes in and the UI cards pop one after another ===== */
+.ari-anim{position:absolute;inset:0;overflow:hidden;}
+.ari-stage{position:absolute;left:0;top:50%;width:100%;aspect-ratio:1;translate:0 -50%;}
+.ari-zoom{position:absolute;inset:0;transform-origin:52% 50%;scale:1;transition:scale 1.4s cubic-bezier(.22,1,.36,1);}
+.ari-zoom .al{position:absolute;display:block;pointer-events:none;user-select:none;transition:translate .8s cubic-bezier(.22,1,.36,1),scale .8s cubic-bezier(.22,1,.36,1);}
+.ari-zoom .card1{transition-delay:.12s;}
+.ari-zoom .card2{transition-delay:.22s;}
+.ari-zoom .retake{transition-delay:.32s;}
+.ari-zoom .review{transition-delay:.4s;}
+.project-card:hover .ari-zoom,.work-card:hover .ari-zoom{scale:1.07;}
+.project-card:hover .ari-zoom .card1,.work-card:hover .ari-zoom .card1,
+.project-card:hover .ari-zoom .card2,.work-card:hover .ari-zoom .card2{translate:0 -6%;scale:1.025;}
+.project-card:hover .ari-zoom .retake,.work-card:hover .ari-zoom .retake{scale:1.04;}
+.project-card:hover .ari-zoom .review,.work-card:hover .ari-zoom .review{translate:0 -10%;scale:1.07;}
+@media (prefers-reduced-motion:reduce){.ari-zoom,.ari-zoom .al{transition:none}}
