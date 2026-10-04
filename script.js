@@ -1266,7 +1266,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
         press(false); send('trip');                     /* the tap lands: bus tracking opens */
         look(195, 422, 1.5, 1000);
         await wait(1700); if (my !== token) return;
-        look(195, 668, 2.7, 1200);                      /* read the "Bus is 4KM away" sheet */
+        look(195, 690, 2.9, 1200);                      /* read the "Bus is 4KM away" sheet */
         await wait(2400); if (my !== token) return;
         wide(1000);
         await wait(2200); if (my !== token) return;
