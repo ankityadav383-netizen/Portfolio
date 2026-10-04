@@ -1209,7 +1209,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   if (!els.length) return;
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   /* the phone's screen cutout inside the 2048x1536 Figma frame, as fractions of the stage */
-  var SX = .35724, SW = .28552, SY = .08809, SH = .82381;
+  var SX = .35965, SW = .2808, SY = .095, SH = .8103;
   function wait(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
   Array.prototype.forEach.call(els, function(el){
     var cam = el.querySelector('.bz-cam'), scr = el.querySelector('.bz-screen'),
@@ -1255,7 +1255,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
       while (my === token){
         wide(0);
         await wait(650); if (my !== token) return;
-        look(195, 276, 3, 900);                       /* push in on the Aarav Kumar card */
+        look(195, 276, 2.8, 900);                       /* push in on the Aarav Kumar card */
         await wait(1150); if (my !== token) return;
         var tp = pt(262, 278);
         tap.style.left = (262 / 390 * 100) + '%'; tap.style.top = (278 / 844 * 100) + '%';
@@ -1266,7 +1266,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
         press(false); send('trip');                     /* the tap lands: bus tracking opens */
         look(195, 422, 1.5, 800);
         await wait(1200); if (my !== token) return;
-        look(195, 690, 3, 1000);                      /* read the "Bus is 4KM away" sheet */
+        look(195, 690, 2.8, 1000);                      /* read the "Bus is 4KM away" sheet */
         await wait(2200); if (my !== token) return;
         wide(900);
         await wait(1700); if (my !== token) return;
