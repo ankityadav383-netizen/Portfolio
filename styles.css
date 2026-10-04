@@ -2227,3 +2227,22 @@ html.about-settled .intro-image.kk-ready .kk-hint{opacity:1;transition:opacity .
 .bz-tap.go::after{animation:bz-ring .75s ease-out;}
 @keyframes bz-tap{0%{opacity:0;scale:.4}22%{opacity:1;scale:1}45%{opacity:1;scale:.8}100%{opacity:0;scale:1.1}}
 @keyframes bz-ring{0%,40%{opacity:0;scale:1}45%{opacity:1;scale:1}100%{opacity:0;scale:2.4}}
+
+/* ===== NABC thumbnail: the artwork split into layers; at rest it is the original image, on hover each element moves on its own ===== */
+.nabc-anim{position:absolute;inset:0;overflow:hidden;}
+.nabc-stage{position:absolute;top:0;height:100%;aspect-ratio:1620/1215;left:30%;translate:-30% 0;}
+.nabc-stage .nl{position:absolute;display:block;pointer-events:none;user-select:none;transition:translate .9s cubic-bezier(.22,1,.36,1),scale .9s cubic-bezier(.22,1,.36,1),rotate .9s cubic-bezier(.22,1,.36,1);}
+.nabc-stage .center{transform-origin:50% 100%;}
+.nabc-stage .left{transform-origin:100% 50%;transition-delay:.05s;}
+.nabc-stage .right{transform-origin:0 50%;transition-delay:.1s;}
+.nabc-stage .cal{transform-origin:50% 85%;transition-delay:.08s;}
+.nabc-stage .ball{transition-delay:.12s;}
+.nabc-stage .text{transition-delay:.04s;}
+.project-card:hover .nabc-stage .center,.work-card:hover .nabc-stage .center{translate:0 -4%;scale:1.02;}
+.project-card:hover .nabc-stage .left,.work-card:hover .nabc-stage .left{translate:0 2.4%;scale:1.02;}
+.project-card:hover .nabc-stage .right,.work-card:hover .nabc-stage .right{translate:0 2.4%;scale:1.02;}
+.project-card:hover .nabc-stage .cal,.work-card:hover .nabc-stage .cal{translate:0 -8%;rotate:-4deg;}
+.project-card:hover .nabc-stage .ball,.work-card:hover .nabc-stage .ball{translate:0 -16%;scale:1.1;}
+.project-card:hover .nabc-stage .text,.work-card:hover .nabc-stage .text{translate:2.5% 0;}
+.work-card:hover .nabc-anim{transform:none;}
+@media (prefers-reduced-motion:reduce){.nabc-stage .nl{transition:none}}
