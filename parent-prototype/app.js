@@ -148,7 +148,8 @@
     const embed = document.documentElement.classList.contains('embed');
     const phoneMode = innerWidth <= 760 && !embed;
     const side = phoneMode || embed ? 0 : 316, mv = phoneMode ? 0 : 48, mh = phoneMode ? 0 : 32;
-    const s = Math.min(1, (innerHeight - mv) / 844, (innerWidth - side - mh) / 390) * (embed && innerWidth > 600 ? 0.78 : 1);
+    const bare = document.documentElement.classList.contains('bare');
+    const s = bare ? 1 : Math.min(1, (innerHeight - mv) / 844, (innerWidth - side - mh) / 390) * (embed && innerWidth > 600 ? 0.78 : 1);
     stage.style.transform = `scale(${s})`;
     wrap.style.width = 390 * s + 'px'; wrap.style.height = 844 * s + 'px';
     if (phoneMode) { stage.style.borderRadius = '0'; stage.style.boxShadow = 'none'; }
