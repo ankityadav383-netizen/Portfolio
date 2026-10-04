@@ -2196,12 +2196,14 @@ html.about-settled .intro-image.kk-ready .kk-hint{opacity:1;transition:opacity .
 .intro-image.is-joke .kk-hint{opacity:0!important;pointer-events:none;transition:opacity .25s ease!important;}
 @media (prefers-reduced-motion:reduce){.kk-hint,html.about-settled .intro-image.kk-ready .kk-hint{transition:none}.intro-image.kk-ready{transition:none}}
 
-/* Virtual Try-on thumbnail: a gentle, looping zoom in and out */
+
 .kb-img{position:absolute;inset:0;background-size:cover;background-position:center 46%;}
 .project-media.kb::before{z-index:1;}
-.kb-img,.kb-zoom{transform-origin:50% 46%;animation:kb-zoom 9s ease-in-out infinite;}
-@keyframes kb-zoom{0%,100%{scale:1}50%{scale:1.12}}
-@media (prefers-reduced-motion:reduce){.kb-img,.kb-zoom{animation:none}}
+/* Virtual Try-on thumbnail: still at rest, eases in on hover and back out on leave */
+.kb-img,.kb-zoom{transform-origin:50% 46%;scale:1;transition:scale .9s cubic-bezier(.22,1,.36,1);}
+.project-card:hover .kb-img,.work-card:hover .kb-zoom{scale:1.12;}
+.work-card:hover .kb-zoom{transform:none;}
+@media (prefers-reduced-motion:reduce){.kb-img,.kb-zoom{transition:none}}
 
 /* ===== Buzzed thumbnail: the live parent prototype inside the Figma phone, dashboard -> tap -> bus tracking, with camera zooms ===== */
 .bz-anim{position:absolute;inset:0;overflow:hidden;background:#dbdfe3;}
