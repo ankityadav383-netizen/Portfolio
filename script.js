@@ -1203,7 +1203,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   if (loader && !loader.hidden) window.addEventListener('lp:done', mount, { once: true }); else mount();
 })();
 
-/* Buzzed thumbnail: drives the live parent prototype (parent-prototype/?embed&bare) through My Kids -> tap -> bus tracking, with camera zooms; runs only while visible */
+/* Buzzed thumbnail: drives the live parent prototype (parent-prototype/?embed&bare) through My Kids -> tap -> bus tracking, with camera zooms; plays only while the card is hovered */
 (function(){
   var els = document.querySelectorAll('.bz-anim');
   if (!els.length) return;
@@ -1245,19 +1245,24 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
         k.style.transition = 'transform .14s ease'; k.style.transform = on ? 'scale(.97)' : '';
       } catch(e){}
     }
-    async function run(my){
-      await load(); if (my !== token) return;
-      fit();
+    var card = el.closest('a') || el, ready = false, hovering = false;
+    /* rest state: the My Kids dashboard, wide, sitting in the phone; the flow below plays only while the card is hovered */
+    async function prepare(){
+      await load(); fit();
       send(reduce ? 'trip' : 'home');
-      await wait(200); if (my !== token) return;
-      el.classList.add('is-ready');
-      if (reduce) return;
+      await wait(200);
+      el.classList.add('is-ready'); ready = true;
+      if (hovering && !reduce) play();
+    }
+    async function play(){
+      if (started || reduce || !ready) return;           /* prepare() calls play() once loaded */
+      started = true; var my = ++token;
+      wide(0);
+      var first = true;
       while (my === token){
-        wide(0);
-        await wait(650); if (my !== token) return;
+        await wait(first ? 350 : 650); first = false; if (my !== token) return;
         look(195, 276, 2.8, 900);                       /* push in on the Aarav Kumar card */
         await wait(1150); if (my !== token) return;
-        var tp = pt(262, 278);
         tap.style.left = (262 / 390 * 100) + '%'; tap.style.top = (278 / 844 * 100) + '%';
         tap.classList.remove('go'); void tap.offsetWidth; tap.classList.add('go');
         await wait(200); if (my !== token) return;
@@ -1272,16 +1277,27 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
         await wait(1700); if (my !== token) return;
         send('home');
         await wait(900); if (my !== token) return;
+        wide(0);
       }
     }
-    function start(){ if (started) return; started = true; run(++token); }
-    function stop(){ started = false; token++; }
+    function stop(){
+      started = false; token++;
+      if (!ready) return;
+      press(false); tap.classList.remove('go');
+      wide(700); send('home');
+    }
+    function enter(){ hovering = true; play(); }
+    function leave(){ hovering = false; stop(); }
+    card.addEventListener('mouseenter', enter);
+    card.addEventListener('mouseleave', leave);
+    card.addEventListener('focusin', enter);
+    card.addEventListener('focusout', leave);
     fit();
-    if ('IntersectionObserver' in window){ new IntersectionObserver(function(es, o){ if (es[0].isIntersecting){ o.disconnect(); load(); } }, { rootMargin: '700px 0px' }).observe(el); }
+    /* preload the prototype when the card is near the viewport so hover starts instantly */
+    if ('IntersectionObserver' in window){
+      new IntersectionObserver(function(es, o){ if (es[0].isIntersecting){ o.disconnect(); prepare(); } }, { rootMargin: '700px 0px' }).observe(el);
+    } else prepare();
     window.addEventListener('resize', fit);
     if ('ResizeObserver' in window) new ResizeObserver(fit).observe(el);
-    if ('IntersectionObserver' in window){
-      new IntersectionObserver(function(es){ es[0].isIntersecting ? start() : stop(); }, { threshold: .2 }).observe(el);
-    } else start();
   });
 })();
