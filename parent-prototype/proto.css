@@ -43,5 +43,7 @@ body{display:block;color:var(--c-text);font-family:var(--font-brand)}
 html.embed,html.embed body{background:transparent;overflow:hidden}
 html.embed .proto{padding:0;min-height:100%}
 html.embed .side{display:none}
+/* ?embed&bare: the screen only, no corner radius or ring -- the host (portfolio thumbnail) supplies its own phone frame */
+html.bare .stage{border-radius:0;box-shadow:none}
 @media (max-width:760px){.side{display:none}.proto{padding:0}}
 @media (prefers-reduced-motion:reduce){.scr,.scr.active,.sheet-layer .scrim,.sheet-layer .sheet,.sheet-layer{transition:none}.rf.spin img{animation:none}}

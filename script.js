@@ -1202,3 +1202,85 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   const loader = document.getElementById('lpLoader');
   if (loader && !loader.hidden) window.addEventListener('lp:done', mount, { once: true }); else mount();
 })();
+
+/* Buzzed thumbnail: drives the live parent prototype (parent-prototype/?embed&bare) through My Kids -> tap -> bus tracking, with camera zooms; runs only while visible */
+(function(){
+  var els = document.querySelectorAll('.bz-anim');
+  if (!els.length) return;
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* the phone's screen cutout inside the 2048x1536 Figma frame, as fractions of the stage */
+  var SX = .35449, SW = .29492, SY = .08333, SH = .84115;
+  function wait(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+  Array.prototype.forEach.call(els, function(el){
+    var cam = el.querySelector('.bz-cam'), scr = el.querySelector('.bz-screen'),
+        fr = el.querySelector('iframe'), tap = el.querySelector('.bz-tap');
+    var token = 0, loaded = null, started = false;
+    function fit(){
+      var w = el.offsetWidth; if (!w) return;
+      var s = w * SW / 390, h = w * .75 * SH;
+      fr.style.setProperty('--s', s);
+      fr.style.top = ((h - 844 * s) / 2) + 'px';
+    }
+    function pt(x, y){ return [SX + SW * x / 390, SY + SH * y / 844]; }
+    function look(x, y, z, ms){
+      var p = pt(x, y);
+      cam.style.setProperty('--dur', ms + 'ms');
+      cam.style.setProperty('--sc', z);
+      cam.style.setProperty('--tx', ((.5 - z * p[0]) * 100) + '%');
+      cam.style.setProperty('--ty', ((.5 - z * p[1]) * 100) + '%');
+    }
+    function wide(ms){ cam.style.setProperty('--dur', ms + 'ms'); cam.style.setProperty('--sc', 1); cam.style.setProperty('--tx', '0%'); cam.style.setProperty('--ty', '0%'); }
+    function send(step){ try { fr.contentWindow.postMessage({ arivooProto: 'parent', goto: step }, '*'); } catch(e){} }
+    function load(){
+      if (loaded) return loaded;
+      loaded = new Promise(function(res){
+        fr.addEventListener('load', function(){ setTimeout(res, 500); }, { once: true });
+        fr.src = fr.getAttribute('data-src');
+      });
+      return loaded;
+    }
+    function press(on){
+      try {
+        var k = fr.contentDocument.querySelector('.kid[data-act="track"]');
+        k.style.transition = 'transform .14s ease'; k.style.transform = on ? 'scale(.97)' : '';
+      } catch(e){}
+    }
+    async function run(my){
+      await load(); if (my !== token) return;
+      fit();
+      send(reduce ? 'trip' : 'home');
+      await wait(450); if (my !== token) return;
+      el.classList.add('is-ready');
+      if (reduce) return;
+      while (my === token){
+        wide(0);
+        await wait(1000); if (my !== token) return;
+        look(195, 276, 3, 1100);                       /* push in on the Aarav Kumar card */
+        await wait(1500); if (my !== token) return;
+        var tp = pt(262, 278);
+        tap.style.left = (262 / 390 * 100) + '%'; tap.style.top = (278 / 844 * 100) + '%';
+        tap.classList.remove('go'); void tap.offsetWidth; tap.classList.add('go');
+        await wait(260); if (my !== token) return;
+        press(true);
+        await wait(240); if (my !== token) return;
+        press(false); send('trip');                     /* the tap lands: bus tracking opens */
+        look(195, 422, 1.5, 1000);
+        await wait(1700); if (my !== token) return;
+        look(195, 668, 2.7, 1200);                      /* read the "Bus is 4KM away" sheet */
+        await wait(2400); if (my !== token) return;
+        wide(1000);
+        await wait(2200); if (my !== token) return;
+        send('home');
+        await wait(900); if (my !== token) return;
+      }
+    }
+    function start(){ if (started) return; started = true; run(++token); }
+    function stop(){ started = false; token++; }
+    fit();
+    window.addEventListener('resize', fit);
+    if ('ResizeObserver' in window) new ResizeObserver(fit).observe(el);
+    if ('IntersectionObserver' in window){
+      new IntersectionObserver(function(es){ es[0].isIntersecting ? start() : stop(); }, { threshold: .2 }).observe(el);
+    } else start();
+  });
+})();
