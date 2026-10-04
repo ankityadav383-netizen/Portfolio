@@ -1209,7 +1209,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
   if (!els.length) return;
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   /* the phone's screen cutout inside the 2048x1536 Figma frame, as fractions of the stage */
-  var SX = .35449, SW = .29492, SY = .08333, SH = .84115;
+  var SX = .35724, SW = .28552, SY = .08809, SH = .82381;
   function wait(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
   Array.prototype.forEach.call(els, function(el){
     var cam = el.querySelector('.bz-cam'), scr = el.querySelector('.bz-screen'),
@@ -1234,7 +1234,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     function load(){
       if (loaded) return loaded;
       loaded = new Promise(function(res){
-        fr.addEventListener('load', function(){ setTimeout(res, 500); }, { once: true });
+        fr.addEventListener('load', function(){ setTimeout(res, 120); }, { once: true });
         fr.src = fr.getAttribute('data-src');
       });
       return loaded;
@@ -1249,27 +1249,27 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
       await load(); if (my !== token) return;
       fit();
       send(reduce ? 'trip' : 'home');
-      await wait(450); if (my !== token) return;
+      await wait(200); if (my !== token) return;
       el.classList.add('is-ready');
       if (reduce) return;
       while (my === token){
         wide(0);
-        await wait(1000); if (my !== token) return;
-        look(195, 276, 3, 1100);                       /* push in on the Aarav Kumar card */
-        await wait(1500); if (my !== token) return;
+        await wait(650); if (my !== token) return;
+        look(195, 276, 3, 900);                       /* push in on the Aarav Kumar card */
+        await wait(1150); if (my !== token) return;
         var tp = pt(262, 278);
         tap.style.left = (262 / 390 * 100) + '%'; tap.style.top = (278 / 844 * 100) + '%';
         tap.classList.remove('go'); void tap.offsetWidth; tap.classList.add('go');
-        await wait(260); if (my !== token) return;
+        await wait(200); if (my !== token) return;
         press(true);
-        await wait(240); if (my !== token) return;
+        await wait(180); if (my !== token) return;
         press(false); send('trip');                     /* the tap lands: bus tracking opens */
-        look(195, 422, 1.5, 1000);
-        await wait(1700); if (my !== token) return;
-        look(195, 690, 2.9, 1200);                      /* read the "Bus is 4KM away" sheet */
-        await wait(2400); if (my !== token) return;
-        wide(1000);
+        look(195, 422, 1.5, 800);
+        await wait(1200); if (my !== token) return;
+        look(195, 690, 3, 1000);                      /* read the "Bus is 4KM away" sheet */
         await wait(2200); if (my !== token) return;
+        wide(900);
+        await wait(1700); if (my !== token) return;
         send('home');
         await wait(900); if (my !== token) return;
       }
@@ -1277,6 +1277,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
     function start(){ if (started) return; started = true; run(++token); }
     function stop(){ started = false; token++; }
     fit();
+    if ('IntersectionObserver' in window){ new IntersectionObserver(function(es, o){ if (es[0].isIntersecting){ o.disconnect(); load(); } }, { rootMargin: '700px 0px' }).observe(el); }
     window.addEventListener('resize', fit);
     if ('ResizeObserver' in window) new ResizeObserver(fit).observe(el);
     if ('IntersectionObserver' in window){
