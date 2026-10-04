@@ -1255,7 +1255,7 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
       while (my === token){
         wide(0);
         await wait(1000); if (my !== token) return;
-        look(195, 276, 3.4, 1100);                       /* push in on the Aarav Kumar card */
+        look(195, 276, 3, 1100);                       /* push in on the Aarav Kumar card */
         await wait(1500); if (my !== token) return;
         var tp = pt(262, 278);
         tap.style.left = (262 / 390 * 100) + '%'; tap.style.top = (278 / 844 * 100) + '%';
@@ -1264,9 +1264,9 @@ document.querySelectorAll('[data-proto-steps]').forEach((list) => {
         press(true);
         await wait(240); if (my !== token) return;
         press(false); send('trip');                     /* the tap lands: bus tracking opens */
-        look(195, 422, 1.6, 1000);
+        look(195, 422, 1.5, 1000);
         await wait(1700); if (my !== token) return;
-        look(195, 700, 3.7, 1200);                      /* read the "Bus is 4KM away" sheet */
+        look(195, 668, 2.7, 1200);                      /* read the "Bus is 4KM away" sheet */
         await wait(2400); if (my !== token) return;
         wide(1000);
         await wait(2200); if (my !== token) return;
