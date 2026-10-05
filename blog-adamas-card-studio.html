@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FW1ZEX8M30"></script>
+<script>
+  /* analytics loads after the page and an idle moment, so it never competes with first paint */
+  (function(){function l(){var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-FW1ZEX8M30';document.head.appendChild(s)}
+  addEventListener('load',function(){(window.requestIdleCallback||function(f){setTimeout(f,1500)})(l,{timeout:4000})},{once:true})})();
+</script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -24,10 +28,9 @@
 <meta name="twitter:title" content="Adamas Card Studio — Ankit">
 <meta name="twitter:description" content="I was making ID cards by hand and felt like a robot, so I built a small tool to do it.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=fs200">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/archivo-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-latin.woff2" crossorigin>
+<link rel="stylesheet" href="styles.css?v=fs201">
 <style>
   /* the blog layout: a huge title, a one-line dek, a date/read-time row, then a full-width rounded hero image -- used across every post linked from Thoughts */
   .article-head{max-width:920px;margin:0 auto;padding:150px 24px 0;}
@@ -155,6 +158,6 @@
   </div>
 </footer>
 
-<script src="script.js?v=fs200"></script>
+<script src="script.js?v=fs201"></script>
 </body>
 </html>

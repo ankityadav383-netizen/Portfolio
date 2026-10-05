@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FW1ZEX8M30"></script>
+<script>
+  /* analytics loads after the page and an idle moment, so it never competes with first paint */
+  (function(){function l(){var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-FW1ZEX8M30';document.head.appendChild(s)}
+  addEventListener('load',function(){(window.requestIdleCallback||function(f){setTimeout(f,1500)})(l,{timeout:4000})},{once:true})})();
+</script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -19,15 +23,15 @@
 <meta property="og:title" content="BuzzEd (now Arivoo SMS) — Ankit">
 <meta property="og:description" content="Designing a safe and smart school mobility ecosystem for Arivoo SMS — a case study by Ankit, product designer.">
 <meta property="og:url" content="https://bluesdesign.lol/project-buzzed-sms.html">
-<meta property="og:image" content="https://framerusercontent.com/images/vl9V0Cr772NwqhB3qFJ8bnkCrLk.png?width=580&height=400">
+<meta property="og:image" content="https://bluesdesign.lol/assets/img/vl9V0Cr7-580.webp">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="BuzzEd (now Arivoo SMS) — Ankit">
 <meta name="twitter:description" content="Designing a safe and smart school mobility ecosystem for Arivoo SMS — a case study by Ankit, product designer.">
-<meta name="twitter:image" content="https://framerusercontent.com/images/vl9V0Cr772NwqhB3qFJ8bnkCrLk.png?width=580&height=400">
+<meta name="twitter:image" content="https://bluesdesign.lol/assets/img/vl9V0Cr7-580.webp">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Manrope:wght@500;600;700&family=42dot+Sans:wght@400&display=swap" rel="stylesheet">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/archivo-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/manrope-latin.woff2" crossorigin>
 <link rel="stylesheet" href="styles.css?v=fs140">
 </head>
 <body class="deck-page deck-fs-page">

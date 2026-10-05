@@ -2,7 +2,11 @@
 <html lang="en" class="lp-lock">
 <head>
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FW1ZEX8M30"></script>
+<script>
+  /* analytics loads after the page and an idle moment, so it never competes with first paint */
+  (function(){function l(){var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-FW1ZEX8M30';document.head.appendChild(s)}
+  addEventListener('load',function(){(window.requestIdleCallback||function(f){setTimeout(f,1500)})(l,{timeout:4000})},{once:true})})();
+</script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -19,18 +23,18 @@
 <meta property="og:title" content="Ankit — Product Designer">
 <meta property="og:description" content="I'm Ankit, a product designer who likes the boring parts — edge cases, empty states, and the third screen of onboarding.">
 <meta property="og:url" content="https://bluesdesign.lol/">
-<meta property="og:image" content="https://framerusercontent.com/images/cxaHHZrKXo5Uq490zPrCtxqHY4.png?scale-down-to=1024&width=1254&height=1254">
+<meta property="og:image" content="https://bluesdesign.lol/assets/img/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Ankit — Product Designer">
 <meta name="twitter:description" content="I'm Ankit, a product designer who likes the boring parts — edge cases, empty states, and the third screen of onboarding.">
-<meta name="twitter:image" content="https://framerusercontent.com/images/cxaHHZrKXo5Uq490zPrCtxqHY4.png?scale-down-to=1024&width=1254&height=1254">
+<meta name="twitter:image" content="https://bluesdesign.lol/assets/img/og.jpg">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preload" as="image" href="assets/loader/lp-poster.jpg?v=navy">
 <link rel="preload" as="image" href="assets/loader/desk-bg.webp" media="(min-width: 900px)">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=fs200">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/archivo-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/manrope-latin.woff2" crossorigin>
+<link rel="stylesheet" href="styles.css?v=fs201">
 </head>
 <body>
 
@@ -139,10 +143,10 @@
 
 <div class="morph-card" id="morphCard" aria-hidden="true">
   <div class="morph-face morph-face-front">
-    <img src="https://framerusercontent.com/images/zrm9IaQRbhI65fmWmlynGG9aU.png?scale-down-to=1024&width=1254&height=1254" alt="">
+    <img src="assets/img/zrm9IaQR-1024.webp" alt="">
   </div>
   <div class="morph-face morph-face-back">
-    <img src="https://framerusercontent.com/images/cxaHHZrKXo5Uq490zPrCtxqHY4.png?scale-down-to=1024&width=1254&height=1254" alt="">
+    <img src="assets/img/cxaHHZrK-1024.webp" alt="">
   </div>
 </div>
 
@@ -151,14 +155,14 @@
   <!-- HERO -->
   <section class="hero-wrap" id="heroWrap">
     <div class="hero">
-      <img class="deco sparkle-1" src="https://framerusercontent.com/images/OLDYsHB9RMavvQrkVRNy08ZXYE.png?scale-down-to=512&width=2550&height=2550" alt="">
+      <img class="deco sparkle-1" src="assets/img/OLDYsHB9-512.webp" alt="">
       <h1 class="hero-title">
         <span>PR<span class="lp-disk"><video class="lp-disk-video" src="assets/loader/lp.mp4?v=navy" poster="assets/loader/lp-poster.jpg?v=navy" muted loop playsinline preload="auto"></video></span>DUCT</span>
         <span>DESIGNER</span>
       </h1>
-      <img class="deco bolt-1" src="https://framerusercontent.com/images/lIIjRX5gxRdY7UWw5wqIXicPOA.png?scale-down-to=512&width=2550&height=2550" alt="">
+      <img class="deco bolt-1" src="assets/img/lIIjRX5g-512.webp" alt="">
       <div class="hero-portrait">
-        <img id="heroPortrait" src="https://framerusercontent.com/images/zrm9IaQRbhI65fmWmlynGG9aU.png?scale-down-to=512&width=1254&height=1254" alt="Portrait of Ankit">
+        <img id="heroPortrait" fetchpriority="high" src="assets/img/zrm9IaQR-512.webp" alt="Portrait of Ankit">
       </div>
       <div class="hero-tag">/CREATING SINCE 2022</div>
       <div class="hero-copyright" id="heroCopyright">&copy;2026</div>
@@ -173,7 +177,7 @@
         <p class="intro-lead">I&rsquo;m Ankit, a <strong>product designer</strong> who likes the <strong>boring parts.</strong></p>
       </div>
       <div class="intro-image">
-        <img src="https://framerusercontent.com/images/cxaHHZrKXo5Uq490zPrCtxqHY4.png?scale-down-to=1024&width=1254&height=1254" alt="Portrait of Ankit" loading="lazy">
+        <img src="assets/img/cxaHHZrK-1024.webp" alt="Portrait of Ankit" loading="lazy">
       </div>
       <div class="intro-col intro-col-body">
         <p class="intro-body">Edge cases, empty states, error messages, and the third screen of onboarding. That&rsquo;s where most products quietly fall apart, and it&rsquo;s where I do my best work.</p>
@@ -244,17 +248,17 @@
         <p>Jewellery E-commerce Plugin</p>
       </a>
       <a class="project-card" href="project-arivoo.html">
-        <div class="project-media is-art"><div class="ari-anim" aria-hidden="true"><div class="ari-stage"><div class="ari-zoom"><img class="al base" src="assets/arivoo/base.webp" alt="" style="left:0;top:0;width:100%;height:100%" draggable="false"><img class="al card1" src="assets/arivoo/card1.webp" alt="" style="left:38.997%;top:30.664%;width:25.781%;height:13.802%" draggable="false"><img class="al card2" src="assets/arivoo/card2.webp" alt="" style="left:38.997%;top:41.927%;width:25.781%;height:14.258%" draggable="false"><img class="al retake" src="assets/arivoo/retake.webp" alt="" style="left:38.997%;top:73.177%;width:13.477%;height:5.273%" draggable="false"><img class="al review" src="assets/arivoo/review.webp" alt="" style="left:51.302%;top:73.242%;width:13.346%;height:5.273%" draggable="false"></div></div></div></div>
+        <div class="project-media is-art"><div class="ari-anim" aria-hidden="true"><div class="ari-stage"><div class="ari-zoom"><img class="al base" loading="lazy" decoding="async" src="assets/arivoo/base.webp" alt="" style="left:0;top:0;width:100%;height:100%" draggable="false"><img class="al card1" loading="lazy" decoding="async" src="assets/arivoo/card1.webp" alt="" style="left:38.997%;top:30.664%;width:25.781%;height:13.802%" draggable="false"><img class="al card2" loading="lazy" decoding="async" src="assets/arivoo/card2.webp" alt="" style="left:38.997%;top:41.927%;width:25.781%;height:14.258%" draggable="false"><img class="al retake" loading="lazy" decoding="async" src="assets/arivoo/retake.webp" alt="" style="left:38.997%;top:73.177%;width:13.477%;height:5.273%" draggable="false"><img class="al review" loading="lazy" decoding="async" src="assets/arivoo/review.webp" alt="" style="left:51.302%;top:73.242%;width:13.346%;height:5.273%" draggable="false"></div></div></div></div>
         <h3>Arivoo</h3>
         <p>AI Attendance Management System</p>
       </a>
       <a class="project-card" href="project-buzzed-sms.html">
-        <div class="project-media is-art"><div class="bz-anim" aria-hidden="true"><div class="bz-cam"><i class="bz-btn l1"></i><i class="bz-btn l2"></i><i class="bz-btn l3"></i><i class="bz-btn r1"></i><span class="bz-phone"></span><div class="bz-screen"><iframe data-src="parent-prototype/index.html?embed&amp;bare&amp;v=fs200" tabindex="-1" title="" scrolling="no"></iframe><span class="bz-tap"></span></div><span class="bz-notch"></span></div></div></div>
+        <div class="project-media is-art"><div class="bz-anim" aria-hidden="true"><div class="bz-cam"><i class="bz-btn l1"></i><i class="bz-btn l2"></i><i class="bz-btn l3"></i><i class="bz-btn r1"></i><span class="bz-phone"></span><div class="bz-screen"><iframe data-src="parent-prototype/index.html?embed&amp;bare&amp;v=fs201" tabindex="-1" title="" scrolling="no"></iframe><span class="bz-tap"></span></div><span class="bz-notch"></span></div></div></div>
         <h3>BuzzEd (now Arivoo SMS)</h3>
         <p>Bus Fleet Management System</p>
       </a>
       <a class="project-card" href="project-nabc.html">
-        <div class="project-media is-art"><div class="nabc-anim" aria-hidden="true"><div class="nabc-stage"><img class="nl base" src="assets/nabc/layers/base.webp" alt="" style="left:0;top:0;width:100%;height:100%" draggable="false"><img class="nl text" src="assets/nabc/layers/text.webp" alt="" style="left:5.309%;top:31.440%;width:22.037%;height:18.272%" draggable="false"><img class="nl ball" src="assets/nabc/layers/ball.webp" alt="" style="left:87.469%;top:37.942%;width:5.617%;height:7.325%" draggable="false"><img class="nl cal" src="assets/nabc/layers/cal.webp" alt="" style="left:17.840%;top:60.823%;width:13.272%;height:18.189%" draggable="false"><img class="nl left" src="assets/nabc/layers/left.webp" alt="" style="left:28.395%;top:27.407%;width:17.901%;height:46.749%" draggable="false"><img class="nl right" src="assets/nabc/layers/right.webp" alt="" style="left:65.185%;top:26.008%;width:19.691%;height:48.560%" draggable="false"><img class="nl center" src="assets/nabc/layers/center.webp" alt="" style="left:44.938%;top:18.107%;width:22.654%;height:61.399%" draggable="false"></div></div></div>
+        <div class="project-media is-art"><div class="nabc-anim" aria-hidden="true"><div class="nabc-stage"><img class="nl base" loading="lazy" decoding="async" src="assets/nabc/layers/base.webp" alt="" style="left:0;top:0;width:100%;height:100%" draggable="false"><img class="nl text" loading="lazy" decoding="async" src="assets/nabc/layers/text.webp" alt="" style="left:5.309%;top:31.440%;width:22.037%;height:18.272%" draggable="false"><img class="nl ball" loading="lazy" decoding="async" src="assets/nabc/layers/ball.webp" alt="" style="left:87.469%;top:37.942%;width:5.617%;height:7.325%" draggable="false"><img class="nl cal" loading="lazy" decoding="async" src="assets/nabc/layers/cal.webp" alt="" style="left:17.840%;top:60.823%;width:13.272%;height:18.189%" draggable="false"><img class="nl left" loading="lazy" decoding="async" src="assets/nabc/layers/left.webp" alt="" style="left:28.395%;top:27.407%;width:17.901%;height:46.749%" draggable="false"><img class="nl right" loading="lazy" decoding="async" src="assets/nabc/layers/right.webp" alt="" style="left:65.185%;top:26.008%;width:19.691%;height:48.560%" draggable="false"><img class="nl center" loading="lazy" decoding="async" src="assets/nabc/layers/center.webp" alt="" style="left:44.938%;top:18.107%;width:22.654%;height:61.399%" draggable="false"></div></div></div>
         <h3>NABC</h3>
         <p>Event Management App</p>
       </a>
@@ -265,14 +269,14 @@
   <section class="thoughts" id="thoughts">
     <h2 class="section-heading">Thoughts</h2>
     <div class="thoughts-grid">
-      <a class="thought-card" href="blog-arivoo-exam-module.html" style="background-image:url('https://framerusercontent.com/images/cjrFm5woVT8oYzDhaqAWlnmJ8.png?scale-down-to=1024&width=1122&height=1402')">
+      <a class="thought-card" href="blog-arivoo-exam-module.html" style="background-image:url('assets/img/cjrFm5wo-819.webp')">
         <div class="thought-inner">
           <span class="thought-date">May 5, 2025</span>
           <h3>Making Exams Work: A Product Design Deep-Dive</h3>
           <p>Real problems don&rsquo;t come clean. Here&rsquo;s how careful thinking untangled the exam module — and shaped a solution that actually works in the field.</p>
         </div>
       </a>
-      <a class="thought-card" href="blog-maids-meals.html" style="background-image:url('https://framerusercontent.com/images/wRox9gESDWhWuamNIfFCJtNJQZo.png?scale-down-to=1024&width=1122&height=1402')">
+      <a class="thought-card" href="blog-maids-meals.html" style="background-image:url('assets/img/wRox9gES-819.webp')">
         <div class="thought-inner">
           <span class="thought-date">May 22, 2025</span>
           <h3>Maids, Meals &amp; Misunderstandings</h3>
@@ -362,6 +366,6 @@
   </div>
 </div>
 
-<script src="script.js?v=fs200"></script>
+<script src="script.js?v=fs201"></script>
 </body>
 </html>

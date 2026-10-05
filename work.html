@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FW1ZEX8M30"></script>
+<script>
+  /* analytics loads after the page and an idle moment, so it never competes with first paint */
+  (function(){function l(){var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-FW1ZEX8M30';document.head.appendChild(s)}
+  addEventListener('load',function(){(window.requestIdleCallback||function(f){setTimeout(f,1500)})(l,{timeout:4000})},{once:true})})();
+</script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -23,10 +27,9 @@
 <meta name="twitter:title" content="Work — Ankit">
 <meta name="twitter:description" content="A showcase of my latest projects, highlighting thoughtful design, clear strategy, and impactful results.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=fs200">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/archivo-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-latin.woff2" crossorigin>
+<link rel="stylesheet" href="styles.css?v=fs201">
 </head>
 <body>
 
@@ -73,22 +76,22 @@
         <p>Jewellery E-commerce Plugin</p>
       </a>
       <a class="work-card" href="project-arivoo.html">
-        <div class="work-media is-art"><div class="ari-anim" aria-hidden="true"><div class="ari-stage"><div class="ari-zoom"><img class="al base" src="assets/arivoo/base.webp" alt="" style="left:0;top:0;width:100%;height:100%" draggable="false"><img class="al card1" src="assets/arivoo/card1.webp" alt="" style="left:38.997%;top:30.664%;width:25.781%;height:13.802%" draggable="false"><img class="al card2" src="assets/arivoo/card2.webp" alt="" style="left:38.997%;top:41.927%;width:25.781%;height:14.258%" draggable="false"><img class="al retake" src="assets/arivoo/retake.webp" alt="" style="left:38.997%;top:73.177%;width:13.477%;height:5.273%" draggable="false"><img class="al review" src="assets/arivoo/review.webp" alt="" style="left:51.302%;top:73.242%;width:13.346%;height:5.273%" draggable="false"></div></div></div></div>
+        <div class="work-media is-art"><div class="ari-anim" aria-hidden="true"><div class="ari-stage"><div class="ari-zoom"><img class="al base" loading="lazy" decoding="async" src="assets/arivoo/base.webp" alt="" style="left:0;top:0;width:100%;height:100%" draggable="false"><img class="al card1" loading="lazy" decoding="async" src="assets/arivoo/card1.webp" alt="" style="left:38.997%;top:30.664%;width:25.781%;height:13.802%" draggable="false"><img class="al card2" loading="lazy" decoding="async" src="assets/arivoo/card2.webp" alt="" style="left:38.997%;top:41.927%;width:25.781%;height:14.258%" draggable="false"><img class="al retake" loading="lazy" decoding="async" src="assets/arivoo/retake.webp" alt="" style="left:38.997%;top:73.177%;width:13.477%;height:5.273%" draggable="false"><img class="al review" loading="lazy" decoding="async" src="assets/arivoo/review.webp" alt="" style="left:51.302%;top:73.242%;width:13.346%;height:5.273%" draggable="false"></div></div></div></div>
         <h3>Arivoo</h3>
         <p>AI Attendance Management System</p>
       </a>
       <a class="work-card" href="project-buzzed-sms.html">
-        <div class="work-media is-art"><div class="bz-anim" aria-hidden="true"><div class="bz-cam"><i class="bz-btn l1"></i><i class="bz-btn l2"></i><i class="bz-btn l3"></i><i class="bz-btn r1"></i><span class="bz-phone"></span><div class="bz-screen"><iframe data-src="parent-prototype/index.html?embed&amp;bare&amp;v=fs200" tabindex="-1" title="" scrolling="no"></iframe><span class="bz-tap"></span></div><span class="bz-notch"></span></div></div></div>
+        <div class="work-media is-art"><div class="bz-anim" aria-hidden="true"><div class="bz-cam"><i class="bz-btn l1"></i><i class="bz-btn l2"></i><i class="bz-btn l3"></i><i class="bz-btn r1"></i><span class="bz-phone"></span><div class="bz-screen"><iframe data-src="parent-prototype/index.html?embed&amp;bare&amp;v=fs201" tabindex="-1" title="" scrolling="no"></iframe><span class="bz-tap"></span></div><span class="bz-notch"></span></div></div></div>
         <h3>BuzzEd (now Arivoo SMS)</h3>
         <p>Bus Fleet Management System</p>
       </a>
       <a class="work-card" href="project-nabc.html">
-        <div class="work-media is-art"><div class="nabc-anim" aria-hidden="true"><div class="nabc-stage"><img class="nl base" src="assets/nabc/layers/base.webp" alt="" style="left:0;top:0;width:100%;height:100%" draggable="false"><img class="nl text" src="assets/nabc/layers/text.webp" alt="" style="left:5.309%;top:31.440%;width:22.037%;height:18.272%" draggable="false"><img class="nl ball" src="assets/nabc/layers/ball.webp" alt="" style="left:87.469%;top:37.942%;width:5.617%;height:7.325%" draggable="false"><img class="nl cal" src="assets/nabc/layers/cal.webp" alt="" style="left:17.840%;top:60.823%;width:13.272%;height:18.189%" draggable="false"><img class="nl left" src="assets/nabc/layers/left.webp" alt="" style="left:28.395%;top:27.407%;width:17.901%;height:46.749%" draggable="false"><img class="nl right" src="assets/nabc/layers/right.webp" alt="" style="left:65.185%;top:26.008%;width:19.691%;height:48.560%" draggable="false"><img class="nl center" src="assets/nabc/layers/center.webp" alt="" style="left:44.938%;top:18.107%;width:22.654%;height:61.399%" draggable="false"></div></div></div>
+        <div class="work-media is-art"><div class="nabc-anim" aria-hidden="true"><div class="nabc-stage"><img class="nl base" loading="lazy" decoding="async" src="assets/nabc/layers/base.webp" alt="" style="left:0;top:0;width:100%;height:100%" draggable="false"><img class="nl text" loading="lazy" decoding="async" src="assets/nabc/layers/text.webp" alt="" style="left:5.309%;top:31.440%;width:22.037%;height:18.272%" draggable="false"><img class="nl ball" loading="lazy" decoding="async" src="assets/nabc/layers/ball.webp" alt="" style="left:87.469%;top:37.942%;width:5.617%;height:7.325%" draggable="false"><img class="nl cal" loading="lazy" decoding="async" src="assets/nabc/layers/cal.webp" alt="" style="left:17.840%;top:60.823%;width:13.272%;height:18.189%" draggable="false"><img class="nl left" loading="lazy" decoding="async" src="assets/nabc/layers/left.webp" alt="" style="left:28.395%;top:27.407%;width:17.901%;height:46.749%" draggable="false"><img class="nl right" loading="lazy" decoding="async" src="assets/nabc/layers/right.webp" alt="" style="left:65.185%;top:26.008%;width:19.691%;height:48.560%" draggable="false"><img class="nl center" loading="lazy" decoding="async" src="assets/nabc/layers/center.webp" alt="" style="left:44.938%;top:18.107%;width:22.654%;height:61.399%" draggable="false"></div></div></div>
         <h3>NABC</h3>
         <p>Event Management App</p>
       </a>
       <a class="work-card" href="project-rice-smart.html">
-        <div class="work-media"><div class="work-media-img" style="background-image:url('https://framerusercontent.com/images/TKt3ct7dTBJYOTHiQKlTqLcyNo.png?scale-down-to=1024&width=2048&height=1152')"></div></div>
+        <div class="work-media"><div class="work-media-img" style="background-image:url('assets/img/TKt3ct7d-1024.webp')"></div></div>
         <h3>RICE Smart</h3>
         <p>Learning App</p>
       </a>
@@ -125,6 +128,6 @@
   </div>
 </footer>
 
-<script src="script.js?v=fs200"></script>
+<script src="script.js?v=fs201"></script>
 </body>
 </html>
